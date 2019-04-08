@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+// TO DO
+// * Проверить дублирование стартовых точек триангуляции во входном списке точек
 namespace image_triangulation
 {
     static class SimpleIterativeTriangulation
@@ -17,22 +19,24 @@ namespace image_triangulation
 
         // Первые 4 точки должны соответствовать вершинам прямоугольника изображения, записанным по часовой стрелке начиная с
         // верхнего левого угла
-        public static void MakeTriangulation(List<Point> pivotPoints, List<Section> outputTriangulation)
+        public static void MakeTriangulation(List<Point> pivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
         {           
-            Initialization(pivotPoints);
+            Initialization(pivotPoints, outputTriangles);
 
-            AddPoints(pivotPoints);
+            AddPoints(pivotPoints, outputTriangles);
 
             GetOut(outputTriangulation);
         }
 
         // Создаёт первые два треугольника на первых четырёх точках
-        private static void Initialization(List<Point> pivotPoints)
+        private static void Initialization(List<Point> pivotPoints, HashSet<Triangle> outputTriangles)
         {
             edges.Clear();
 
             Triangle newTriangle0 = new Triangle(pivotPoints[0], pivotPoints[1], pivotPoints[2]);
             Triangle newTriangle1 = new Triangle(pivotPoints[0], pivotPoints[2], pivotPoints[3]);
+            outputTriangles.Add(newTriangle0);
+            outputTriangles.Add(newTriangle1);
 
             // Заполнение нулевого треугольника
             newTriangle0.edges[0] = new Edge();
@@ -64,7 +68,7 @@ namespace image_triangulation
         /// Добавляет узлы в триангуляцию
         /// </summary>
         /// <param name="pivotPoints">Список опорных точек</param>
-        private static void AddPoints(List<Point> pivotPoints)
+        private static void AddPoints(List<Point> pivotPoints, HashSet<Triangle> outputTriangles)
         {
             // Цикл по всем опорным точкам, начиная с индекса 4
             foreach (Point curPoint in pivotPoints.Skip(4))
@@ -87,6 +91,9 @@ namespace image_triangulation
                     Triangle newTriangle0 = new Triangle(curTriangle.points[1], curTriangle.points[2], curPoint);
                     Triangle newTriangle1 = new Triangle(curTriangle.points[2], curTriangle.points[0], curPoint);
                     Triangle newTriangle2 = new Triangle(curTriangle.points[0], curTriangle.points[1], curPoint);
+                    outputTriangles.Add(newTriangle0);
+                    outputTriangles.Add(newTriangle1);
+                    outputTriangles.Add(newTriangle2);
 
                     // Заполнение нулевого треугольника
                     newTriangle0.edges[0] = new Edge();
@@ -172,6 +179,8 @@ namespace image_triangulation
                     {
                         Triangle newTriangle0 = new Triangle(curTriangle.points[(e + 2) % 3], curTriangle.points[e], curPoint);
                         Triangle newTriangle1 = new Triangle(curTriangle.points[e], curTriangle.points[(e + 1) % 3], curPoint);
+                        outputTriangles.Add(newTriangle0);
+                        outputTriangles.Add(newTriangle1);
 
                         // Заполнение нулевого треугольника
                         newTriangle0.edges[0] = new Edge();
@@ -227,6 +236,10 @@ namespace image_triangulation
                         Triangle newTriangle1 = new Triangle(curTriangle.points[e], curTriangle.points[(e + 1) % 3], curPoint);
                         Triangle newTriangle2 = new Triangle(curTriangle2.points[(nEI + 2) % 3], curTriangle2.points[nEI], curPoint);
                         Triangle newTriangle3 = new Triangle(curTriangle2.points[nEI], curTriangle2.points[(nEI + 1) % 3], curPoint);
+                        outputTriangles.Add(newTriangle0);
+                        outputTriangles.Add(newTriangle1);
+                        outputTriangles.Add(newTriangle2);
+                        outputTriangles.Add(newTriangle3);
 
                         // Заполнение нулевого треугольника
                         newTriangle0.edges[0] = new Edge();

@@ -4,21 +4,27 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+// TO DO
+// * Оптимизация памяти. Минимизировать new.
+// * Вынести добавление стартовых точек триангуляции в триангуляцию.
+// * Переписать нахер весь MainForm
 namespace image_triangulation
 {
     public partial class MainForm : Form
     {
         const String DEFAULT_THRESHOLD = "0.1";
 
-        Bitmap originalPictureLayer;
-        Bitmap pivotPointsLayer;
-        Bitmap triangulationGridLayer;
+        Bitmap originalPictureBitmap;
+        Bitmap pivotPointsBitmap;
+        Bitmap triangulationGridBitmap;
+        Bitmap rebuiltPictureBitmap;
 
         List<Point> pivotPointsList = new List<Point>();
-        List<Section> outputTriangulation = new List<Section>();
+        List<Section> triangulationSectionsList = new List<Section>();
+        HashSet<Triangle> trianglesHashSet = new HashSet<Triangle>();
 
-        PictureBox PivotPointsPictureBox;
-        PictureBox TriangulationGridPictureBox;
+        PictureBox pivotPointsPictureBox;
+        PictureBox triangulationGridPictureBox;
 
         Pen redPen = new Pen(Color.Red);
 
@@ -35,7 +41,7 @@ namespace image_triangulation
         private void Form1_Load(object sender, EventArgs e)
         {
             // создаём PictureBox для слоя с опорными точками
-            PivotPointsPictureBox = new PictureBox
+            pivotPointsPictureBox = new PictureBox
             {
                 Size = OriginalImagePictureBox.Size,
                 MaximumSize = OriginalImagePictureBox.MaximumSize,
@@ -47,25 +53,25 @@ namespace image_triangulation
             };
 
             // добавляем PictureBox для опорных точек в качестве дочернего для OriginalImagePictureBox
-            OriginalImagePictureBox.Controls.Add(PivotPointsPictureBox);
+            OriginalImagePictureBox.Controls.Add(pivotPointsPictureBox);
 
             // подписываем PivotPointsPictureBox на MouseClick
-            PivotPointsPictureBox.MouseClick += PivotPointsPictureBox_MouseClick1;
+            pivotPointsPictureBox.MouseClick += PivotPointsPictureBox_MouseClick1;
 
             // создаём PictureBox для слоя с триангуляционной сеткой
-            TriangulationGridPictureBox = new PictureBox
+            triangulationGridPictureBox = new PictureBox
             {
-                Size = PivotPointsPictureBox.Size,
-                MaximumSize = PivotPointsPictureBox.MaximumSize,
-                MinimumSize = PivotPointsPictureBox.MinimumSize,
-                SizeMode = PivotPointsPictureBox.SizeMode,
+                Size = pivotPointsPictureBox.Size,
+                MaximumSize = pivotPointsPictureBox.MaximumSize,
+                MinimumSize = pivotPointsPictureBox.MinimumSize,
+                SizeMode = pivotPointsPictureBox.SizeMode,
                 Location = new Point(0, 0),
                 BackColor = Color.Transparent,
                 Enabled = false
             };
 
             // добавляем TriangulationGridPictureBox в качестве дочернего для PivotPointsPictureBox
-            PivotPointsPictureBox.Controls.Add(TriangulationGridPictureBox);
+            pivotPointsPictureBox.Controls.Add(triangulationGridPictureBox);
 
             // устанавливаем значение по умолчанию для порога яркости при поиске опорных точек
             PPMakerThreshold.Text = DEFAULT_THRESHOLD;
@@ -77,10 +83,10 @@ namespace image_triangulation
             pivotPointsList.Add(e.Location);
 
             // устанавливаем соответствующий пиксель в слое опорных точек
-            pivotPointsLayer.SetPixel(pivotPointsList.Last().X, pivotPointsList.Last().Y, Color.Red);
+            pivotPointsBitmap.SetPixel(pivotPointsList.Last().X, pivotPointsList.Last().Y, Color.Red);
 
             // обновляем изображение в PivotPointsPictureBox
-            PivotPointsPictureBox.Image = pivotPointsLayer;
+            pivotPointsPictureBox.Image = pivotPointsBitmap;
         }
 
         private void OpenImageButton_Click(object sender, EventArgs e)
@@ -88,38 +94,26 @@ namespace image_triangulation
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            // очищаем PivotPointsPictureBox
-            PivotPointsPictureBox.Image = null;
-
-            // очищаем список опорных точек
+            // сбрасываем опорные точки
             pivotPointsList.Clear();
+            pivotPointsPictureBox.Image = null;
+            pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
 
-            // очищаем слой с сеткой
-            triangulationGridLayer = null;
+            // сбрасываем триангуляцию
+            triangulationSectionsList.Clear();
+            triangulationGridBitmap = null;
+            triangulationGridPictureBox.Image = null;
 
-            // очищаем TriangulationGridPictureBox
-            TriangulationGridPictureBox.Image = null;
+            // сбрасываем восстановленное изображение
+            RebuiltImagePictureBox.Image = null;
+            trianglesHashSet.Clear();
 
-            // ощищаем список отрезков триангуляции
-            outputTriangulation.Clear();
-
-            // создаём Bitmap слой для исходной картинки используя путь до файла из openFileDialog
-            originalPictureLayer = new Bitmap(openFileDialog1.FileName);
-
-            // отображаем слой с исходным изображением в OriginalImagePictureBox
-            OriginalImagePictureBox.Image = originalPictureLayer;
-
-            // создаём Bitmap слой для опорных точек
-            pivotPointsLayer = new Bitmap(PivotPointsPictureBox.Width, PivotPointsPictureBox.Height);
+            // обновляем исходное изображение
+            originalPictureBitmap = new Bitmap(openFileDialog1.FileName);
+            OriginalImagePictureBox.Image = originalPictureBitmap;
 
             // активируем PivotPointsPictureBox
-            PivotPointsPictureBox.Enabled = true;
-
-            // деактивируем кнопку сброса триангуляции
-            //ResetTriangulation.Enabled = false;
-
-            // деактивируем GridControls
-            GridControls.Enabled = false;
+            pivotPointsPictureBox.Enabled = true;
 
             pivotPointsList.Add(new Point(0, 0));
             pivotPointsList.Add(new Point(511, 0));
@@ -129,102 +123,71 @@ namespace image_triangulation
 
         private void PictureLayerOff_CheckedChanged(object sender, EventArgs e)
         {
-            // очищаем OrignalImagePictureBox
             OriginalImagePictureBox.Image = null;
         }
 
         private void PictureLayerOn_CheckedChanged(object sender, EventArgs e)
         {
-            // отоброжаем исходное изображение в OriginalImagePictureBox
-            OriginalImagePictureBox.Image = originalPictureLayer;
+            OriginalImagePictureBox.Image = originalPictureBitmap;
         }
 
         private void PointsLayerOff_CheckedChanged(object sender, EventArgs e)
         {
-            PivotPointsPictureBox.Enabled = false;
-            PivotPointsPictureBox.Image = null;
+            pivotPointsPictureBox.Enabled = false;
+            pivotPointsPictureBox.Image = null;
         }
 
         private void PointsLayerOn_CheckedChanged(object sender, EventArgs e)
         {
-            PivotPointsPictureBox.Enabled = true;
-            PivotPointsPictureBox.Image = pivotPointsLayer;
+            pivotPointsPictureBox.Enabled = true;
+            pivotPointsPictureBox.Image = pivotPointsBitmap;
         }
 
         private void RunTriangulation_Click(object sender, EventArgs e)
         {
-            outputTriangulation.Clear();
-            triangulationGridLayer = new Bitmap(TriangulationGridPictureBox.Width, TriangulationGridPictureBox.Height);
-            Graphics gridCanvas = Graphics.FromImage(triangulationGridLayer);
+            triangulationSectionsList.Clear();
+            triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
+            Graphics gridCanvas = Graphics.FromImage(triangulationGridBitmap);
 
-            SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, outputTriangulation);
+            SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet);
 
-            DrawOperations.LinesToGraphics(outputTriangulation, gridCanvas);
-            TriangulationGridPictureBox.Image = triangulationGridLayer;
-
-            // активируем кнопку сброса триангуляции
-            ResetTriangulation.Enabled = true;
-
-            // активируем GridControls
-            GridControls.Enabled = true;
+            DrawOperations.LinesToGraphics(triangulationSectionsList, gridCanvas);
+            triangulationGridPictureBox.Image = triangulationGridBitmap;
         }
 
         private void GridLayerOff_CheckedChanged(object sender, EventArgs e)
         {
-            TriangulationGridPictureBox.Image = null;
+            triangulationGridPictureBox.Image = null;
         }
 
         private void GridLayerOn_CheckedChanged(object sender, EventArgs e)
         {
-            TriangulationGridPictureBox.Image = triangulationGridLayer;
+            triangulationGridPictureBox.Image = triangulationGridBitmap;
         }
 
         private void ResetTriangulation_Click(object sender, EventArgs e)
         {
-            // очищаем PivotPointsPictureBox
-            PivotPointsPictureBox.Image = null;
-
-            // очищаем список опорных точек
-            pivotPointsList.Clear();
-
-            // очищаем слой с сеткой
-            triangulationGridLayer = null;
-
-            // очищаем слой с опорными точками
-            pivotPointsLayer = new Bitmap(PivotPointsPictureBox.Width, PivotPointsPictureBox.Height);
-
-            // очищаем TriangulationGridPictureBox
-            TriangulationGridPictureBox.Image = null;
-
-            // ощищаем список отрезков триангуляции
-            outputTriangulation.Clear();
-
-            // деактивируем кнопку сброса триангуляции
-            //ResetTriangulation.Enabled = false;
-
-            // деактивируем GridControls
-            GridControls.Enabled = false;
         }
 
         private void MakePivotPointsButton_Click(object sender, EventArgs e)
         {
             // очищаем bitmap с опорными точками
-            pivotPointsLayer = new Bitmap(PivotPointsPictureBox.Width, PivotPointsPictureBox.Height);
+            pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
 
             // очищаем PB для опорных точек
-            PivotPointsPictureBox.Image = null;
+            pivotPointsPictureBox.Image = null;
 
             // парсинг значения порога
             float threshold = float.Parse(PPMakerThreshold.Text, System.Globalization.CultureInfo.InvariantCulture);
 
             // поиск опорных точек
-            PPMaker1.Run(originalPictureLayer, threshold, pivotPointsList);
+            PPMaker1.Run(originalPictureBitmap, threshold, pivotPointsList);
 
             // отображаем опорные точки в bitmap
-            DrawOperations.PointsToBitmap(pivotPointsList, pivotPointsLayer);
+            DrawOperations.PointsToBitmap(pivotPointsList, pivotPointsBitmap);
 
             // отображаем bitmap в PB
-            PivotPointsPictureBox.Image = pivotPointsLayer;
+            pivotPointsPictureBox.Image = pivotPointsBitmap;
         }
     }
 }

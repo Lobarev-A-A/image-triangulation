@@ -46,10 +46,12 @@
             this.ResetTriangulation = new System.Windows.Forms.Button();
             this.MakePivotPointsButton = new System.Windows.Forms.Button();
             this.PPMakerThreshold = new System.Windows.Forms.TextBox();
+            this.RebuiltImagePictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.OriginalImagePictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GridControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RebuiltImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // OriginalImagePictureBox
@@ -235,10 +237,22 @@
             this.PPMakerThreshold.Size = new System.Drawing.Size(100, 22);
             this.PPMakerThreshold.TabIndex = 20;
             // 
+            // RebuiltImagePictureBox
+            // 
+            this.RebuiltImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.RebuiltImagePictureBox.Location = new System.Drawing.Point(537, 12);
+            this.RebuiltImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
+            this.RebuiltImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
+            this.RebuiltImagePictureBox.Name = "RebuiltImagePictureBox";
+            this.RebuiltImagePictureBox.Size = new System.Drawing.Size(512, 512);
+            this.RebuiltImagePictureBox.TabIndex = 21;
+            this.RebuiltImagePictureBox.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(538, 710);
+            this.ClientSize = new System.Drawing.Size(1061, 710);
+            this.Controls.Add(this.RebuiltImagePictureBox);
             this.Controls.Add(this.PPMakerThreshold);
             this.Controls.Add(this.MakePivotPointsButton);
             this.Controls.Add(this.ResetTriangulation);
@@ -260,6 +274,7 @@
             this.groupBox2.PerformLayout();
             this.GridControls.ResumeLayout(false);
             this.GridControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RebuiltImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,6 +300,7 @@
         private System.Windows.Forms.Button ResetTriangulation;
         private System.Windows.Forms.Button MakePivotPointsButton;
         private System.Windows.Forms.TextBox PPMakerThreshold;
+        private System.Windows.Forms.PictureBox RebuiltImagePictureBox;
     }
 }
 
