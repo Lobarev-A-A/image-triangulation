@@ -11,9 +11,14 @@ namespace image_triangulation
 {
     static class VerticesAverageBrightnessShader
     {
+        static Brush brush = new SolidBrush(Color.Red);
+
         public static void Run(Bitmap originalImageBitmap, Bitmap rebuiltImageBitmap, HashSet<Triangle> triangles)
         {
+            foreach (Triangle triangle in triangles)
+            {
 
+            }
         }
     }
 }

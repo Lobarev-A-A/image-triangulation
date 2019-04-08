@@ -7,6 +7,7 @@ using System.Drawing;
 
 // TO DO
 // * Проверить дублирование стартовых точек триангуляции во входном списке точек
+// * Рефактор с учётом вывода множества треугольников
 namespace image_triangulation
 {
     static class SimpleIterativeTriangulation
@@ -94,6 +95,7 @@ namespace image_triangulation
                     outputTriangles.Add(newTriangle0);
                     outputTriangles.Add(newTriangle1);
                     outputTriangles.Add(newTriangle2);
+                    outputTriangles.Remove(curTriangle);
 
                     // Заполнение нулевого треугольника
                     newTriangle0.edges[0] = new Edge();
@@ -181,6 +183,7 @@ namespace image_triangulation
                         Triangle newTriangle1 = new Triangle(curTriangle.points[e], curTriangle.points[(e + 1) % 3], curPoint);
                         outputTriangles.Add(newTriangle0);
                         outputTriangles.Add(newTriangle1);
+                        outputTriangles.Remove(curTriangle);
 
                         // Заполнение нулевого треугольника
                         newTriangle0.edges[0] = new Edge();
@@ -240,6 +243,8 @@ namespace image_triangulation
                         outputTriangles.Add(newTriangle1);
                         outputTriangles.Add(newTriangle2);
                         outputTriangles.Add(newTriangle3);
+                        outputTriangles.Remove(curTriangle);
+                        outputTriangles.Remove(curTriangle2);
 
                         // Заполнение нулевого треугольника
                         newTriangle0.edges[0] = new Edge();
@@ -321,7 +326,7 @@ namespace image_triangulation
                 }
 
                 // Проверки условия Делоне и перестроение
-                DelaunayBuilder();
+                DelaunayBuilder(outputTriangles);
             }            
         }
 
@@ -329,7 +334,7 @@ namespace image_triangulation
         /// Проверяет все треугольники из множества <c>trianglesForDelaunayCheck</c> на соответствию условию Делоне и, в случае необходимости,
         /// производит перестроение треугольников
         /// </summary>
-        private static void DelaunayBuilder()
+        private static void DelaunayBuilder(HashSet<Triangle> outputTriangles)
         {
             while (trianglesForDelaunayCheck.Count() > 0)
             {
@@ -352,6 +357,10 @@ namespace image_triangulation
                             if (trianglesForDelaunayCheck.Contains(checkedTriangle2)) trianglesForDelaunayCheck.Remove(checkedTriangle2);
                             Triangle newTriangle0 = new Triangle(checkedTriangle.points[i], checkedTriangle2.points[j], checkedTriangle.points[(i + 2) % 3]);
                             Triangle newTriangle1 = new Triangle(checkedTriangle.points[i], checkedTriangle.points[(i + 1) % 3], checkedTriangle2.points[j]);
+                            outputTriangles.Add(newTriangle0);
+                            outputTriangles.Add(newTriangle1);
+                            outputTriangles.Remove(checkedTriangle);
+                            outputTriangles.Remove(checkedTriangle2);
                             int k;
 
                             // Записываем нулевой треугольник
