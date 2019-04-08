@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
+// TO DO
+// * Распространить на изображения произвольного разрешения
+// * Прикрутить многопоточность
+// * Переделать под хранение точек в HashSet
 namespace image_triangulation
 {
     /// <summary>
-    /// Поиск осуществляется по сектору 4 х 4. Порог – минимальное значение отклонения яркости пикселя от средней яркости по сектору в процентах для
-    /// выбора в качестве опорной точки. В качестве опорных выбираются две точки, самая яркая и самая тёмная, если модуль отклонения по яркости
-    /// превышает порог.
+    /// Класс реализует алгоритм выбора опорных точек триангуляции на изображении.
+    /// Изображение разбивается на секторы 4 x 4 пикселя. Для каждого сектора считается средняя яркость, затем проверяются самая яркая и самая
+    /// тёмная точки сектора. Если абсолютная разница между яркостью проверяемой точки и средней яркостью сектора превышает заданный порог,
+    /// точка выбирается в качетсве опорной.
     /// </summary>
     static class PPMaker1
     {
-        // TO DO
-        // При применении к изображениям, размерности которых не кратны 4-м, необходимо добавить обработку выхода сектора
-        // за границы изображения.
+        /// <summary>
+        /// Производит выбор опорных точек на изображении.
+        /// </summary>
+        /// <param name="sourceImage">Изображение, на котором требуется выбрать опорные точки.</param>
+        /// <param name="threshold">Порог чувствительности.</param>
+        /// <param name="pivotPoints">Ссылка, по которой будет сформирован список опорных точек.</param>
         public static void Run(Bitmap sourceImage, float threshold, List<Point> pivotPoints)
         {
             int outerLoopEndPoint = sourceImage.Height - 4;
@@ -34,17 +38,17 @@ namespace image_triangulation
                     // Проверка пикселя минимальной яркости
                     bufPoint = MinBrightPoint(sourceImage, j, i);
                     minBright = sourceImage.GetPixel(bufPoint.X, bufPoint.Y).GetBrightness();
-                    if ((Math.Abs(averageBright - minBright) / averageBright) >= threshold) pivotPoints.Add(bufPoint);
+                    if ((averageBright - minBright) >= threshold) pivotPoints.Add(bufPoint);
                     // Проверка пикселя максимальной яркости
                     bufPoint = MaxBrightPoint(sourceImage, j, i);
                     maxBright = sourceImage.GetPixel(bufPoint.X, bufPoint.Y).GetBrightness();
-                    if (((Math.Abs(averageBright - maxBright) / averageBright) >= threshold )) pivotPoints.Add(bufPoint);
+                    if ((maxBright - averageBright) >= threshold) pivotPoints.Add(bufPoint);
                 }
             }
         }
 
         /// <summary>
-        /// Возвращает среднюю яркость по сектору изображения.
+        /// Возвращает среднюю яркость по сектору.
         /// </summary>
         /// <param name="sourceImage">Изображение.</param>
         /// <param name="x">Координата сектора по x.</param>
@@ -64,6 +68,13 @@ namespace image_triangulation
             return buf / 16;
         }
 
+        /// <summary>
+        /// Возвращает Point с координатами самого яркого пикселя в секторе.
+        /// </summary>
+        /// <param name="sourceImage">Изображение.</param>
+        /// <param name="x">Координата сектора по x.</param>
+        /// <param name="y">Координата сектора по y.</param>
+        /// <returns>Point с координатами самого яркого пикселя в секторе.</returns>
         private static Point MaxBrightPoint(Bitmap sourceImage, int x, int y)
         {
             Point outPoint = new Point(x, y);
@@ -82,6 +93,13 @@ namespace image_triangulation
             return outPoint;
         }
 
+        /// <summary>
+        /// Возвращает Point с координатами самого тёмного пикселя в секторе.
+        /// </summary>
+        /// <param name="sourceImage">Изображение.</param>
+        /// <param name="x">Координата сектора по x.</param>
+        /// <param name="y">Координата сектора по y.</param>
+        /// <returns>Point с координатами самого тёмного пикселя в секторе.</returns>
         private static Point MinBrightPoint(Bitmap sourceImage, int x, int y)
         {
             Point outPoint = new Point(x, y);

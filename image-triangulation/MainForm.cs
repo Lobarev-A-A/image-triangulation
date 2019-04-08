@@ -8,7 +8,7 @@ namespace image_triangulation
 {
     public partial class MainForm : Form
     {
-        const String DEFAULT_THRESHOLD = "0.035";
+        const String DEFAULT_THRESHOLD = "0.1";
 
         Bitmap originalPictureLayer;
         Bitmap pivotPointsLayer;
