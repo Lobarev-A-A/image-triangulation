@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.OriginalImagePictureBox = new System.Windows.Forms.PictureBox();
+            this.originalImagePictureBox = new System.Windows.Forms.PictureBox();
             this.OpenImageButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -46,24 +46,24 @@
             this.ResetTriangulation = new System.Windows.Forms.Button();
             this.MakePivotPointsButton = new System.Windows.Forms.Button();
             this.PPMakerThreshold = new System.Windows.Forms.TextBox();
-            this.RebuiltImagePictureBox = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.OriginalImagePictureBox)).BeginInit();
+            this.rebuiltImagePictureBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GridControls.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RebuiltImagePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rebuiltImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // OriginalImagePictureBox
+            // originalImagePictureBox
             // 
-            this.OriginalImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.OriginalImagePictureBox.Location = new System.Drawing.Point(12, 12);
-            this.OriginalImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
-            this.OriginalImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
-            this.OriginalImagePictureBox.Name = "OriginalImagePictureBox";
-            this.OriginalImagePictureBox.Size = new System.Drawing.Size(512, 512);
-            this.OriginalImagePictureBox.TabIndex = 0;
-            this.OriginalImagePictureBox.TabStop = false;
+            this.originalImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.originalImagePictureBox.Location = new System.Drawing.Point(12, 12);
+            this.originalImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
+            this.originalImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
+            this.originalImagePictureBox.Name = "originalImagePictureBox";
+            this.originalImagePictureBox.Size = new System.Drawing.Size(512, 512);
+            this.originalImagePictureBox.TabIndex = 0;
+            this.originalImagePictureBox.TabStop = false;
             // 
             // OpenImageButton
             // 
@@ -192,7 +192,6 @@
             // 
             this.GridControls.Controls.Add(this.GridLayerOff);
             this.GridControls.Controls.Add(this.GridLayerOn);
-            this.GridControls.Enabled = false;
             this.GridControls.Location = new System.Drawing.Point(12, 666);
             this.GridControls.Name = "GridControls";
             this.GridControls.Size = new System.Drawing.Size(242, 34);
@@ -237,22 +236,22 @@
             this.PPMakerThreshold.Size = new System.Drawing.Size(100, 22);
             this.PPMakerThreshold.TabIndex = 20;
             // 
-            // RebuiltImagePictureBox
+            // rebuiltImagePictureBox
             // 
-            this.RebuiltImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.RebuiltImagePictureBox.Location = new System.Drawing.Point(537, 12);
-            this.RebuiltImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
-            this.RebuiltImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
-            this.RebuiltImagePictureBox.Name = "RebuiltImagePictureBox";
-            this.RebuiltImagePictureBox.Size = new System.Drawing.Size(512, 512);
-            this.RebuiltImagePictureBox.TabIndex = 21;
-            this.RebuiltImagePictureBox.TabStop = false;
+            this.rebuiltImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.rebuiltImagePictureBox.Location = new System.Drawing.Point(537, 12);
+            this.rebuiltImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
+            this.rebuiltImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
+            this.rebuiltImagePictureBox.Name = "rebuiltImagePictureBox";
+            this.rebuiltImagePictureBox.Size = new System.Drawing.Size(512, 512);
+            this.rebuiltImagePictureBox.TabIndex = 21;
+            this.rebuiltImagePictureBox.TabStop = false;
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1061, 710);
-            this.Controls.Add(this.RebuiltImagePictureBox);
+            this.Controls.Add(this.rebuiltImagePictureBox);
             this.Controls.Add(this.PPMakerThreshold);
             this.Controls.Add(this.MakePivotPointsButton);
             this.Controls.Add(this.ResetTriangulation);
@@ -263,18 +262,18 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.OpenImageButton);
-            this.Controls.Add(this.OriginalImagePictureBox);
+            this.Controls.Add(this.originalImagePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.OriginalImagePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.GridControls.ResumeLayout(false);
             this.GridControls.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RebuiltImagePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rebuiltImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -282,7 +281,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox OriginalImagePictureBox;
+        private System.Windows.Forms.PictureBox originalImagePictureBox;
         private System.Windows.Forms.Button OpenImageButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -300,7 +299,7 @@
         private System.Windows.Forms.Button ResetTriangulation;
         private System.Windows.Forms.Button MakePivotPointsButton;
         private System.Windows.Forms.TextBox PPMakerThreshold;
-        private System.Windows.Forms.PictureBox RebuiltImagePictureBox;
+        private System.Windows.Forms.PictureBox rebuiltImagePictureBox;
     }
 }
 

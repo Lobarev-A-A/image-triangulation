@@ -43,17 +43,17 @@ namespace image_triangulation
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
             {
-                Size = OriginalImagePictureBox.Size,
-                MaximumSize = OriginalImagePictureBox.MaximumSize,
-                MinimumSize = OriginalImagePictureBox.MinimumSize,
-                SizeMode = OriginalImagePictureBox.SizeMode,
+                Size = originalImagePictureBox.Size,
+                MaximumSize = originalImagePictureBox.MaximumSize,
+                MinimumSize = originalImagePictureBox.MinimumSize,
+                SizeMode = originalImagePictureBox.SizeMode,
                 Location = new Point(0, 0),
                 BackColor = Color.Transparent,
                 Enabled = false
             };
 
             // добавляем PictureBox для опорных точек в качестве дочернего для OriginalImagePictureBox
-            OriginalImagePictureBox.Controls.Add(pivotPointsPictureBox);
+            originalImagePictureBox.Controls.Add(pivotPointsPictureBox);
 
             // подписываем PivotPointsPictureBox на MouseClick
             pivotPointsPictureBox.MouseClick += PivotPointsPictureBox_MouseClick1;
@@ -105,12 +105,12 @@ namespace image_triangulation
             triangulationGridPictureBox.Image = null;
 
             // сбрасываем восстановленное изображение
-            RebuiltImagePictureBox.Image = null;
+            rebuiltImagePictureBox.Image = null;
             trianglesHashSet.Clear();
 
             // обновляем исходное изображение
             originalPictureBitmap = new Bitmap(openFileDialog1.FileName);
-            OriginalImagePictureBox.Image = originalPictureBitmap;
+            originalImagePictureBox.Image = originalPictureBitmap;
 
             // активируем PivotPointsPictureBox
             pivotPointsPictureBox.Enabled = true;
@@ -123,12 +123,12 @@ namespace image_triangulation
 
         private void PictureLayerOff_CheckedChanged(object sender, EventArgs e)
         {
-            OriginalImagePictureBox.Image = null;
+            originalImagePictureBox.Image = null;
         }
 
         private void PictureLayerOn_CheckedChanged(object sender, EventArgs e)
         {
-            OriginalImagePictureBox.Image = originalPictureBitmap;
+            originalImagePictureBox.Image = originalPictureBitmap;
         }
 
         private void PointsLayerOff_CheckedChanged(object sender, EventArgs e)
@@ -153,6 +153,10 @@ namespace image_triangulation
 
             DrawOperations.LinesToGraphics(triangulationSectionsList, gridCanvas);
             triangulationGridPictureBox.Image = triangulationGridBitmap;
+
+            rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
+            VerticesAverageBrightnessShader.Run(originalPictureBitmap, rebuiltPictureBitmap, trianglesHashSet);
+            rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
         }
 
         private void GridLayerOff_CheckedChanged(object sender, EventArgs e)
