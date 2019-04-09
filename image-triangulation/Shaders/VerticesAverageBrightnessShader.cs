@@ -28,8 +28,8 @@ namespace image_triangulation
                 color = ColorConversion.ColorFromHSL(0, 0, averageBrightness);
                 brush = new SolidBrush(color);
                 pen = new Pen(color);                
-                rebuiltImageCanvas.DrawPolygon(pen, triangle.points);
-                rebuiltImageCanvas.FillPolygon(brush, triangle.points);                
+                rebuiltImageCanvas.DrawPolygon(pen, triangle.Points());
+                rebuiltImageCanvas.FillPolygon(brush, triangle.Points());                
             }
         }
     }

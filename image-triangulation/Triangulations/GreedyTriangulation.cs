@@ -6,7 +6,7 @@ namespace image_triangulation
 {
     class GreedyTriangulation
     {
-        public static void MakeTriangulation(List<Point> inputPivotPointsList, List<Section> outputTriangulation)
+        public static void MakeTriangulation(List<Pixel> inputPivotPointsList, List<Section> outputTriangulation)
         {
             List<Section> bufSectionList = new List<Section>();
             
@@ -18,7 +18,7 @@ namespace image_triangulation
             Insert(bufSectionList, outputTriangulation);
         }
 
-        static void MakeAllSections(List<Point> points, List<Section> sections)
+        static void MakeAllSections(List<Pixel> points, List<Section> sections)
         {
             int pointsListLength = points.Count;
 

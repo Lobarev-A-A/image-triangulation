@@ -5,11 +5,11 @@ namespace image_triangulation
 {
     class Section : IComparable<Section>
     {
-        public Point a { get; }
-        public Point b { get; }
+        public Pixel a { get; }
+        public Pixel b { get; }
         public double length { get; }
 
-        public Section(Point a, Point b)
+        public Section(Pixel a, Pixel b)
         {
             this.a = a;
             this.b = b;

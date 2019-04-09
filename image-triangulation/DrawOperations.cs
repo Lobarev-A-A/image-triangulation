@@ -14,9 +14,9 @@ namespace image_triangulation
     {
         static Pen pen = new Pen(Color.Red);
 
-        public static void PointsToBitmap(List<Point> pointsList, Bitmap bitmap)
+        public static void PointsToBitmap(List<Pixel> pointsList, Bitmap bitmap)
         {
-            foreach (Point p in pointsList)
+            foreach (Pixel p in pointsList)
             {
                 bitmap.SetPixel(p.X, p.Y, Color.Red);
             }
@@ -24,9 +24,16 @@ namespace image_triangulation
 
         public static void LinesToGraphics(List<Section> sectionsList, Graphics canvas)
         {
+            Point a = new Point(0, 0);
+            Point b = new Point(0, 0);
+
             foreach (Section s in sectionsList)
             {
-                canvas.DrawLine(pen, s.a, s.b);
+                a.X = s.a.X;
+                a.Y = s.a.Y;
+                b.X = s.b.X;
+                b.Y = s.b.Y;
+                canvas.DrawLine(pen, a, b);
             }
         }
     }

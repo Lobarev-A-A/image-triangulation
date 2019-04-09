@@ -11,7 +11,7 @@ namespace image_triangulation
     {
         // Косое произведение векторов
         // po начало координат, p1 – координата первого вектора, p2 – координата второго вектора
-        private static int ObliqueProduct(Point p0, Point p1, Point p2)
+        private static int ObliqueProduct(Pixel p0, Pixel p1, Pixel p2)
         {
             return (p1.X - p0.X) * (p2.Y - p0.Y) - (p2.X - p0.X) * (p1.Y - p0.Y);
         }
@@ -24,7 +24,7 @@ namespace image_triangulation
 
         // Проверяет взаимное расположение двух точек относительно прямой, заданной двумя точками
         // возвращает -1 – точки лежат по разные стороны, 1 – по одну сторону, 0 – одна или обе лежат на прямой
-        public static int PointsRelativelyStraight(Point p1, Point p2, Section s)
+        public static int PointsRelativelyStraight(Pixel p1, Pixel p2, Section s)
         {
             return Math.Sign(ObliqueProduct(s.a, s.b, p1)) * Math.Sign(ObliqueProduct(s.a, s.b, p2));
         }
@@ -47,7 +47,7 @@ namespace image_triangulation
         /// * 10 – точка принадлежит ребру с индексом 1
         /// * 20 – точка принадлежит ребру с индексом 2
         /// </returns>
-        public static int PointRelativelyTriangle(Point p, Point t1, Point t2, Point t3)
+        public static int PointRelativelyTriangle(Pixel p, Pixel t1, Pixel t2, Pixel t3)
         {
             int sign;
 
@@ -107,7 +107,7 @@ namespace image_triangulation
         /// * true – условие Делоне выполняется
         /// * false – условие Делоне не выполняется
         /// </returns>
-        public static bool DelaunayCheck(Point p0, Point p1, Point p2, Point p3)
+        public static bool DelaunayCheck(Pixel p0, Pixel p1, Pixel p2, Pixel p3)
         {
             long sa = checked((p0.X - p1.X) * (p0.X - p3.X) + (p0.Y - p1.Y) * (p0.Y - p3.Y));
             long sb = checked((p2.X - p1.X) * (p2.X - p3.X) + (p2.Y - p1.Y) * (p2.Y - p3.Y));
@@ -139,7 +139,7 @@ namespace image_triangulation
 
         // Проверка, как расположены точки: против часовой стрелки, по часовой стрелке, на одной прямой
         // Возврат: < 0 – против часовой, > 0 – по часовой, 0 – лежат на одной прямой
-        public static int ClockwiseCheck(Point p1, Point p2, Point p3)
+        public static int ClockwiseCheck(Pixel p1, Pixel p2, Pixel p3)
         {
             return ScalarProduct(p1.Y - p2.Y, p2.X - p1.X, p3.X - p1.X, p3.Y - p1.Y);
         }

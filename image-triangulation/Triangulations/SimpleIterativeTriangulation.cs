@@ -20,7 +20,7 @@ namespace image_triangulation
 
         // Первые 4 точки должны соответствовать вершинам прямоугольника изображения, записанным по часовой стрелке начиная с
         // верхнего левого угла
-        public static void MakeTriangulation(List<Point> pivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
+        public static void MakeTriangulation(List<Pixel> pivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
         {           
             Initialization(pivotPoints, outputTriangles);
 
@@ -30,7 +30,7 @@ namespace image_triangulation
         }
 
         // Создаёт первые два треугольника на первых четырёх точках
-        private static void Initialization(List<Point> pivotPoints, HashSet<Triangle> outputTriangles)
+        private static void Initialization(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
         {
             edges.Clear();
 
@@ -69,10 +69,10 @@ namespace image_triangulation
         /// Добавляет узлы в триангуляцию
         /// </summary>
         /// <param name="pivotPoints">Список опорных точек</param>
-        private static void AddPoints(List<Point> pivotPoints, HashSet<Triangle> outputTriangles)
+        private static void AddPoints(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
         {
             // Цикл по всем опорным точкам, начиная с индекса 4
-            foreach (Point curPoint in pivotPoints.Skip(4))
+            foreach (Pixel curPoint in pivotPoints.Skip(4))
             {
                 int i;
                 // Цикл пока точка не попадёт в текущий треугольник либо на его границу

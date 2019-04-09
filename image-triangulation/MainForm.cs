@@ -19,7 +19,7 @@ namespace image_triangulation
         Bitmap triangulationGridBitmap;
         Bitmap rebuiltPictureBitmap;
 
-        List<Point> pivotPointsList = new List<Point>();
+        List<Pixel> pivotPointsList = new List<Pixel>();
         List<Section> triangulationSectionsList = new List<Section>();
         HashSet<Triangle> trianglesHashSet = new HashSet<Triangle>();
 
@@ -80,7 +80,7 @@ namespace image_triangulation
         private void PivotPointsPictureBox_MouseClick1(object sender, MouseEventArgs e)
         {
             // добавляем точку в список опорных точек по координатам клика относительно PivotPointsPictureBox
-            pivotPointsList.Add(e.Location);
+            pivotPointsList.Add(new Pixel(e.Location.X, e.Location.Y));
 
             // устанавливаем соответствующий пиксель в слое опорных точек
             pivotPointsBitmap.SetPixel(pivotPointsList.Last().X, pivotPointsList.Last().Y, Color.Red);
@@ -115,10 +115,10 @@ namespace image_triangulation
             // активируем PivotPointsPictureBox
             pivotPointsPictureBox.Enabled = true;
 
-            pivotPointsList.Add(new Point(0, 0));
-            pivotPointsList.Add(new Point(511, 0));
-            pivotPointsList.Add(new Point(511, 511));
-            pivotPointsList.Add(new Point(0, 511));
+            pivotPointsList.Add(new Pixel(0, 0));
+            pivotPointsList.Add(new Pixel(511, 0));
+            pivotPointsList.Add(new Pixel(511, 511));
+            pivotPointsList.Add(new Pixel(0, 511));
         }
 
         private void PictureLayerOff_CheckedChanged(object sender, EventArgs e)
