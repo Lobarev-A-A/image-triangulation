@@ -113,12 +113,7 @@ namespace image_triangulation
             originalImagePictureBox.Image = originalPictureBitmap;
 
             // активируем PivotPointsPictureBox
-            pivotPointsPictureBox.Enabled = true;
-
-            pivotPointsList.Add(new Pixel(0, 0));
-            pivotPointsList.Add(new Pixel(511, 0));
-            pivotPointsList.Add(new Pixel(511, 511));
-            pivotPointsList.Add(new Pixel(0, 511));
+            pivotPointsPictureBox.Enabled = true;            
         }
 
         private void PictureLayerOff_CheckedChanged(object sender, EventArgs e)
@@ -149,13 +144,13 @@ namespace image_triangulation
             triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
             Graphics gridCanvas = Graphics.FromImage(triangulationGridBitmap);
 
-            SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet);
+            SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
 
             DrawOperations.LinesToGraphics(triangulationSectionsList, gridCanvas);
             triangulationGridPictureBox.Image = triangulationGridBitmap;
 
             rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
-            VerticesAverageBrightnessShader.Run(originalPictureBitmap, rebuiltPictureBitmap, trianglesHashSet);
+            VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
             rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
         }
 

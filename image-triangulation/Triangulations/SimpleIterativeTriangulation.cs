@@ -8,6 +8,7 @@ using System.Drawing;
 // TO DO
 // * Проверить дублирование стартовых точек триангуляции во входном списке точек
 // * Рефактор с учётом вывода множества треугольников
+// * Распространить на изображения произвольного разрешения
 namespace image_triangulation
 {
     static class SimpleIterativeTriangulation
@@ -15,27 +16,29 @@ namespace image_triangulation
         static Triangle curTriangle;
         // Словарь <ссылка на ребро триангуляции, ссылка на соответствующий отрезок во внешнем представлении>
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
-        // Множество треугольников, подлежащих проверке условию Делоне
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
 
-        // Первые 4 точки должны соответствовать вершинам прямоугольника изображения, записанным по часовой стрелке начиная с
-        // верхнего левого угла
-        public static void MakeTriangulation(List<Pixel> pivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
+        public static void MakeTriangulation(List<Pixel> pivotPoints, List<Section> outputTriangulation,
+                                             HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap)
         {           
-            Initialization(pivotPoints, outputTriangles);
+            Initialization(outputTriangles, originalImageBitmap);
 
             AddPoints(pivotPoints, outputTriangles);
 
             GetOut(outputTriangulation);
         }
 
-        // Создаёт первые два треугольника на первых четырёх точках
-        private static void Initialization(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
+        // Создаёт первые два треугольника
+        private static void Initialization(HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap)
         {
             edges.Clear();
 
-            Triangle newTriangle0 = new Triangle(pivotPoints[0], pivotPoints[1], pivotPoints[2]);
-            Triangle newTriangle1 = new Triangle(pivotPoints[0], pivotPoints[2], pivotPoints[3]);
+            Triangle newTriangle0 = new Triangle(new Pixel(0, 0, originalImageBitmap.GetPixel(0, 0).GetBrightness()),
+                                                 new Pixel(511, 0, originalImageBitmap.GetPixel(511, 0).GetBrightness()),
+                                                 new Pixel(511, 511, originalImageBitmap.GetPixel(511, 511).GetBrightness()));
+            Triangle newTriangle1 = new Triangle(new Pixel(0, 0, originalImageBitmap.GetPixel(0, 0).GetBrightness()),
+                                                 new Pixel(511, 511, originalImageBitmap.GetPixel(511, 511).GetBrightness()),
+                                                 new Pixel(0, 511, originalImageBitmap.GetPixel(0, 511).GetBrightness()));
             outputTriangles.Add(newTriangle0);
             outputTriangles.Add(newTriangle1);
 
@@ -71,11 +74,10 @@ namespace image_triangulation
         /// <param name="pivotPoints">Список опорных точек</param>
         private static void AddPoints(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
         {
-            // Цикл по всем опорным точкам, начиная с индекса 4
-            foreach (Pixel curPoint in pivotPoints.Skip(4))
+            foreach (Pixel curPoint in pivotPoints)
             {
                 int i;
-                // Цикл пока точка не попадёт в текущий треугольник либо на его границу
+                // Цикл локализации точки (пока точка не попадёт в текущий треугольник либо на его границу)
                 int prtCheck = Geometry.PointRelativelyTriangle(curPoint, curTriangle.points[0], curTriangle.points[1], curTriangle.points[2]);                
                 while (prtCheck == -1)
                 {

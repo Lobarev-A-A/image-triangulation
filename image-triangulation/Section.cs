@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 
+// TO DO
+// * Перенести в DataStructures
 namespace image_triangulation
 {
     class Section : IComparable<Section>
