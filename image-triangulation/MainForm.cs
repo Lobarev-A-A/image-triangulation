@@ -6,14 +6,11 @@ using System.Windows.Forms;
 
 // TO DO
 // * Оптимизация памяти. Минимизировать new.
-// * Вынести добавление стартовых точек триангуляции в триангуляцию.
 // * Переписать нахер весь MainForm
 namespace image_triangulation
 {
     public partial class MainForm : Form
     {
-        const String DEFAULT_THRESHOLD = "0.1";
-
         Bitmap originalPictureBitmap;
         Bitmap pivotPointsBitmap;
         Bitmap triangulationGridBitmap;
@@ -33,9 +30,6 @@ namespace image_triangulation
             InitializeComponent();
 
             openFileDialog1.Filter = "PNG files (*.png)|*.png";
-
-            this.MinimumSize = Size;
-            this.MaximumSize = Size;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -72,9 +66,6 @@ namespace image_triangulation
 
             // добавляем TriangulationGridPictureBox в качестве дочернего для PivotPointsPictureBox
             pivotPointsPictureBox.Controls.Add(triangulationGridPictureBox);
-
-            // устанавливаем значение по умолчанию для порога яркости при поиске опорных точек
-            PPMakerThreshold.Text = DEFAULT_THRESHOLD;
         }
 
         private void PivotPointsPictureBox_MouseClick1(object sender, MouseEventArgs e)
@@ -187,6 +178,16 @@ namespace image_triangulation
 
             // отображаем bitmap в PB
             pivotPointsPictureBox.Image = pivotPointsBitmap;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
