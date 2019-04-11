@@ -30,7 +30,7 @@
         {
             this.originalImagePictureBox = new System.Windows.Forms.PictureBox();
             this.openPngButton = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openPngFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.showHideImageGroupBox = new System.Windows.Forms.GroupBox();
             this.originalImageHide = new System.Windows.Forms.RadioButton();
             this.originalImageShow = new System.Windows.Forms.RadioButton();
@@ -51,6 +51,7 @@
             this.shadersComboBox = new System.Windows.Forms.ComboBox();
             this.runShaderButton = new System.Windows.Forms.Button();
             this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.triangulationControlsGroupBox = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -60,7 +61,7 @@
             this.openTButton = new System.Windows.Forms.Button();
             this.saveInPngButton = new System.Windows.Forms.Button();
             this.saveInTButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
+            this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -75,9 +76,6 @@
             // 
             this.originalImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.originalImagePictureBox.Location = new System.Drawing.Point(7, 40);
-            this.originalImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.originalImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
-            this.originalImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
             this.originalImagePictureBox.Name = "originalImagePictureBox";
             this.originalImagePictureBox.Size = new System.Drawing.Size(512, 512);
             this.originalImagePictureBox.TabIndex = 0;
@@ -93,9 +91,9 @@
             this.openPngButton.UseVisualStyleBackColor = true;
             this.openPngButton.Click += new System.EventHandler(this.OpenImageButton_Click);
             // 
-            // openFileDialog1
+            // openPngFileDialog
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openPngFileDialog.FileName = "openFileDialog1";
             // 
             // showHideImageGroupBox
             // 
@@ -248,9 +246,6 @@
             // 
             this.rebuiltImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.rebuiltImagePictureBox.Location = new System.Drawing.Point(526, 40);
-            this.rebuiltImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.rebuiltImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
-            this.rebuiltImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
             this.rebuiltImagePictureBox.Name = "rebuiltImagePictureBox";
             this.rebuiltImagePictureBox.Size = new System.Drawing.Size(512, 512);
             this.rebuiltImagePictureBox.TabIndex = 21;
@@ -263,8 +258,7 @@
             this.pPMakersComboBox.Name = "pPMakersComboBox";
             this.pPMakersComboBox.Size = new System.Drawing.Size(143, 24);
             this.pPMakersComboBox.TabIndex = 22;
-            this.pPMakersComboBox.Text = "Алгоритм";
-            this.pPMakersComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.pPMakersComboBox.Text = "Выберите алгоритм";
             // 
             // triangulationsComboBox
             // 
@@ -273,7 +267,7 @@
             this.triangulationsComboBox.Name = "triangulationsComboBox";
             this.triangulationsComboBox.Size = new System.Drawing.Size(143, 24);
             this.triangulationsComboBox.TabIndex = 23;
-            this.triangulationsComboBox.Text = "Алгоритм";
+            this.triangulationsComboBox.Text = "Выберите алгоритм";
             // 
             // shadersComboBox
             // 
@@ -282,7 +276,7 @@
             this.shadersComboBox.Name = "shadersComboBox";
             this.shadersComboBox.Size = new System.Drawing.Size(143, 24);
             this.shadersComboBox.TabIndex = 24;
-            this.shadersComboBox.Text = "Алгоритм";
+            this.shadersComboBox.Text = "Выберите алгоритм";
             // 
             // runShaderButton
             // 
@@ -307,6 +301,15 @@
             this.pPointsControlsGroupBox.TabStop = false;
             this.pPointsControlsGroupBox.Text = "Опорные точки";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 52);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 17);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Порог:";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -315,7 +318,6 @@
             this.label3.Size = new System.Drawing.Size(169, 17);
             this.label3.TabIndex = 23;
             this.label3.Text = "Время выполнения, сек:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // triangulationControlsGroupBox
             // 
@@ -399,14 +401,9 @@
             this.saveInTButton.Text = "Сохранить в .t";
             this.saveInTButton.UseVisualStyleBackColor = true;
             // 
-            // label7
+            // openTFileDialog
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 52);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 17);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "Порог:";
+            this.openTFileDialog.FileName = "openFileDialog1";
             // 
             // MainForm
             // 
@@ -428,7 +425,8 @@
             this.Controls.Add(this.originalImagePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).EndInit();
             this.showHideImageGroupBox.ResumeLayout(false);
             this.showHideImageGroupBox.PerformLayout();
@@ -452,7 +450,7 @@
 
         private System.Windows.Forms.PictureBox originalImagePictureBox;
         private System.Windows.Forms.Button openPngButton;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openPngFileDialog;
         private System.Windows.Forms.GroupBox showHideImageGroupBox;
         private System.Windows.Forms.RadioButton originalImageHide;
         private System.Windows.Forms.RadioButton originalImageShow;
@@ -483,6 +481,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.OpenFileDialog openTFileDialog;
     }
 }
 
