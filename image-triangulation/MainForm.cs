@@ -7,6 +7,7 @@ using System.Windows.Forms;
 // TO DO
 // * Оптимизация памяти. Минимизировать new.
 // * Переписать нахер весь MainForm
+// * Валидация вводимых с клавиатуры значений
 namespace image_triangulation
 {
     public partial class MainForm : Form
@@ -23,6 +24,8 @@ namespace image_triangulation
         PictureBox pivotPointsPictureBox;
         PictureBox triangulationGridPictureBox;
 
+        float pPMakerThreshold;
+
         public MainForm()
         {
             InitializeComponent();
@@ -33,16 +36,19 @@ namespace image_triangulation
             openPngFileDialog.Filter = "PNG files (*.png)|*.png";
 
             // Инициализируем comboBox'ы
-            pPMakersComboBox.Items.AddRange(new string[] { "SectorPPMaker1" });
-            triangulationsComboBox.Items.AddRange(new string[] { "GreedyTriangulation", "SimpleIterativeTriangulation" });
-            shadersComboBox.Items.AddRange(new string[] { "VerticesAverageBrightnessShader" });
+            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
+            pPMakersComboBox.SelectedIndex = 0;
+            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation" });
+            triangulationsComboBox.SelectedIndex = 0;
+            shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
+            shadersComboBox.SelectedIndex = 0;
 
             // Блокируем элементы формы с нереализованным функционалом
             openTButton.Enabled = false;
             saveInPngButton.Enabled = false;
             saveInTButton.Enabled = false;
 
-            // Блокируем элементы формы, которые не должны быть доступны сразу после загрузки формы
+            // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
             showHidePPointsGroupBox.Enabled = false;
             showHideGridGroupBox.Enabled = false;
@@ -89,26 +95,16 @@ namespace image_triangulation
             if (openPngFileDialog.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            // сбрасываем опорные точки
-            pivotPointsList.Clear();
-            pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
-            pivotPointsPictureBox.Image = null;
+            resetPivotPoints();
+            resetTriangulation();
+            resetShading();
+            setNewSourcePng();
 
-            // сбрасываем триангуляцию
-            triangulationSectionsList.Clear();
-            triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
-            triangulationGridPictureBox.Image = null;
-
-            // сбрасываем восстановленное изображение
-            trianglesHashSet.Clear();
-            rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
-            rebuiltImagePictureBox.Image = null;
-
-            // обновляем исходное изображение
-            originalPictureBitmap = new Bitmap(openPngFileDialog.FileName);
-            originalImagePictureBox.Image = originalPictureBitmap;
-
-            // Разблокируем нужные элементы формы
+            // Выставляем элементы формы
+            showHidePPointsGroupBox.Enabled = false;
+            showHideGridGroupBox.Enabled = false;
+            triangulationControlsGroupBox.Enabled = false;
+            shadingControlsGroupBox.Enabled = false;
             showHideImageGroupBox.Enabled = true;
             pPointsControlsGroupBox.Enabled = true;
             originalImageShow.Checked = true;
@@ -144,31 +140,52 @@ namespace image_triangulation
             triangulationGridPictureBox.Image = triangulationGridBitmap;
         }
 
-        private void MakePivotPointsButton_Click(object sender, EventArgs e)
+        private void runPPMakerButton_Click(object sender, EventArgs e)
         {
-            // очищаем bitmap с опорными точками
-            pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
+            switch (pPMakersComboBox.SelectedIndex)
+            {
+                case 0:
+                    return;
+                case 1:
+                    resetShading();
+                    resetTriangulation();
+                    resetPivotPoints();
 
-            // очищаем PB для опорных точек
-            pivotPointsPictureBox.Image = null;
+                    pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPointsList);
+                    DrawOperations.PointsToBitmap(pivotPointsList, pivotPointsBitmap);
+                    pivotPointsPictureBox.Image = pivotPointsBitmap;
 
-            // парсинг значения порога
-            float threshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
-
-            // поиск опорных точек
-            PPMaker1.Run(originalPictureBitmap, threshold, pivotPointsList);
-
-            // отображаем опорные точки в bitmap
-            DrawOperations.PointsToBitmap(pivotPointsList, pivotPointsBitmap);
-
-            // отображаем bitmap в PB
-            pivotPointsPictureBox.Image = pivotPointsBitmap;
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = false;
+                    triangulationControlsGroupBox.Enabled = true;
+                    shadingControlsGroupBox.Enabled = false;
+                    pivotPointsShow.Checked = true;
+                    return;
+            }
         }
 
         private void RunTriangulation_Click(object sender, EventArgs e)
         {
-            triangulationSectionsList.Clear();
-            triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
+            switch (triangulationsComboBox.SelectedIndex)
+            {
+                case 0:
+                    return;
+                case 1:
+                    resetShading();
+                    resetTriangulation();
+
+
+                    return;
+            }
+
+
+
+
+
+
             Graphics gridCanvas = Graphics.FromImage(triangulationGridBitmap);
 
             SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
@@ -176,9 +193,45 @@ namespace image_triangulation
             DrawOperations.LinesToGraphics(triangulationSectionsList, gridCanvas);
             triangulationGridPictureBox.Image = triangulationGridBitmap;
 
+
+
+
+
+
             rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
             VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
             rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
+        }
+
+        private void resetPivotPoints()
+        {
+            pivotPointsList.Clear();
+            if (pivotPointsBitmap != null) pivotPointsBitmap.Dispose();
+            pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
+            pivotPointsPictureBox.Image = null;
+        }
+
+        private void resetTriangulation()
+        {
+            triangulationSectionsList.Clear();
+            if (triangulationGridBitmap != null) triangulationGridBitmap.Dispose();
+            triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
+            triangulationGridPictureBox.Image = null;
+        }
+
+        private void resetShading()
+        {
+            trianglesHashSet.Clear();
+            if (rebuiltPictureBitmap != null) rebuiltPictureBitmap.Dispose();
+            rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
+            rebuiltImagePictureBox.Image = null;
+        }
+
+        private void setNewSourcePng()
+        {
+            if (originalPictureBitmap != null) originalPictureBitmap.Dispose();
+            originalPictureBitmap = new Bitmap(openPngFileDialog.FileName);
+            originalImagePictureBox.Image = originalPictureBitmap;
         }
     }
 }

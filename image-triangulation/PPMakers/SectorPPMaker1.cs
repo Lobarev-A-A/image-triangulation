@@ -15,7 +15,7 @@ namespace image_triangulation
     /// <remarks>
     /// В данной реализации работает только с изображениями, у которых обе размерности кратны 4.
     /// </remarks>
-    static class PPMaker1
+    static class SectorPPMaker1
     {
         /// <summary>
         /// Производит выбор опорных точек на изображении.

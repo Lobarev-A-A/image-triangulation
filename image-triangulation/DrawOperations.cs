@@ -22,7 +22,7 @@ namespace image_triangulation
             }
         }
 
-        public static void LinesToGraphics(List<Section> sectionsList, Graphics canvas)
+        public static void LinesToGraphics(List<Section> sectionsList, Bitmap bitmap)
         {
             Point a = new Point(0, 0);
             Point b = new Point(0, 0);
@@ -34,7 +34,7 @@ namespace image_triangulation
                 b.X = s.b.X;
                 b.Y = s.b.Y;
                 canvas.DrawLine(pen, a, b);
-            }
+            }           
         }
     }
 }

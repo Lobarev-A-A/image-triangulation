@@ -233,7 +233,7 @@
             this.runPPMakerButton.TabIndex = 19;
             this.runPPMakerButton.Text = "Выполнить";
             this.runPPMakerButton.UseVisualStyleBackColor = true;
-            this.runPPMakerButton.Click += new System.EventHandler(this.MakePivotPointsButton_Click);
+            this.runPPMakerButton.Click += new System.EventHandler(this.runPPMakerButton_Click);
             // 
             // pPMakerThresholdTextBox
             // 
@@ -253,30 +253,30 @@
             // 
             // pPMakersComboBox
             // 
+            this.pPMakersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pPMakersComboBox.FormattingEnabled = true;
             this.pPMakersComboBox.Location = new System.Drawing.Point(6, 21);
             this.pPMakersComboBox.Name = "pPMakersComboBox";
             this.pPMakersComboBox.Size = new System.Drawing.Size(143, 24);
             this.pPMakersComboBox.TabIndex = 22;
-            this.pPMakersComboBox.Text = "Выберите алгоритм";
             // 
             // triangulationsComboBox
             // 
+            this.triangulationsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.triangulationsComboBox.FormattingEnabled = true;
             this.triangulationsComboBox.Location = new System.Drawing.Point(6, 21);
             this.triangulationsComboBox.Name = "triangulationsComboBox";
             this.triangulationsComboBox.Size = new System.Drawing.Size(143, 24);
             this.triangulationsComboBox.TabIndex = 23;
-            this.triangulationsComboBox.Text = "Выберите алгоритм";
             // 
             // shadersComboBox
             // 
+            this.shadersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.shadersComboBox.FormattingEnabled = true;
             this.shadersComboBox.Location = new System.Drawing.Point(6, 21);
             this.shadersComboBox.Name = "shadersComboBox";
             this.shadersComboBox.Size = new System.Drawing.Size(143, 24);
             this.shadersComboBox.TabIndex = 24;
-            this.shadersComboBox.Text = "Выберите алгоритм";
             // 
             // runShaderButton
             // 

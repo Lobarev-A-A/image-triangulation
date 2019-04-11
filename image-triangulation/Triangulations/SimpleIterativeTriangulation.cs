@@ -22,9 +22,7 @@ namespace image_triangulation
                                              HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap)
         {           
             Initialization(outputTriangles, originalImageBitmap);
-
             AddPoints(pivotPoints, outputTriangles);
-
             GetOut(outputTriangulation);
         }
 
