@@ -29,51 +29,53 @@
         private void InitializeComponent()
         {
             this.originalImagePictureBox = new System.Windows.Forms.PictureBox();
-            this.OpenImageButton = new System.Windows.Forms.Button();
+            this.openPngButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.PictureLayerOff = new System.Windows.Forms.RadioButton();
-            this.PictureLayerOn = new System.Windows.Forms.RadioButton();
+            this.showHideImageGroupBox = new System.Windows.Forms.GroupBox();
+            this.originalImageHide = new System.Windows.Forms.RadioButton();
+            this.originalImageShow = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.PointsLayerOff = new System.Windows.Forms.RadioButton();
-            this.PointsLayerOn = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.GridLayerOff = new System.Windows.Forms.RadioButton();
-            this.GridLayerOn = new System.Windows.Forms.RadioButton();
-            this.GridControls = new System.Windows.Forms.GroupBox();
-            this.RunTriangulation = new System.Windows.Forms.Button();
-            this.MakePivotPointsButton = new System.Windows.Forms.Button();
-            this.PPMakerThreshold = new System.Windows.Forms.TextBox();
+            this.pivotPointsHide = new System.Windows.Forms.RadioButton();
+            this.pivotPointsShow = new System.Windows.Forms.RadioButton();
+            this.showHidePPointsGroupBox = new System.Windows.Forms.GroupBox();
+            this.gridHide = new System.Windows.Forms.RadioButton();
+            this.gridShow = new System.Windows.Forms.RadioButton();
+            this.showHideGridGroupBox = new System.Windows.Forms.GroupBox();
+            this.runTriangulationButton = new System.Windows.Forms.Button();
+            this.runPPMakerButton = new System.Windows.Forms.Button();
+            this.pPMakerThresholdTextBox = new System.Windows.Forms.TextBox();
             this.rebuiltImagePictureBox = new System.Windows.Forms.PictureBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.pPMakersComboBox = new System.Windows.Forms.ComboBox();
+            this.triangulationsComboBox = new System.Windows.Forms.ComboBox();
+            this.shadersComboBox = new System.Windows.Forms.ComboBox();
+            this.runShaderButton = new System.Windows.Forms.Button();
+            this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.triangulationControlsGroupBox = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.shadingControlsGroupBox = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.openTButton = new System.Windows.Forms.Button();
+            this.saveInPngButton = new System.Windows.Forms.Button();
+            this.saveInTButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.GridControls.SuspendLayout();
+            this.showHideImageGroupBox.SuspendLayout();
+            this.showHidePPointsGroupBox.SuspendLayout();
+            this.showHideGridGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rebuiltImagePictureBox)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.pPointsControlsGroupBox.SuspendLayout();
+            this.triangulationControlsGroupBox.SuspendLayout();
+            this.shadingControlsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // originalImagePictureBox
             // 
             this.originalImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.originalImagePictureBox.Location = new System.Drawing.Point(11, 37);
+            this.originalImagePictureBox.Location = new System.Drawing.Point(7, 40);
+            this.originalImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.originalImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
             this.originalImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
             this.originalImagePictureBox.Name = "originalImagePictureBox";
@@ -81,58 +83,58 @@
             this.originalImagePictureBox.TabIndex = 0;
             this.originalImagePictureBox.TabStop = false;
             // 
-            // OpenImageButton
+            // openPngButton
             // 
-            this.OpenImageButton.Location = new System.Drawing.Point(12, 1);
-            this.OpenImageButton.Name = "OpenImageButton";
-            this.OpenImageButton.Size = new System.Drawing.Size(150, 30);
-            this.OpenImageButton.TabIndex = 12;
-            this.OpenImageButton.Text = "Открыть .png";
-            this.OpenImageButton.UseVisualStyleBackColor = true;
-            this.OpenImageButton.Click += new System.EventHandler(this.OpenImageButton_Click);
+            this.openPngButton.Location = new System.Drawing.Point(5, 5);
+            this.openPngButton.Name = "openPngButton";
+            this.openPngButton.Size = new System.Drawing.Size(130, 30);
+            this.openPngButton.TabIndex = 12;
+            this.openPngButton.Text = "Открыть .png";
+            this.openPngButton.UseVisualStyleBackColor = true;
+            this.openPngButton.Click += new System.EventHandler(this.OpenImageButton_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // groupBox1
+            // showHideImageGroupBox
             // 
-            this.groupBox1.Controls.Add(this.PictureLayerOff);
-            this.groupBox1.Controls.Add(this.PictureLayerOn);
-            this.groupBox1.Location = new System.Drawing.Point(12, 586);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(242, 34);
-            this.groupBox1.TabIndex = 14;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Изображение";
+            this.showHideImageGroupBox.Controls.Add(this.originalImageHide);
+            this.showHideImageGroupBox.Controls.Add(this.originalImageShow);
+            this.showHideImageGroupBox.Location = new System.Drawing.Point(7, 578);
+            this.showHideImageGroupBox.Name = "showHideImageGroupBox";
+            this.showHideImageGroupBox.Size = new System.Drawing.Size(249, 34);
+            this.showHideImageGroupBox.TabIndex = 14;
+            this.showHideImageGroupBox.TabStop = false;
+            this.showHideImageGroupBox.Text = "Изображение";
             // 
-            // PictureLayerOff
+            // originalImageHide
             // 
-            this.PictureLayerOff.AutoSize = true;
-            this.PictureLayerOff.Location = new System.Drawing.Point(201, 12);
-            this.PictureLayerOff.Name = "PictureLayerOff";
-            this.PictureLayerOff.Size = new System.Drawing.Size(17, 16);
-            this.PictureLayerOff.TabIndex = 1;
-            this.PictureLayerOff.TabStop = true;
-            this.PictureLayerOff.UseVisualStyleBackColor = true;
-            this.PictureLayerOff.CheckedChanged += new System.EventHandler(this.PictureLayerOff_CheckedChanged);
+            this.originalImageHide.AutoSize = true;
+            this.originalImageHide.Location = new System.Drawing.Point(209, 12);
+            this.originalImageHide.Name = "originalImageHide";
+            this.originalImageHide.Size = new System.Drawing.Size(17, 16);
+            this.originalImageHide.TabIndex = 1;
+            this.originalImageHide.TabStop = true;
+            this.originalImageHide.UseVisualStyleBackColor = true;
+            this.originalImageHide.CheckedChanged += new System.EventHandler(this.PictureLayerOff_CheckedChanged);
             // 
-            // PictureLayerOn
+            // originalImageShow
             // 
-            this.PictureLayerOn.AutoSize = true;
-            this.PictureLayerOn.Checked = true;
-            this.PictureLayerOn.Location = new System.Drawing.Point(133, 12);
-            this.PictureLayerOn.Name = "PictureLayerOn";
-            this.PictureLayerOn.Size = new System.Drawing.Size(17, 16);
-            this.PictureLayerOn.TabIndex = 0;
-            this.PictureLayerOn.TabStop = true;
-            this.PictureLayerOn.UseVisualStyleBackColor = true;
-            this.PictureLayerOn.CheckedChanged += new System.EventHandler(this.PictureLayerOn_CheckedChanged);
+            this.originalImageShow.AutoSize = true;
+            this.originalImageShow.Checked = true;
+            this.originalImageShow.Location = new System.Drawing.Point(141, 12);
+            this.originalImageShow.Name = "originalImageShow";
+            this.originalImageShow.Size = new System.Drawing.Size(17, 16);
+            this.originalImageShow.TabIndex = 0;
+            this.originalImageShow.TabStop = true;
+            this.originalImageShow.UseVisualStyleBackColor = true;
+            this.originalImageShow.CheckedChanged += new System.EventHandler(this.PictureLayerOn_CheckedChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(120, 571);
+            this.label1.Location = new System.Drawing.Point(128, 566);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 17);
             this.label1.TabIndex = 15;
@@ -141,111 +143,112 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(196, 571);
+            this.label2.Location = new System.Drawing.Point(202, 566);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 16;
             this.label2.Text = "Скрыть";
             // 
-            // PointsLayerOff
+            // pivotPointsHide
             // 
-            this.PointsLayerOff.AutoSize = true;
-            this.PointsLayerOff.Location = new System.Drawing.Point(201, 12);
-            this.PointsLayerOff.Name = "PointsLayerOff";
-            this.PointsLayerOff.Size = new System.Drawing.Size(17, 16);
-            this.PointsLayerOff.TabIndex = 1;
-            this.PointsLayerOff.TabStop = true;
-            this.PointsLayerOff.UseVisualStyleBackColor = true;
-            this.PointsLayerOff.CheckedChanged += new System.EventHandler(this.PointsLayerOff_CheckedChanged);
+            this.pivotPointsHide.AutoSize = true;
+            this.pivotPointsHide.Location = new System.Drawing.Point(209, 12);
+            this.pivotPointsHide.Name = "pivotPointsHide";
+            this.pivotPointsHide.Size = new System.Drawing.Size(17, 16);
+            this.pivotPointsHide.TabIndex = 1;
+            this.pivotPointsHide.TabStop = true;
+            this.pivotPointsHide.UseVisualStyleBackColor = true;
+            this.pivotPointsHide.CheckedChanged += new System.EventHandler(this.PointsLayerOff_CheckedChanged);
             // 
-            // PointsLayerOn
+            // pivotPointsShow
             // 
-            this.PointsLayerOn.AutoSize = true;
-            this.PointsLayerOn.Checked = true;
-            this.PointsLayerOn.Location = new System.Drawing.Point(133, 12);
-            this.PointsLayerOn.Name = "PointsLayerOn";
-            this.PointsLayerOn.Size = new System.Drawing.Size(17, 16);
-            this.PointsLayerOn.TabIndex = 0;
-            this.PointsLayerOn.TabStop = true;
-            this.PointsLayerOn.UseVisualStyleBackColor = true;
-            this.PointsLayerOn.CheckedChanged += new System.EventHandler(this.PointsLayerOn_CheckedChanged);
+            this.pivotPointsShow.AutoSize = true;
+            this.pivotPointsShow.Checked = true;
+            this.pivotPointsShow.Location = new System.Drawing.Point(141, 12);
+            this.pivotPointsShow.Name = "pivotPointsShow";
+            this.pivotPointsShow.Size = new System.Drawing.Size(17, 16);
+            this.pivotPointsShow.TabIndex = 0;
+            this.pivotPointsShow.TabStop = true;
+            this.pivotPointsShow.UseVisualStyleBackColor = true;
+            this.pivotPointsShow.CheckedChanged += new System.EventHandler(this.PointsLayerOn_CheckedChanged);
             // 
-            // groupBox2
+            // showHidePPointsGroupBox
             // 
-            this.groupBox2.Controls.Add(this.PointsLayerOff);
-            this.groupBox2.Controls.Add(this.PointsLayerOn);
-            this.groupBox2.Location = new System.Drawing.Point(12, 626);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(242, 34);
-            this.groupBox2.TabIndex = 15;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Опорные точки";
+            this.showHidePPointsGroupBox.Controls.Add(this.pivotPointsHide);
+            this.showHidePPointsGroupBox.Controls.Add(this.pivotPointsShow);
+            this.showHidePPointsGroupBox.Location = new System.Drawing.Point(7, 624);
+            this.showHidePPointsGroupBox.Name = "showHidePPointsGroupBox";
+            this.showHidePPointsGroupBox.Size = new System.Drawing.Size(249, 34);
+            this.showHidePPointsGroupBox.TabIndex = 15;
+            this.showHidePPointsGroupBox.TabStop = false;
+            this.showHidePPointsGroupBox.Text = "Опорные точки";
             // 
-            // GridLayerOff
+            // gridHide
             // 
-            this.GridLayerOff.AutoSize = true;
-            this.GridLayerOff.Location = new System.Drawing.Point(201, 12);
-            this.GridLayerOff.Name = "GridLayerOff";
-            this.GridLayerOff.Size = new System.Drawing.Size(17, 16);
-            this.GridLayerOff.TabIndex = 1;
-            this.GridLayerOff.TabStop = true;
-            this.GridLayerOff.UseVisualStyleBackColor = true;
-            this.GridLayerOff.CheckedChanged += new System.EventHandler(this.GridLayerOff_CheckedChanged);
+            this.gridHide.AutoSize = true;
+            this.gridHide.Location = new System.Drawing.Point(209, 12);
+            this.gridHide.Name = "gridHide";
+            this.gridHide.Size = new System.Drawing.Size(17, 16);
+            this.gridHide.TabIndex = 1;
+            this.gridHide.TabStop = true;
+            this.gridHide.UseVisualStyleBackColor = true;
+            this.gridHide.CheckedChanged += new System.EventHandler(this.GridLayerOff_CheckedChanged);
             // 
-            // GridLayerOn
+            // gridShow
             // 
-            this.GridLayerOn.AutoSize = true;
-            this.GridLayerOn.Checked = true;
-            this.GridLayerOn.Location = new System.Drawing.Point(133, 12);
-            this.GridLayerOn.Name = "GridLayerOn";
-            this.GridLayerOn.Size = new System.Drawing.Size(17, 16);
-            this.GridLayerOn.TabIndex = 0;
-            this.GridLayerOn.TabStop = true;
-            this.GridLayerOn.UseVisualStyleBackColor = true;
-            this.GridLayerOn.CheckedChanged += new System.EventHandler(this.GridLayerOn_CheckedChanged);
+            this.gridShow.AutoSize = true;
+            this.gridShow.Checked = true;
+            this.gridShow.Location = new System.Drawing.Point(141, 12);
+            this.gridShow.Name = "gridShow";
+            this.gridShow.Size = new System.Drawing.Size(17, 16);
+            this.gridShow.TabIndex = 0;
+            this.gridShow.TabStop = true;
+            this.gridShow.UseVisualStyleBackColor = true;
+            this.gridShow.CheckedChanged += new System.EventHandler(this.GridLayerOn_CheckedChanged);
             // 
-            // GridControls
+            // showHideGridGroupBox
             // 
-            this.GridControls.Controls.Add(this.GridLayerOff);
-            this.GridControls.Controls.Add(this.GridLayerOn);
-            this.GridControls.Location = new System.Drawing.Point(12, 666);
-            this.GridControls.Name = "GridControls";
-            this.GridControls.Size = new System.Drawing.Size(242, 34);
-            this.GridControls.TabIndex = 16;
-            this.GridControls.TabStop = false;
-            this.GridControls.Text = "Сетка";
+            this.showHideGridGroupBox.Controls.Add(this.gridHide);
+            this.showHideGridGroupBox.Controls.Add(this.gridShow);
+            this.showHideGridGroupBox.Location = new System.Drawing.Point(7, 670);
+            this.showHideGridGroupBox.Name = "showHideGridGroupBox";
+            this.showHideGridGroupBox.Size = new System.Drawing.Size(249, 34);
+            this.showHideGridGroupBox.TabIndex = 16;
+            this.showHideGridGroupBox.TabStop = false;
+            this.showHideGridGroupBox.Text = "Сетка";
             // 
-            // RunTriangulation
+            // runTriangulationButton
             // 
-            this.RunTriangulation.Location = new System.Drawing.Point(155, 21);
-            this.RunTriangulation.Name = "RunTriangulation";
-            this.RunTriangulation.Size = new System.Drawing.Size(95, 24);
-            this.RunTriangulation.TabIndex = 17;
-            this.RunTriangulation.Text = "Выполнить";
-            this.RunTriangulation.UseVisualStyleBackColor = true;
-            this.RunTriangulation.Click += new System.EventHandler(this.RunTriangulation_Click);
+            this.runTriangulationButton.Location = new System.Drawing.Point(154, 20);
+            this.runTriangulationButton.Name = "runTriangulationButton";
+            this.runTriangulationButton.Size = new System.Drawing.Size(95, 23);
+            this.runTriangulationButton.TabIndex = 17;
+            this.runTriangulationButton.Text = "Выполнить";
+            this.runTriangulationButton.UseVisualStyleBackColor = true;
+            this.runTriangulationButton.Click += new System.EventHandler(this.RunTriangulation_Click);
             // 
-            // MakePivotPointsButton
+            // runPPMakerButton
             // 
-            this.MakePivotPointsButton.Location = new System.Drawing.Point(155, 21);
-            this.MakePivotPointsButton.Name = "MakePivotPointsButton";
-            this.MakePivotPointsButton.Size = new System.Drawing.Size(95, 24);
-            this.MakePivotPointsButton.TabIndex = 19;
-            this.MakePivotPointsButton.Text = "Выполнить";
-            this.MakePivotPointsButton.UseVisualStyleBackColor = true;
-            this.MakePivotPointsButton.Click += new System.EventHandler(this.MakePivotPointsButton_Click);
+            this.runPPMakerButton.Location = new System.Drawing.Point(154, 20);
+            this.runPPMakerButton.Name = "runPPMakerButton";
+            this.runPPMakerButton.Size = new System.Drawing.Size(95, 23);
+            this.runPPMakerButton.TabIndex = 19;
+            this.runPPMakerButton.Text = "Выполнить";
+            this.runPPMakerButton.UseVisualStyleBackColor = true;
+            this.runPPMakerButton.Click += new System.EventHandler(this.MakePivotPointsButton_Click);
             // 
-            // PPMakerThreshold
+            // pPMakerThresholdTextBox
             // 
-            this.PPMakerThreshold.Location = new System.Drawing.Point(6, 51);
-            this.PPMakerThreshold.Name = "PPMakerThreshold";
-            this.PPMakerThreshold.Size = new System.Drawing.Size(100, 22);
-            this.PPMakerThreshold.TabIndex = 20;
+            this.pPMakerThresholdTextBox.Location = new System.Drawing.Point(63, 49);
+            this.pPMakerThresholdTextBox.Name = "pPMakerThresholdTextBox";
+            this.pPMakerThresholdTextBox.Size = new System.Drawing.Size(86, 22);
+            this.pPMakerThresholdTextBox.TabIndex = 20;
             // 
             // rebuiltImagePictureBox
             // 
             this.rebuiltImagePictureBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.rebuiltImagePictureBox.Location = new System.Drawing.Point(535, 37);
+            this.rebuiltImagePictureBox.Location = new System.Drawing.Point(526, 40);
+            this.rebuiltImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.rebuiltImagePictureBox.MaximumSize = new System.Drawing.Size(512, 512);
             this.rebuiltImagePictureBox.MinimumSize = new System.Drawing.Size(512, 512);
             this.rebuiltImagePictureBox.Name = "rebuiltImagePictureBox";
@@ -253,126 +256,109 @@
             this.rebuiltImagePictureBox.TabIndex = 21;
             this.rebuiltImagePictureBox.TabStop = false;
             // 
-            // comboBox1
+            // pPMakersComboBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 21);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(143, 24);
-            this.comboBox1.TabIndex = 22;
-            this.comboBox1.Text = "Алгоритм";
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.pPMakersComboBox.FormattingEnabled = true;
+            this.pPMakersComboBox.Location = new System.Drawing.Point(6, 21);
+            this.pPMakersComboBox.Name = "pPMakersComboBox";
+            this.pPMakersComboBox.Size = new System.Drawing.Size(143, 24);
+            this.pPMakersComboBox.TabIndex = 22;
+            this.pPMakersComboBox.Text = "Алгоритм";
+            this.pPMakersComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // comboBox2
+            // triangulationsComboBox
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(6, 21);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(143, 24);
-            this.comboBox2.TabIndex = 23;
-            this.comboBox2.Text = "Алгоритм";
+            this.triangulationsComboBox.FormattingEnabled = true;
+            this.triangulationsComboBox.Location = new System.Drawing.Point(6, 21);
+            this.triangulationsComboBox.Name = "triangulationsComboBox";
+            this.triangulationsComboBox.Size = new System.Drawing.Size(143, 24);
+            this.triangulationsComboBox.TabIndex = 23;
+            this.triangulationsComboBox.Text = "Алгоритм";
             // 
-            // comboBox3
+            // shadersComboBox
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(6, 21);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(143, 24);
-            this.comboBox3.TabIndex = 24;
-            this.comboBox3.Text = "Алгоритм";
+            this.shadersComboBox.FormattingEnabled = true;
+            this.shadersComboBox.Location = new System.Drawing.Point(6, 21);
+            this.shadersComboBox.Name = "shadersComboBox";
+            this.shadersComboBox.Size = new System.Drawing.Size(143, 24);
+            this.shadersComboBox.TabIndex = 24;
+            this.shadersComboBox.Text = "Алгоритм";
             // 
-            // button1
+            // runShaderButton
             // 
-            this.button1.Location = new System.Drawing.Point(155, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 24);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Выполнить";
-            this.button1.UseVisualStyleBackColor = true;
+            this.runShaderButton.Location = new System.Drawing.Point(154, 20);
+            this.runShaderButton.Name = "runShaderButton";
+            this.runShaderButton.Size = new System.Drawing.Size(95, 23);
+            this.runShaderButton.TabIndex = 25;
+            this.runShaderButton.Text = "Выполнить";
+            this.runShaderButton.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // pPointsControlsGroupBox
             // 
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.comboBox1);
-            this.groupBox3.Controls.Add(this.MakePivotPointsButton);
-            this.groupBox3.Controls.Add(this.PPMakerThreshold);
-            this.groupBox3.Location = new System.Drawing.Point(267, 555);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(256, 145);
-            this.groupBox3.TabIndex = 26;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Опорные точки";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Controls.Add(this.RunTriangulation);
-            this.groupBox4.Controls.Add(this.comboBox2);
-            this.groupBox4.Location = new System.Drawing.Point(529, 555);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(256, 145);
-            this.groupBox4.TabIndex = 27;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Триангуляция";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Controls.Add(this.label5);
-            this.groupBox5.Controls.Add(this.comboBox3);
-            this.groupBox5.Controls.Add(this.button1);
-            this.groupBox5.Location = new System.Drawing.Point(791, 555);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(256, 145);
-            this.groupBox5.TabIndex = 28;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Закраска";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(163, 1);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(136, 30);
-            this.button2.TabIndex = 29;
-            this.button2.Text = "Открыть .t";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(304, 1);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(132, 30);
-            this.button3.TabIndex = 30;
-            this.button3.Text = "Сохранить в .png";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(442, 1);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(147, 30);
-            this.button4.TabIndex = 31;
-            this.button4.Text = "Сохранить в .t";
-            this.button4.UseVisualStyleBackColor = true;
+            this.pPointsControlsGroupBox.Controls.Add(this.label7);
+            this.pPointsControlsGroupBox.Controls.Add(this.label3);
+            this.pPointsControlsGroupBox.Controls.Add(this.pPMakersComboBox);
+            this.pPointsControlsGroupBox.Controls.Add(this.runPPMakerButton);
+            this.pPointsControlsGroupBox.Controls.Add(this.pPMakerThresholdTextBox);
+            this.pPointsControlsGroupBox.Location = new System.Drawing.Point(264, 555);
+            this.pPointsControlsGroupBox.Name = "pPointsControlsGroupBox";
+            this.pPointsControlsGroupBox.Size = new System.Drawing.Size(255, 150);
+            this.pPointsControlsGroupBox.TabIndex = 26;
+            this.pPointsControlsGroupBox.TabStop = false;
+            this.pPointsControlsGroupBox.Text = "Опорные точки";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 125);
+            this.label3.Location = new System.Drawing.Point(6, 126);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(169, 17);
             this.label3.TabIndex = 23;
             this.label3.Text = "Время выполнения, сек:";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // triangulationControlsGroupBox
+            // 
+            this.triangulationControlsGroupBox.Controls.Add(this.label4);
+            this.triangulationControlsGroupBox.Controls.Add(this.runTriangulationButton);
+            this.triangulationControlsGroupBox.Controls.Add(this.triangulationsComboBox);
+            this.triangulationControlsGroupBox.Location = new System.Drawing.Point(524, 555);
+            this.triangulationControlsGroupBox.Name = "triangulationControlsGroupBox";
+            this.triangulationControlsGroupBox.Size = new System.Drawing.Size(255, 150);
+            this.triangulationControlsGroupBox.TabIndex = 27;
+            this.triangulationControlsGroupBox.TabStop = false;
+            this.triangulationControlsGroupBox.Text = "Триангуляция";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 123);
+            this.label4.Location = new System.Drawing.Point(6, 126);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(169, 17);
             this.label4.TabIndex = 24;
             this.label4.Text = "Время выполнения, сек:";
+            // 
+            // shadingControlsGroupBox
+            // 
+            this.shadingControlsGroupBox.Controls.Add(this.label6);
+            this.shadingControlsGroupBox.Controls.Add(this.label5);
+            this.shadingControlsGroupBox.Controls.Add(this.shadersComboBox);
+            this.shadingControlsGroupBox.Controls.Add(this.runShaderButton);
+            this.shadingControlsGroupBox.Location = new System.Drawing.Point(784, 555);
+            this.shadingControlsGroupBox.Name = "shadingControlsGroupBox";
+            this.shadingControlsGroupBox.Size = new System.Drawing.Size(255, 150);
+            this.shadingControlsGroupBox.TabIndex = 28;
+            this.shadingControlsGroupBox.TabStop = false;
+            this.shadingControlsGroupBox.Text = "Закраска";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 126);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(169, 17);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "Время выполнения, сек:";
             // 
             // label5
             // 
@@ -383,52 +369,80 @@
             this.label5.TabIndex = 26;
             this.label5.Text = "СКО:";
             // 
-            // label6
+            // openTButton
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 122);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(169, 17);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "Время выполнения, сек:";
+            this.openTButton.Enabled = false;
+            this.openTButton.Location = new System.Drawing.Point(140, 5);
+            this.openTButton.Name = "openTButton";
+            this.openTButton.Size = new System.Drawing.Size(130, 30);
+            this.openTButton.TabIndex = 29;
+            this.openTButton.Text = "Открыть .t";
+            this.openTButton.UseVisualStyleBackColor = true;
+            // 
+            // saveInPngButton
+            // 
+            this.saveInPngButton.Enabled = false;
+            this.saveInPngButton.Location = new System.Drawing.Point(275, 5);
+            this.saveInPngButton.Name = "saveInPngButton";
+            this.saveInPngButton.Size = new System.Drawing.Size(130, 30);
+            this.saveInPngButton.TabIndex = 30;
+            this.saveInPngButton.Text = "Сохранить в .png";
+            this.saveInPngButton.UseVisualStyleBackColor = true;
+            // 
+            // saveInTButton
+            // 
+            this.saveInTButton.Enabled = false;
+            this.saveInTButton.Location = new System.Drawing.Point(410, 5);
+            this.saveInTButton.Name = "saveInTButton";
+            this.saveInTButton.Size = new System.Drawing.Size(130, 30);
+            this.saveInTButton.TabIndex = 31;
+            this.saveInTButton.Text = "Сохранить в .t";
+            this.saveInTButton.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 52);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 17);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Порог:";
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1061, 710);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.OpenImageButton);
-            this.Controls.Add(this.groupBox3);
+            this.ClientSize = new System.Drawing.Size(1045, 710);
+            this.Controls.Add(this.saveInTButton);
+            this.Controls.Add(this.saveInPngButton);
+            this.Controls.Add(this.openTButton);
+            this.Controls.Add(this.shadingControlsGroupBox);
+            this.Controls.Add(this.triangulationControlsGroupBox);
+            this.Controls.Add(this.openPngButton);
+            this.Controls.Add(this.pPointsControlsGroupBox);
             this.Controls.Add(this.rebuiltImagePictureBox);
-            this.Controls.Add(this.GridControls);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.showHideGridGroupBox);
+            this.Controls.Add(this.showHidePPointsGroupBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.showHideImageGroupBox);
             this.Controls.Add(this.originalImagePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximumSize = new System.Drawing.Size(1079, 757);
-            this.MinimumSize = new System.Drawing.Size(1079, 757);
             this.Name = "MainForm";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.GridControls.ResumeLayout(false);
-            this.GridControls.PerformLayout();
+            this.showHideImageGroupBox.ResumeLayout(false);
+            this.showHideImageGroupBox.PerformLayout();
+            this.showHidePPointsGroupBox.ResumeLayout(false);
+            this.showHidePPointsGroupBox.PerformLayout();
+            this.showHideGridGroupBox.ResumeLayout(false);
+            this.showHideGridGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rebuiltImagePictureBox)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.pPointsControlsGroupBox.ResumeLayout(false);
+            this.pPointsControlsGroupBox.PerformLayout();
+            this.triangulationControlsGroupBox.ResumeLayout(false);
+            this.triangulationControlsGroupBox.PerformLayout();
+            this.shadingControlsGroupBox.ResumeLayout(false);
+            this.shadingControlsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,37 +451,38 @@
         #endregion
 
         private System.Windows.Forms.PictureBox originalImagePictureBox;
-        private System.Windows.Forms.Button OpenImageButton;
+        private System.Windows.Forms.Button openPngButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton PictureLayerOff;
-        private System.Windows.Forms.RadioButton PictureLayerOn;
+        private System.Windows.Forms.GroupBox showHideImageGroupBox;
+        private System.Windows.Forms.RadioButton originalImageHide;
+        private System.Windows.Forms.RadioButton originalImageShow;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton PointsLayerOff;
-        private System.Windows.Forms.RadioButton PointsLayerOn;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton GridLayerOff;
-        private System.Windows.Forms.RadioButton GridLayerOn;
-        private System.Windows.Forms.GroupBox GridControls;
-        private System.Windows.Forms.Button RunTriangulation;
-        private System.Windows.Forms.Button MakePivotPointsButton;
-        private System.Windows.Forms.TextBox PPMakerThreshold;
+        private System.Windows.Forms.RadioButton pivotPointsHide;
+        private System.Windows.Forms.RadioButton pivotPointsShow;
+        private System.Windows.Forms.GroupBox showHidePPointsGroupBox;
+        private System.Windows.Forms.RadioButton gridHide;
+        private System.Windows.Forms.RadioButton gridShow;
+        private System.Windows.Forms.GroupBox showHideGridGroupBox;
+        private System.Windows.Forms.Button runTriangulationButton;
+        private System.Windows.Forms.Button runPPMakerButton;
+        private System.Windows.Forms.TextBox pPMakerThresholdTextBox;
         private System.Windows.Forms.PictureBox rebuiltImagePictureBox;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.ComboBox pPMakersComboBox;
+        private System.Windows.Forms.ComboBox triangulationsComboBox;
+        private System.Windows.Forms.ComboBox shadersComboBox;
+        private System.Windows.Forms.Button runShaderButton;
+        private System.Windows.Forms.GroupBox pPointsControlsGroupBox;
+        private System.Windows.Forms.GroupBox triangulationControlsGroupBox;
+        private System.Windows.Forms.GroupBox shadingControlsGroupBox;
+        private System.Windows.Forms.Button openTButton;
+        private System.Windows.Forms.Button saveInPngButton;
+        private System.Windows.Forms.Button saveInTButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
     }
 }
 

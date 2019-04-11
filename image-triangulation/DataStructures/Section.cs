@@ -2,7 +2,6 @@
 using System.Drawing;
 
 // TO DO
-// * Перенести в DataStructures
 namespace image_triangulation
 {
     class Section : IComparable<Section>
@@ -15,7 +14,6 @@ namespace image_triangulation
         {
             this.a = a;
             this.b = b;
-
             length = Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
         }
 

@@ -168,7 +168,7 @@ namespace image_triangulation
             pivotPointsPictureBox.Image = null;
 
             // парсинг значения порога
-            float threshold = float.Parse(PPMakerThreshold.Text, System.Globalization.CultureInfo.InvariantCulture);
+            float threshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
 
             // поиск опорных точек
             PPMaker1.Run(originalPictureBitmap, threshold, pivotPointsList);
