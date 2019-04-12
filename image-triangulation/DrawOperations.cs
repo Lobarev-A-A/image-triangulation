@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * передавать цвет в методы
-
 namespace image_triangulation
 {
     static class DrawOperations
     {
         static Pen pen = new Pen(Color.Red);
 
-        public static void PointsToBitmap(List<Pixel> pointsList, Bitmap bitmap)
+        public static void PixelsToBitmap(List<Pixel> pointsList, Bitmap bitmap)
         {
             foreach (Pixel p in pointsList)
             {
@@ -22,10 +20,11 @@ namespace image_triangulation
             }
         }
 
-        public static void LinesToGraphics(List<Section> sectionsList, Bitmap bitmap)
+        public static void SectionsToBitmap(List<Section> sectionsList, Bitmap bitmap)
         {
             Point a = new Point(0, 0);
             Point b = new Point(0, 0);
+            Graphics canvas = Graphics.FromImage(bitmap);
 
             foreach (Section s in sectionsList)
             {
@@ -34,7 +33,9 @@ namespace image_triangulation
                 b.X = s.b.X;
                 b.Y = s.b.Y;
                 canvas.DrawLine(pen, a, b);
-            }           
+            }
+
+            canvas.Dispose();
         }
     }
 }

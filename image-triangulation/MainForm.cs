@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 
 // TO DO
-// * Оптимизация памяти. Минимизировать new.
-// * Переписать нахер весь MainForm
+// * Пройтись по освобождению памяти
+// * Проверить нейминг методов
 // * Валидация вводимых с клавиатуры значений
 namespace image_triangulation
 {
@@ -54,8 +54,10 @@ namespace image_triangulation
             showHideGridGroupBox.Enabled = false;
             pPointsControlsGroupBox.Enabled = false;
             triangulationControlsGroupBox.Enabled = false;
-            shadingControlsGroupBox.Enabled = false;            
-            
+            shadingControlsGroupBox.Enabled = false;
+            label7.Visible = false;
+            pPMakerThresholdTextBox.Visible = false;
+
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
             {
@@ -70,13 +72,13 @@ namespace image_triangulation
             // создаём PictureBox для слоя с триангуляционной сеткой
             triangulationGridPictureBox = new PictureBox
             {
-                Size = originalImagePictureBox.Size,
-                SizeMode = originalImagePictureBox.SizeMode,
+                Size = pivotPointsPictureBox.Size,
+                SizeMode = pivotPointsPictureBox.SizeMode,
                 Location = new Point(0, 0),
                 BackColor = Color.Transparent,
                 Enabled = false
             };
-            originalImagePictureBox.Controls.Add(triangulationGridPictureBox);
+            pivotPointsPictureBox.Controls.Add(triangulationGridPictureBox);
                         
             // (нужно для выбора точек вручную) подписываем PivotPointsPictureBox на MouseClick
             //pivotPointsPictureBox.MouseClick += PivotPointsPictureBox_MouseClick1;
@@ -90,7 +92,7 @@ namespace image_triangulation
         //    pivotPointsPictureBox.Image = pivotPointsBitmap;
         //}
 
-        private void OpenImageButton_Click(object sender, EventArgs e)
+        private void openPngButton_Click(object sender, EventArgs e)
         {
             if (openPngFileDialog.ShowDialog() == DialogResult.Cancel)
                 return;
@@ -107,35 +109,35 @@ namespace image_triangulation
             shadingControlsGroupBox.Enabled = false;
             showHideImageGroupBox.Enabled = true;
             pPointsControlsGroupBox.Enabled = true;
-            originalImageShow.Checked = true;
+            showOriginalImage.Checked = true;
         }
 
-        private void PictureLayerOff_CheckedChanged(object sender, EventArgs e)
+        private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
         {
             originalImagePictureBox.Image = null;
         }
 
-        private void PictureLayerOn_CheckedChanged(object sender, EventArgs e)
+        private void showOriginalImage_CheckedChanged(object sender, EventArgs e)
         {
             originalImagePictureBox.Image = originalPictureBitmap;
         }
 
-        private void PointsLayerOff_CheckedChanged(object sender, EventArgs e)
+        private void hidePivotPoints_CheckedChanged(object sender, EventArgs e)
         {
             pivotPointsPictureBox.Image = null;
         }
 
-        private void PointsLayerOn_CheckedChanged(object sender, EventArgs e)
+        private void showPivotPoints_CheckedChanged(object sender, EventArgs e)
         {
             pivotPointsPictureBox.Image = pivotPointsBitmap;
         }
 
-        private void GridLayerOff_CheckedChanged(object sender, EventArgs e)
+        private void hideGrid_CheckedChanged(object sender, EventArgs e)
         {
             triangulationGridPictureBox.Image = null;
         }
 
-        private void GridLayerOn_CheckedChanged(object sender, EventArgs e)
+        private void showGrid_CheckedChanged(object sender, EventArgs e)
         {
             triangulationGridPictureBox.Image = triangulationGridBitmap;
         }
@@ -153,7 +155,7 @@ namespace image_triangulation
 
                     pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPointsList);
-                    DrawOperations.PointsToBitmap(pivotPointsList, pivotPointsBitmap);
+                    DrawOperations.PixelsToBitmap(pivotPointsList, pivotPointsBitmap);
                     pivotPointsPictureBox.Image = pivotPointsBitmap;
 
                     // Выставляем элементы формы
@@ -162,7 +164,7 @@ namespace image_triangulation
                     showHideGridGroupBox.Enabled = false;
                     triangulationControlsGroupBox.Enabled = true;
                     shadingControlsGroupBox.Enabled = false;
-                    pivotPointsShow.Checked = true;
+                    showPivotPoints.Checked = true;
                     return;
             }
         }
@@ -177,30 +179,56 @@ namespace image_triangulation
                     resetShading();
                     resetTriangulation();
 
+                    SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
+                    DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
+                    triangulationGridPictureBox.Image = triangulationGridBitmap;
 
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = true;
+                    pPointsControlsGroupBox.Enabled = true;
+                    shadingControlsGroupBox.Enabled = true;
+                    showGrid.Checked = true;
+                    return;
+            }            
+        }
+
+        private void runShaderButton_Click(object sender, EventArgs e)
+        {
+            switch (shadersComboBox.SelectedIndex)
+            {
+                case 0:
+                    return;
+                case 1:
+                    resetShading();
+
+                    VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
+                    rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
+
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = true;
+                    pPointsControlsGroupBox.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = true;
                     return;
             }
+        }
 
-
-
-
-
-
-            Graphics gridCanvas = Graphics.FromImage(triangulationGridBitmap);
-
-            SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
-
-            DrawOperations.LinesToGraphics(triangulationSectionsList, gridCanvas);
-            triangulationGridPictureBox.Image = triangulationGridBitmap;
-
-
-
-
-
-
-            rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
-            VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
-            rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
+        private void pPMakersComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (pPMakersComboBox.SelectedIndex)
+            {
+                case 0:
+                    label7.Visible = false;
+                    pPMakerThresholdTextBox.Visible = false;
+                    return;
+                case 1:
+                    label7.Visible = true;
+                    pPMakerThresholdTextBox.Visible = true;
+                    return;
+            }
         }
 
         private void resetPivotPoints()
@@ -214,6 +242,7 @@ namespace image_triangulation
         private void resetTriangulation()
         {
             triangulationSectionsList.Clear();
+            trianglesHashSet.Clear();
             if (triangulationGridBitmap != null) triangulationGridBitmap.Dispose();
             triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
             triangulationGridPictureBox.Image = null;
@@ -221,7 +250,6 @@ namespace image_triangulation
 
         private void resetShading()
         {
-            trianglesHashSet.Clear();
             if (rebuiltPictureBitmap != null) rebuiltPictureBitmap.Dispose();
             rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
             rebuiltImagePictureBox.Image = null;

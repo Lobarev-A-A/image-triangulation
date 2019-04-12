@@ -32,15 +32,15 @@
             this.openPngButton = new System.Windows.Forms.Button();
             this.openPngFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.showHideImageGroupBox = new System.Windows.Forms.GroupBox();
-            this.originalImageHide = new System.Windows.Forms.RadioButton();
-            this.originalImageShow = new System.Windows.Forms.RadioButton();
+            this.hideOriginalImage = new System.Windows.Forms.RadioButton();
+            this.showOriginalImage = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pivotPointsHide = new System.Windows.Forms.RadioButton();
-            this.pivotPointsShow = new System.Windows.Forms.RadioButton();
+            this.hidePivotPoints = new System.Windows.Forms.RadioButton();
+            this.showPivotPoints = new System.Windows.Forms.RadioButton();
             this.showHidePPointsGroupBox = new System.Windows.Forms.GroupBox();
-            this.gridHide = new System.Windows.Forms.RadioButton();
-            this.gridShow = new System.Windows.Forms.RadioButton();
+            this.hideGrid = new System.Windows.Forms.RadioButton();
+            this.showGrid = new System.Windows.Forms.RadioButton();
             this.showHideGridGroupBox = new System.Windows.Forms.GroupBox();
             this.runTriangulationButton = new System.Windows.Forms.Button();
             this.runPPMakerButton = new System.Windows.Forms.Button();
@@ -89,7 +89,7 @@
             this.openPngButton.TabIndex = 12;
             this.openPngButton.Text = "Открыть .png";
             this.openPngButton.UseVisualStyleBackColor = true;
-            this.openPngButton.Click += new System.EventHandler(this.OpenImageButton_Click);
+            this.openPngButton.Click += new System.EventHandler(this.openPngButton_Click);
             // 
             // openPngFileDialog
             // 
@@ -97,8 +97,8 @@
             // 
             // showHideImageGroupBox
             // 
-            this.showHideImageGroupBox.Controls.Add(this.originalImageHide);
-            this.showHideImageGroupBox.Controls.Add(this.originalImageShow);
+            this.showHideImageGroupBox.Controls.Add(this.hideOriginalImage);
+            this.showHideImageGroupBox.Controls.Add(this.showOriginalImage);
             this.showHideImageGroupBox.Location = new System.Drawing.Point(7, 578);
             this.showHideImageGroupBox.Name = "showHideImageGroupBox";
             this.showHideImageGroupBox.Size = new System.Drawing.Size(249, 34);
@@ -106,28 +106,28 @@
             this.showHideImageGroupBox.TabStop = false;
             this.showHideImageGroupBox.Text = "Изображение";
             // 
-            // originalImageHide
+            // hideOriginalImage
             // 
-            this.originalImageHide.AutoSize = true;
-            this.originalImageHide.Location = new System.Drawing.Point(209, 12);
-            this.originalImageHide.Name = "originalImageHide";
-            this.originalImageHide.Size = new System.Drawing.Size(17, 16);
-            this.originalImageHide.TabIndex = 1;
-            this.originalImageHide.TabStop = true;
-            this.originalImageHide.UseVisualStyleBackColor = true;
-            this.originalImageHide.CheckedChanged += new System.EventHandler(this.PictureLayerOff_CheckedChanged);
+            this.hideOriginalImage.AutoSize = true;
+            this.hideOriginalImage.Location = new System.Drawing.Point(209, 12);
+            this.hideOriginalImage.Name = "hideOriginalImage";
+            this.hideOriginalImage.Size = new System.Drawing.Size(17, 16);
+            this.hideOriginalImage.TabIndex = 1;
+            this.hideOriginalImage.TabStop = true;
+            this.hideOriginalImage.UseVisualStyleBackColor = true;
+            this.hideOriginalImage.CheckedChanged += new System.EventHandler(this.hideOriginalImage_CheckedChanged);
             // 
-            // originalImageShow
+            // showOriginalImage
             // 
-            this.originalImageShow.AutoSize = true;
-            this.originalImageShow.Checked = true;
-            this.originalImageShow.Location = new System.Drawing.Point(141, 12);
-            this.originalImageShow.Name = "originalImageShow";
-            this.originalImageShow.Size = new System.Drawing.Size(17, 16);
-            this.originalImageShow.TabIndex = 0;
-            this.originalImageShow.TabStop = true;
-            this.originalImageShow.UseVisualStyleBackColor = true;
-            this.originalImageShow.CheckedChanged += new System.EventHandler(this.PictureLayerOn_CheckedChanged);
+            this.showOriginalImage.AutoSize = true;
+            this.showOriginalImage.Checked = true;
+            this.showOriginalImage.Location = new System.Drawing.Point(141, 12);
+            this.showOriginalImage.Name = "showOriginalImage";
+            this.showOriginalImage.Size = new System.Drawing.Size(17, 16);
+            this.showOriginalImage.TabIndex = 0;
+            this.showOriginalImage.TabStop = true;
+            this.showOriginalImage.UseVisualStyleBackColor = true;
+            this.showOriginalImage.CheckedChanged += new System.EventHandler(this.showOriginalImage_CheckedChanged);
             // 
             // label1
             // 
@@ -147,33 +147,33 @@
             this.label2.TabIndex = 16;
             this.label2.Text = "Скрыть";
             // 
-            // pivotPointsHide
+            // hidePivotPoints
             // 
-            this.pivotPointsHide.AutoSize = true;
-            this.pivotPointsHide.Location = new System.Drawing.Point(209, 12);
-            this.pivotPointsHide.Name = "pivotPointsHide";
-            this.pivotPointsHide.Size = new System.Drawing.Size(17, 16);
-            this.pivotPointsHide.TabIndex = 1;
-            this.pivotPointsHide.TabStop = true;
-            this.pivotPointsHide.UseVisualStyleBackColor = true;
-            this.pivotPointsHide.CheckedChanged += new System.EventHandler(this.PointsLayerOff_CheckedChanged);
+            this.hidePivotPoints.AutoSize = true;
+            this.hidePivotPoints.Location = new System.Drawing.Point(209, 12);
+            this.hidePivotPoints.Name = "hidePivotPoints";
+            this.hidePivotPoints.Size = new System.Drawing.Size(17, 16);
+            this.hidePivotPoints.TabIndex = 1;
+            this.hidePivotPoints.TabStop = true;
+            this.hidePivotPoints.UseVisualStyleBackColor = true;
+            this.hidePivotPoints.CheckedChanged += new System.EventHandler(this.hidePivotPoints_CheckedChanged);
             // 
-            // pivotPointsShow
+            // showPivotPoints
             // 
-            this.pivotPointsShow.AutoSize = true;
-            this.pivotPointsShow.Checked = true;
-            this.pivotPointsShow.Location = new System.Drawing.Point(141, 12);
-            this.pivotPointsShow.Name = "pivotPointsShow";
-            this.pivotPointsShow.Size = new System.Drawing.Size(17, 16);
-            this.pivotPointsShow.TabIndex = 0;
-            this.pivotPointsShow.TabStop = true;
-            this.pivotPointsShow.UseVisualStyleBackColor = true;
-            this.pivotPointsShow.CheckedChanged += new System.EventHandler(this.PointsLayerOn_CheckedChanged);
+            this.showPivotPoints.AutoSize = true;
+            this.showPivotPoints.Checked = true;
+            this.showPivotPoints.Location = new System.Drawing.Point(141, 12);
+            this.showPivotPoints.Name = "showPivotPoints";
+            this.showPivotPoints.Size = new System.Drawing.Size(17, 16);
+            this.showPivotPoints.TabIndex = 0;
+            this.showPivotPoints.TabStop = true;
+            this.showPivotPoints.UseVisualStyleBackColor = true;
+            this.showPivotPoints.CheckedChanged += new System.EventHandler(this.showPivotPoints_CheckedChanged);
             // 
             // showHidePPointsGroupBox
             // 
-            this.showHidePPointsGroupBox.Controls.Add(this.pivotPointsHide);
-            this.showHidePPointsGroupBox.Controls.Add(this.pivotPointsShow);
+            this.showHidePPointsGroupBox.Controls.Add(this.hidePivotPoints);
+            this.showHidePPointsGroupBox.Controls.Add(this.showPivotPoints);
             this.showHidePPointsGroupBox.Location = new System.Drawing.Point(7, 624);
             this.showHidePPointsGroupBox.Name = "showHidePPointsGroupBox";
             this.showHidePPointsGroupBox.Size = new System.Drawing.Size(249, 34);
@@ -181,33 +181,33 @@
             this.showHidePPointsGroupBox.TabStop = false;
             this.showHidePPointsGroupBox.Text = "Опорные точки";
             // 
-            // gridHide
+            // hideGrid
             // 
-            this.gridHide.AutoSize = true;
-            this.gridHide.Location = new System.Drawing.Point(209, 12);
-            this.gridHide.Name = "gridHide";
-            this.gridHide.Size = new System.Drawing.Size(17, 16);
-            this.gridHide.TabIndex = 1;
-            this.gridHide.TabStop = true;
-            this.gridHide.UseVisualStyleBackColor = true;
-            this.gridHide.CheckedChanged += new System.EventHandler(this.GridLayerOff_CheckedChanged);
+            this.hideGrid.AutoSize = true;
+            this.hideGrid.Location = new System.Drawing.Point(209, 12);
+            this.hideGrid.Name = "hideGrid";
+            this.hideGrid.Size = new System.Drawing.Size(17, 16);
+            this.hideGrid.TabIndex = 1;
+            this.hideGrid.TabStop = true;
+            this.hideGrid.UseVisualStyleBackColor = true;
+            this.hideGrid.CheckedChanged += new System.EventHandler(this.hideGrid_CheckedChanged);
             // 
-            // gridShow
+            // showGrid
             // 
-            this.gridShow.AutoSize = true;
-            this.gridShow.Checked = true;
-            this.gridShow.Location = new System.Drawing.Point(141, 12);
-            this.gridShow.Name = "gridShow";
-            this.gridShow.Size = new System.Drawing.Size(17, 16);
-            this.gridShow.TabIndex = 0;
-            this.gridShow.TabStop = true;
-            this.gridShow.UseVisualStyleBackColor = true;
-            this.gridShow.CheckedChanged += new System.EventHandler(this.GridLayerOn_CheckedChanged);
+            this.showGrid.AutoSize = true;
+            this.showGrid.Checked = true;
+            this.showGrid.Location = new System.Drawing.Point(141, 12);
+            this.showGrid.Name = "showGrid";
+            this.showGrid.Size = new System.Drawing.Size(17, 16);
+            this.showGrid.TabIndex = 0;
+            this.showGrid.TabStop = true;
+            this.showGrid.UseVisualStyleBackColor = true;
+            this.showGrid.CheckedChanged += new System.EventHandler(this.showGrid_CheckedChanged);
             // 
             // showHideGridGroupBox
             // 
-            this.showHideGridGroupBox.Controls.Add(this.gridHide);
-            this.showHideGridGroupBox.Controls.Add(this.gridShow);
+            this.showHideGridGroupBox.Controls.Add(this.hideGrid);
+            this.showHideGridGroupBox.Controls.Add(this.showGrid);
             this.showHideGridGroupBox.Location = new System.Drawing.Point(7, 670);
             this.showHideGridGroupBox.Name = "showHideGridGroupBox";
             this.showHideGridGroupBox.Size = new System.Drawing.Size(249, 34);
@@ -259,6 +259,7 @@
             this.pPMakersComboBox.Name = "pPMakersComboBox";
             this.pPMakersComboBox.Size = new System.Drawing.Size(143, 24);
             this.pPMakersComboBox.TabIndex = 22;
+            this.pPMakersComboBox.SelectedIndexChanged += new System.EventHandler(this.pPMakersComboBox_SelectedIndexChanged);
             // 
             // triangulationsComboBox
             // 
@@ -286,6 +287,7 @@
             this.runShaderButton.TabIndex = 25;
             this.runShaderButton.Text = "Выполнить";
             this.runShaderButton.UseVisualStyleBackColor = true;
+            this.runShaderButton.Click += new System.EventHandler(this.runShaderButton_Click);
             // 
             // pPointsControlsGroupBox
             // 
@@ -452,15 +454,15 @@
         private System.Windows.Forms.Button openPngButton;
         private System.Windows.Forms.OpenFileDialog openPngFileDialog;
         private System.Windows.Forms.GroupBox showHideImageGroupBox;
-        private System.Windows.Forms.RadioButton originalImageHide;
-        private System.Windows.Forms.RadioButton originalImageShow;
+        private System.Windows.Forms.RadioButton hideOriginalImage;
+        private System.Windows.Forms.RadioButton showOriginalImage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton pivotPointsHide;
-        private System.Windows.Forms.RadioButton pivotPointsShow;
+        private System.Windows.Forms.RadioButton hidePivotPoints;
+        private System.Windows.Forms.RadioButton showPivotPoints;
         private System.Windows.Forms.GroupBox showHidePPointsGroupBox;
-        private System.Windows.Forms.RadioButton gridHide;
-        private System.Windows.Forms.RadioButton gridShow;
+        private System.Windows.Forms.RadioButton hideGrid;
+        private System.Windows.Forms.RadioButton showGrid;
         private System.Windows.Forms.GroupBox showHideGridGroupBox;
         private System.Windows.Forms.Button runTriangulationButton;
         private System.Windows.Forms.Button runPPMakerButton;
