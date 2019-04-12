@@ -51,11 +51,15 @@
             this.shadersComboBox = new System.Windows.Forms.ComboBox();
             this.runShaderButton = new System.Windows.Forms.Button();
             this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.triangulationControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.shadingControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.openTButton = new System.Windows.Forms.Button();
@@ -291,6 +295,7 @@
             // 
             // pPointsControlsGroupBox
             // 
+            this.pPointsControlsGroupBox.Controls.Add(this.label8);
             this.pPointsControlsGroupBox.Controls.Add(this.label7);
             this.pPointsControlsGroupBox.Controls.Add(this.label3);
             this.pPointsControlsGroupBox.Controls.Add(this.pPMakersComboBox);
@@ -302,6 +307,15 @@
             this.pPointsControlsGroupBox.TabIndex = 26;
             this.pPointsControlsGroupBox.TabStop = false;
             this.pPointsControlsGroupBox.Text = "Опорные точки";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(145, 126);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(46, 17);
+            this.label8.TabIndex = 25;
+            this.label8.Text = "label8";
             // 
             // label7
             // 
@@ -317,12 +331,13 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 126);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(169, 17);
+            this.label3.Size = new System.Drawing.Size(163, 17);
             this.label3.TabIndex = 23;
-            this.label3.Text = "Время выполнения, сек:";
+            this.label3.Text = "Время выполнения, мс:";
             // 
             // triangulationControlsGroupBox
             // 
+            this.triangulationControlsGroupBox.Controls.Add(this.label9);
             this.triangulationControlsGroupBox.Controls.Add(this.label4);
             this.triangulationControlsGroupBox.Controls.Add(this.runTriangulationButton);
             this.triangulationControlsGroupBox.Controls.Add(this.triangulationsComboBox);
@@ -333,17 +348,28 @@
             this.triangulationControlsGroupBox.TabStop = false;
             this.triangulationControlsGroupBox.Text = "Триангуляция";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(145, 126);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(46, 17);
+            this.label9.TabIndex = 26;
+            this.label9.Text = "label9";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 126);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(169, 17);
+            this.label4.Size = new System.Drawing.Size(163, 17);
             this.label4.TabIndex = 24;
-            this.label4.Text = "Время выполнения, сек:";
+            this.label4.Text = "Время выполнения, мс:";
             // 
             // shadingControlsGroupBox
             // 
+            this.shadingControlsGroupBox.Controls.Add(this.label11);
+            this.shadingControlsGroupBox.Controls.Add(this.label10);
             this.shadingControlsGroupBox.Controls.Add(this.label6);
             this.shadingControlsGroupBox.Controls.Add(this.label5);
             this.shadingControlsGroupBox.Controls.Add(this.shadersComboBox);
@@ -355,14 +381,32 @@
             this.shadingControlsGroupBox.TabStop = false;
             this.shadingControlsGroupBox.Text = "Закраска";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(47, 105);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 17);
+            this.label11.TabIndex = 26;
+            this.label11.Text = "label11";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(145, 126);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 17);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "label10";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 126);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(169, 17);
+            this.label6.Size = new System.Drawing.Size(163, 17);
             this.label6.TabIndex = 27;
-            this.label6.Text = "Время выполнения, сек:";
+            this.label6.Text = "Время выполнения, мс:";
             // 
             // label5
             // 
@@ -484,6 +528,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.OpenFileDialog openTFileDialog;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
     }
 }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 // TO DO
@@ -57,6 +57,10 @@ namespace image_triangulation
             shadingControlsGroupBox.Enabled = false;
             label7.Visible = false;
             pPMakerThresholdTextBox.Visible = false;
+            label8.Text = "";
+            label9.Text = "";
+            label10.Text = "";
+            label11.Text = "";
 
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
@@ -110,6 +114,9 @@ namespace image_triangulation
             showHideImageGroupBox.Enabled = true;
             pPointsControlsGroupBox.Enabled = true;
             showOriginalImage.Checked = true;
+            label8.Text = "";
+            label9.Text = "";
+            label10.Text = "";
         }
 
         private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
@@ -154,7 +161,10 @@ namespace image_triangulation
                     resetPivotPoints();
 
                     pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    Stopwatch sw = Stopwatch.StartNew();
                     SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPointsList);
+                    sw.Stop();
+                    label8.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.PixelsToBitmap(pivotPointsList, pivotPointsBitmap);
                     pivotPointsPictureBox.Image = pivotPointsBitmap;
 
@@ -165,6 +175,8 @@ namespace image_triangulation
                     triangulationControlsGroupBox.Enabled = true;
                     shadingControlsGroupBox.Enabled = false;
                     showPivotPoints.Checked = true;
+                    label9.Text = "";
+                    label10.Text = "";
                     return;
             }
         }
@@ -179,7 +191,10 @@ namespace image_triangulation
                     resetShading();
                     resetTriangulation();
 
+                    Stopwatch sw = Stopwatch.StartNew();
                     SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
+                    sw.Stop();
+                    label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
                     triangulationGridPictureBox.Image = triangulationGridBitmap;
 
@@ -190,6 +205,7 @@ namespace image_triangulation
                     pPointsControlsGroupBox.Enabled = true;
                     shadingControlsGroupBox.Enabled = true;
                     showGrid.Checked = true;
+                    label10.Text = "";
                     return;
             }            
         }
@@ -203,7 +219,10 @@ namespace image_triangulation
                 case 1:
                     resetShading();
 
+                    Stopwatch sw = Stopwatch.StartNew();
                     VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
+                    sw.Stop();
+                    label10.Text = sw.ElapsedMilliseconds.ToString();                    
                     rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
 
                     // Выставляем элементы формы
