@@ -66,6 +66,7 @@
             this.saveInPngButton = new System.Windows.Forms.Button();
             this.saveInTButton = new System.Windows.Forms.Button();
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.thresholdLimitsLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -295,6 +296,7 @@
             // 
             // pPointsControlsGroupBox
             // 
+            this.pPointsControlsGroupBox.Controls.Add(this.thresholdLimitsLabel);
             this.pPointsControlsGroupBox.Controls.Add(this.label8);
             this.pPointsControlsGroupBox.Controls.Add(this.label7);
             this.pPointsControlsGroupBox.Controls.Add(this.label3);
@@ -451,6 +453,15 @@
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
             // 
+            // thresholdLimitsLabel
+            // 
+            this.thresholdLimitsLabel.AutoSize = true;
+            this.thresholdLimitsLabel.Location = new System.Drawing.Point(157, 52);
+            this.thresholdLimitsLabel.Name = "thresholdLimitsLabel";
+            this.thresholdLimitsLabel.Size = new System.Drawing.Size(70, 17);
+            this.thresholdLimitsLabel.TabIndex = 26;
+            this.thresholdLimitsLabel.Text = "(0.0...1.0)";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -532,6 +543,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label thresholdLimitsLabel;
     }
 }
 

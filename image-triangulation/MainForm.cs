@@ -242,10 +242,12 @@ namespace image_triangulation
                 case 0:
                     label7.Visible = false;
                     pPMakerThresholdTextBox.Visible = false;
+                    thresholdLimitsLabel.Visible = false;
                     return;
                 case 1:
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
+                    thresholdLimitsLabel.Visible = true;
                     return;
             }
         }
