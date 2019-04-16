@@ -60,7 +60,7 @@ namespace image_triangulation
             label8.Text = "";
             label9.Text = "";
             label10.Text = "";
-            label11.Text = "";
+            standartDeviationLabel.Text = "";
 
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
@@ -117,6 +117,7 @@ namespace image_triangulation
             label8.Text = "";
             label9.Text = "";
             label10.Text = "";
+            standartDeviationLabel.Text = "";
         }
 
         private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
@@ -177,6 +178,7 @@ namespace image_triangulation
                     showPivotPoints.Checked = true;
                     label9.Text = "";
                     label10.Text = "";
+                    standartDeviationLabel.Text = "";
                     return;
             }
         }
@@ -206,6 +208,7 @@ namespace image_triangulation
                     shadingControlsGroupBox.Enabled = true;
                     showGrid.Checked = true;
                     label10.Text = "";
+                    standartDeviationLabel.Text = "";
                     return;
             }            
         }
@@ -224,6 +227,8 @@ namespace image_triangulation
                     sw.Stop();
                     label10.Text = sw.ElapsedMilliseconds.ToString();                    
                     rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
+
+                    standartDeviationLabel.Text = StandartDeviation.Run(originalPictureBitmap, rebuiltPictureBitmap).ToString();
 
                     // Выставляем элементы формы
                     showHideImageGroupBox.Enabled = true;

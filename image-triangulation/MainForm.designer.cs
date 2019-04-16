@@ -58,7 +58,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.shadingControlsGroupBox = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.standartDeviationLabel = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -370,7 +370,7 @@
             // 
             // shadingControlsGroupBox
             // 
-            this.shadingControlsGroupBox.Controls.Add(this.label11);
+            this.shadingControlsGroupBox.Controls.Add(this.standartDeviationLabel);
             this.shadingControlsGroupBox.Controls.Add(this.label10);
             this.shadingControlsGroupBox.Controls.Add(this.label6);
             this.shadingControlsGroupBox.Controls.Add(this.label5);
@@ -383,14 +383,14 @@
             this.shadingControlsGroupBox.TabStop = false;
             this.shadingControlsGroupBox.Text = "Закраска";
             // 
-            // label11
+            // standartDeviationLabel
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(47, 105);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(54, 17);
-            this.label11.TabIndex = 26;
-            this.label11.Text = "label11";
+            this.standartDeviationLabel.AutoSize = true;
+            this.standartDeviationLabel.Location = new System.Drawing.Point(47, 105);
+            this.standartDeviationLabel.Name = "standartDeviationLabel";
+            this.standartDeviationLabel.Size = new System.Drawing.Size(54, 17);
+            this.standartDeviationLabel.TabIndex = 26;
+            this.standartDeviationLabel.Text = "label11";
             // 
             // label10
             // 
@@ -456,7 +456,7 @@
             // thresholdLimitsLabel
             // 
             this.thresholdLimitsLabel.AutoSize = true;
-            this.thresholdLimitsLabel.Location = new System.Drawing.Point(157, 52);
+            this.thresholdLimitsLabel.Location = new System.Drawing.Point(154, 52);
             this.thresholdLimitsLabel.Name = "thresholdLimitsLabel";
             this.thresholdLimitsLabel.Size = new System.Drawing.Size(70, 17);
             this.thresholdLimitsLabel.TabIndex = 26;
@@ -541,7 +541,7 @@
         private System.Windows.Forms.OpenFileDialog openTFileDialog;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label standartDeviationLabel;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label thresholdLimitsLabel;
     }
