@@ -67,6 +67,7 @@
             this.saveInTButton = new System.Windows.Forms.Button();
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.thresholdLimitsLabel = new System.Windows.Forms.Label();
+            this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -95,10 +96,6 @@
             this.openPngButton.Text = "Открыть .png";
             this.openPngButton.UseVisualStyleBackColor = true;
             this.openPngButton.Click += new System.EventHandler(this.openPngButton_Click);
-            // 
-            // openPngFileDialog
-            // 
-            this.openPngFileDialog.FileName = "openFileDialog1";
             // 
             // showHideImageGroupBox
             // 
@@ -431,13 +428,13 @@
             // 
             // saveInPngButton
             // 
-            this.saveInPngButton.Enabled = false;
             this.saveInPngButton.Location = new System.Drawing.Point(275, 5);
             this.saveInPngButton.Name = "saveInPngButton";
             this.saveInPngButton.Size = new System.Drawing.Size(130, 30);
             this.saveInPngButton.TabIndex = 30;
             this.saveInPngButton.Text = "Сохранить в .png";
             this.saveInPngButton.UseVisualStyleBackColor = true;
+            this.saveInPngButton.Click += new System.EventHandler(this.SaveInPngButton_Click);
             // 
             // saveInTButton
             // 
@@ -544,6 +541,7 @@
         private System.Windows.Forms.Label standartDeviationLabel;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label thresholdLimitsLabel;
+        private System.Windows.Forms.SaveFileDialog savePngFileDialog;
     }
 }
 

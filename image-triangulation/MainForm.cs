@@ -8,6 +8,7 @@ using System.Windows.Forms;
 // * Пройтись по освобождению памяти
 // * Проверить нейминг методов
 // * Валидация вводимых с клавиатуры значений
+// * Обработать попытку перезаписи открытого файла
 namespace image_triangulation
 {
     public partial class MainForm : Form
@@ -33,7 +34,8 @@ namespace image_triangulation
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            openPngFileDialog.Filter = "PNG files (*.png)|*.png";
+            openPngFileDialog.Filter = "PNG file (*.png)|*.png";
+            savePngFileDialog.Filter = "PNG file (*.png)|*.png";
 
             // Инициализируем comboBox'ы
             pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
@@ -45,7 +47,6 @@ namespace image_triangulation
 
             // Блокируем элементы формы с нереализованным функционалом
             openTButton.Enabled = false;
-            saveInPngButton.Enabled = false;
             saveInTButton.Enabled = false;
 
             // Выставляем элементы формы
@@ -61,6 +62,7 @@ namespace image_triangulation
             label9.Text = "";
             label10.Text = "";
             standartDeviationLabel.Text = "";
+            saveInPngButton.Enabled = false;
 
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
@@ -98,8 +100,7 @@ namespace image_triangulation
 
         private void openPngButton_Click(object sender, EventArgs e)
         {
-            if (openPngFileDialog.ShowDialog() == DialogResult.Cancel)
-                return;
+            if (openPngFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
             resetPivotPoints();
             resetTriangulation();
@@ -118,6 +119,7 @@ namespace image_triangulation
             label9.Text = "";
             label10.Text = "";
             standartDeviationLabel.Text = "";
+            saveInPngButton.Enabled = false;
         }
 
         private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
@@ -179,6 +181,7 @@ namespace image_triangulation
                     label9.Text = "";
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
+                    saveInPngButton.Enabled = false;
                     return;
             }
         }
@@ -209,6 +212,7 @@ namespace image_triangulation
                     showGrid.Checked = true;
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
+                    saveInPngButton.Enabled = false;
                     return;
             }            
         }
@@ -236,6 +240,7 @@ namespace image_triangulation
                     showHideGridGroupBox.Enabled = true;
                     pPointsControlsGroupBox.Enabled = true;
                     triangulationControlsGroupBox.Enabled = true;
+                    saveInPngButton.Enabled = true;
                     return;
             }
         }
@@ -255,6 +260,13 @@ namespace image_triangulation
                     thresholdLimitsLabel.Visible = true;
                     return;
             }
+        }
+
+        private void SaveInPngButton_Click(object sender, EventArgs e)
+        {
+            if (savePngFileDialog.ShowDialog() == DialogResult.Cancel) return;
+
+            rebuiltPictureBitmap.Save(savePngFileDialog.FileName);
         }
 
         private void resetPivotPoints()
