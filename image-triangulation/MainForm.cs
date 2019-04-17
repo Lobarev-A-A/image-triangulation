@@ -36,6 +36,7 @@ namespace image_triangulation
         {
             openPngFileDialog.Filter = "PNG file (*.png)|*.png";
             savePngFileDialog.Filter = "PNG file (*.png)|*.png";
+            saveTFileDialog.Filter = "T file (*.t)|*.t";
 
             // Инициализируем comboBox'ы
             pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
@@ -47,7 +48,6 @@ namespace image_triangulation
 
             // Блокируем элементы формы с нереализованным функционалом
             openTButton.Enabled = false;
-            saveInTButton.Enabled = false;
 
             // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
@@ -267,6 +267,13 @@ namespace image_triangulation
             if (savePngFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
             rebuiltPictureBitmap.Save(savePngFileDialog.FileName);
+        }
+
+        private void SaveInTButton_Click(object sender, EventArgs e)
+        {
+            if (saveTFileDialog.ShowDialog() == DialogResult.Cancel) return;
+
+            TExtension.Save(trianglesHashSet, saveTFileDialog.FileName, shadersComboBox.SelectedIndex);
         }
 
         private void resetPivotPoints()

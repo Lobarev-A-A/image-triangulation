@@ -51,6 +51,7 @@
             this.shadersComboBox = new System.Windows.Forms.ComboBox();
             this.runShaderButton = new System.Windows.Forms.Button();
             this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.thresholdLimitsLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -66,8 +67,8 @@
             this.saveInPngButton = new System.Windows.Forms.Button();
             this.saveInTButton = new System.Windows.Forms.Button();
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.thresholdLimitsLabel = new System.Windows.Forms.Label();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -307,6 +308,15 @@
             this.pPointsControlsGroupBox.TabStop = false;
             this.pPointsControlsGroupBox.Text = "Опорные точки";
             // 
+            // thresholdLimitsLabel
+            // 
+            this.thresholdLimitsLabel.AutoSize = true;
+            this.thresholdLimitsLabel.Location = new System.Drawing.Point(154, 52);
+            this.thresholdLimitsLabel.Name = "thresholdLimitsLabel";
+            this.thresholdLimitsLabel.Size = new System.Drawing.Size(70, 17);
+            this.thresholdLimitsLabel.TabIndex = 26;
+            this.thresholdLimitsLabel.Text = "(0.0...1.0)";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -438,26 +448,17 @@
             // 
             // saveInTButton
             // 
-            this.saveInTButton.Enabled = false;
             this.saveInTButton.Location = new System.Drawing.Point(410, 5);
             this.saveInTButton.Name = "saveInTButton";
             this.saveInTButton.Size = new System.Drawing.Size(130, 30);
             this.saveInTButton.TabIndex = 31;
             this.saveInTButton.Text = "Сохранить в .t";
             this.saveInTButton.UseVisualStyleBackColor = true;
+            this.saveInTButton.Click += new System.EventHandler(this.SaveInTButton_Click);
             // 
             // openTFileDialog
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
-            // 
-            // thresholdLimitsLabel
-            // 
-            this.thresholdLimitsLabel.AutoSize = true;
-            this.thresholdLimitsLabel.Location = new System.Drawing.Point(154, 52);
-            this.thresholdLimitsLabel.Name = "thresholdLimitsLabel";
-            this.thresholdLimitsLabel.Size = new System.Drawing.Size(70, 17);
-            this.thresholdLimitsLabel.TabIndex = 26;
-            this.thresholdLimitsLabel.Text = "(0.0...1.0)";
             // 
             // MainForm
             // 
@@ -542,6 +543,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label thresholdLimitsLabel;
         private System.Windows.Forms.SaveFileDialog savePngFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveTFileDialog;
     }
 }
 
