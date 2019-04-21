@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 
 // TO DO
-// * Пройтись по освобождению памяти
+// * Пройтись по использованию памяти (using (разобраться с неуправляемыми ресурсами))
 // * Проверить нейминг методов
 // * Валидация вводимых с клавиатуры значений
 // * Обработать попытку перезаписи открытого файла
@@ -48,6 +48,7 @@ namespace image_triangulation
 
             // Блокируем элементы формы с нереализованным функционалом
             openTButton.Enabled = false;
+            saveInTButton.Enabled = false;
 
             // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
@@ -197,7 +198,7 @@ namespace image_triangulation
                     resetTriangulation();
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    SimpleIterativeTriangulation.MakeTriangulation(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
+                    SimpleIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);

@@ -18,7 +18,7 @@ namespace image_triangulation
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
 
-        public static void MakeTriangulation(List<Pixel> pivotPoints, List<Section> outputTriangulation,
+        public static void Run(List<Pixel> pivotPoints, List<Section> outputTriangulation,
                                              HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap)
         {           
             Initialization(outputTriangles, originalImageBitmap);

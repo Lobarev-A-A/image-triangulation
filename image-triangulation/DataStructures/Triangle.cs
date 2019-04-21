@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+// TO DO
+// * Добавить функцию клонирования треугольника
 namespace image_triangulation
 {
     class Triangle

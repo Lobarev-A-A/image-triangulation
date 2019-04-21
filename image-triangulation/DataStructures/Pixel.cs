@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// TO DO
+// * Написать функцию сравнения
 namespace image_triangulation
 {
     public class Pixel
