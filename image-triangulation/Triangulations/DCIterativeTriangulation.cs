@@ -72,6 +72,7 @@ namespace image_triangulation
             dynamicCache[0].Add(newTriangle0);
             dynamicCache[1].Add(newTriangle1);
             dynamicCache[1].Add(newTriangle1);
+            curTriangle = newTriangle0;
         }
 
         /// <summary>
@@ -81,11 +82,18 @@ namespace image_triangulation
         private static void AddPoints(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
             long numberOfAddedPoints = 4;
+            float delta;
+            Pixel previousPoint = pivotPoints[0];
 
             foreach (Pixel curPoint in pivotPoints)
             {
-                // Выбор треугольника из кэша
-                curTriangle = dynamicCache[curPoint.X / (512 / dynamicCache[0].Count)][curPoint.Y / (512 / dynamicCache.Count)];
+                delta = 512 / dynamicCache[0].Count;
+                if (Geometry.Distance(previousPoint, curPoint) > delta)
+                {
+                    // Выбор треугольника из кэша
+                    curTriangle = dynamicCache[curPoint.X / (512 / dynamicCache[0].Count)][curPoint.Y / (512 / dynamicCache.Count)];
+                }
+                previousPoint = curPoint;
 
                 int i;
                 // Цикл локализации точки (пока точка не попадёт в текущий треугольник либо на его границу)
