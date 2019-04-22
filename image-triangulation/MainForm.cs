@@ -26,6 +26,9 @@ namespace image_triangulation
         PictureBox triangulationGridPictureBox;
 
         float pPMakerThreshold;
+        float coefOfCacheExpand;
+
+        Stopwatch sw;
 
         public MainForm()
         {
@@ -41,7 +44,7 @@ namespace image_triangulation
             // Инициализируем comboBox'ы
             pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
             pPMakersComboBox.SelectedIndex = 0;
-            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation" });
+            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation", "DCIterativeTriangulation" });
             triangulationsComboBox.SelectedIndex = 0;
             shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
             shadersComboBox.SelectedIndex = 0;
@@ -57,13 +60,11 @@ namespace image_triangulation
             pPointsControlsGroupBox.Enabled = false;
             triangulationControlsGroupBox.Enabled = false;
             shadingControlsGroupBox.Enabled = false;
-            label7.Visible = false;
-            pPMakerThresholdTextBox.Visible = false;
             label8.Text = "";
             label9.Text = "";
             label10.Text = "";
             standartDeviationLabel.Text = "";
-            saveInPngButton.Enabled = false;
+            saveInPngButton.Enabled = false;            
 
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
@@ -165,7 +166,7 @@ namespace image_triangulation
                     resetPivotPoints();
 
                     pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
-                    Stopwatch sw = Stopwatch.StartNew();
+                    sw = Stopwatch.StartNew();
                     SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPointsList);
                     sw.Stop();
                     label8.Text = sw.ElapsedMilliseconds.ToString();
@@ -188,7 +189,7 @@ namespace image_triangulation
         }
 
         private void RunTriangulation_Click(object sender, EventArgs e)
-        {
+        {            
             switch (triangulationsComboBox.SelectedIndex)
             {
                 case 0:
@@ -197,8 +198,31 @@ namespace image_triangulation
                     resetShading();
                     resetTriangulation();
 
-                    Stopwatch sw = Stopwatch.StartNew();
+                    sw = Stopwatch.StartNew();
                     SimpleIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
+                    sw.Stop();
+                    label9.Text = sw.ElapsedMilliseconds.ToString();
+                    DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
+                    triangulationGridPictureBox.Image = triangulationGridBitmap;
+
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = true;
+                    pPointsControlsGroupBox.Enabled = true;
+                    shadingControlsGroupBox.Enabled = true;
+                    showGrid.Checked = true;
+                    label10.Text = "";
+                    standartDeviationLabel.Text = "";
+                    saveInPngButton.Enabled = false;
+                    return;
+                case 2:
+                    resetShading();
+                    resetTriangulation();
+
+                    coefOfCacheExpand = float.Parse(coefOfCacheExpandTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    sw = Stopwatch.StartNew();
+                    DCIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, coefOfCacheExpand);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
@@ -258,7 +282,31 @@ namespace image_triangulation
                 case 1:
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
+                    pPMakerThresholdTextBox.Text = "0.1";
                     thresholdLimitsLabel.Visible = true;
+                    return;
+            }
+        }
+
+        private void TriangulationsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (triangulationsComboBox.SelectedIndex)
+            {
+                case 0:
+                    coefOfCacheExpandLabel.Visible = false;
+                    coefOfCacheExpandTextBox.Visible = false;
+                    coefOfCacheExpandRecomendLabel.Visible = false;
+                    return;
+                case 1:
+                    coefOfCacheExpandLabel.Visible = false;
+                    coefOfCacheExpandTextBox.Visible = false;
+                    coefOfCacheExpandRecomendLabel.Visible = false;
+                    return;
+                case 2:
+                    coefOfCacheExpandLabel.Visible = true;
+                    coefOfCacheExpandTextBox.Visible = true;
+                    coefOfCacheExpandTextBox.Text = "5";
+                    coefOfCacheExpandRecomendLabel.Visible = true;
                     return;
             }
         }

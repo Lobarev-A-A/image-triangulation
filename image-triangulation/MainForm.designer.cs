@@ -69,6 +69,9 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.coefOfCacheExpandLabel = new System.Windows.Forms.Label();
+            this.coefOfCacheExpandTextBox = new System.Windows.Forms.TextBox();
+            this.coefOfCacheExpandRecomendLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -272,6 +275,7 @@
             this.triangulationsComboBox.Name = "triangulationsComboBox";
             this.triangulationsComboBox.Size = new System.Drawing.Size(143, 24);
             this.triangulationsComboBox.TabIndex = 23;
+            this.triangulationsComboBox.SelectedIndexChanged += new System.EventHandler(this.TriangulationsComboBox_SelectedIndexChanged);
             // 
             // shadersComboBox
             // 
@@ -311,7 +315,7 @@
             // thresholdLimitsLabel
             // 
             this.thresholdLimitsLabel.AutoSize = true;
-            this.thresholdLimitsLabel.Location = new System.Drawing.Point(154, 52);
+            this.thresholdLimitsLabel.Location = new System.Drawing.Point(154, 54);
             this.thresholdLimitsLabel.Name = "thresholdLimitsLabel";
             this.thresholdLimitsLabel.Size = new System.Drawing.Size(70, 17);
             this.thresholdLimitsLabel.TabIndex = 26;
@@ -329,7 +333,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 52);
+            this.label7.Location = new System.Drawing.Point(6, 54);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(51, 17);
             this.label7.TabIndex = 24;
@@ -346,6 +350,9 @@
             // 
             // triangulationControlsGroupBox
             // 
+            this.triangulationControlsGroupBox.Controls.Add(this.coefOfCacheExpandRecomendLabel);
+            this.triangulationControlsGroupBox.Controls.Add(this.coefOfCacheExpandTextBox);
+            this.triangulationControlsGroupBox.Controls.Add(this.coefOfCacheExpandLabel);
             this.triangulationControlsGroupBox.Controls.Add(this.label9);
             this.triangulationControlsGroupBox.Controls.Add(this.label4);
             this.triangulationControlsGroupBox.Controls.Add(this.runTriangulationButton);
@@ -460,6 +467,30 @@
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
             // 
+            // coefOfCacheExpandLabel
+            // 
+            this.coefOfCacheExpandLabel.Location = new System.Drawing.Point(6, 52);
+            this.coefOfCacheExpandLabel.Name = "coefOfCacheExpandLabel";
+            this.coefOfCacheExpandLabel.Size = new System.Drawing.Size(152, 34);
+            this.coefOfCacheExpandLabel.TabIndex = 27;
+            this.coefOfCacheExpandLabel.Text = "Коэффициент роста динамического кэша:";
+            // 
+            // coefOfCacheExpandTextBox
+            // 
+            this.coefOfCacheExpandTextBox.Location = new System.Drawing.Point(127, 58);
+            this.coefOfCacheExpandTextBox.Name = "coefOfCacheExpandTextBox";
+            this.coefOfCacheExpandTextBox.Size = new System.Drawing.Size(50, 22);
+            this.coefOfCacheExpandTextBox.TabIndex = 28;
+            // 
+            // coefOfCacheExpandRecomendLabel
+            // 
+            this.coefOfCacheExpandRecomendLabel.AutoSize = true;
+            this.coefOfCacheExpandRecomendLabel.Location = new System.Drawing.Point(185, 63);
+            this.coefOfCacheExpandRecomendLabel.Name = "coefOfCacheExpandRecomendLabel";
+            this.coefOfCacheExpandRecomendLabel.Size = new System.Drawing.Size(83, 17);
+            this.coefOfCacheExpandRecomendLabel.TabIndex = 29;
+            this.coefOfCacheExpandRecomendLabel.Text = "рек-ся 3...8";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -544,6 +575,9 @@
         private System.Windows.Forms.Label thresholdLimitsLabel;
         private System.Windows.Forms.SaveFileDialog savePngFileDialog;
         private System.Windows.Forms.SaveFileDialog saveTFileDialog;
+        private System.Windows.Forms.Label coefOfCacheExpandLabel;
+        private System.Windows.Forms.TextBox coefOfCacheExpandTextBox;
+        private System.Windows.Forms.Label coefOfCacheExpandRecomendLabel;
     }
 }
 
