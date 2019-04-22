@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace image_triangulation
 {
-    class Geometry
+    static class Geometry
     {
         // Косое произведение векторов
         // po начало координат, p1 – координата первого вектора, p2 – координата второго вектора
@@ -144,6 +144,17 @@ namespace image_triangulation
             return ScalarProduct(p1.Y - p2.Y, p2.X - p1.X, p3.X - p1.X, p3.Y - p1.Y);
         }
 
+        /// <summary>
+        /// Возвращает расстояние между точками.
+        /// </summary>
+        /// <param name="p1">Первая точка.</param>
+        /// <param name="p2">Вторая точка.</param>
+        /// <returns>Расстояние.</returns>
+        public static double Distance(Pixel p1, Pixel p2)
+        {
+            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+        }
+        
         // Проверяет, пересекаются ли отрезки (касающиеся обрабатываются как непересекающиеся)
         public static bool Crosses(Section s1, Section s2)
         {
