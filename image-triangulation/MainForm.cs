@@ -27,6 +27,7 @@ namespace image_triangulation
 
         float pPMakerThreshold;
         float coefOfCacheExpand;
+        float stripingFactor;
 
         Stopwatch sw;
 
@@ -44,7 +45,8 @@ namespace image_triangulation
             // Инициализируем comboBox'ы
             pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
             pPMakersComboBox.SelectedIndex = 0;
-            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation", "DCIterativeTriangulation" });
+            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation",
+                                                                 "DCIterativeTriangulation", "StripIterativeTriangulation" });
             triangulationsComboBox.SelectedIndex = 0;
             shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
             shadersComboBox.SelectedIndex = 0;
@@ -239,6 +241,29 @@ namespace image_triangulation
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     return;
+                case 3:
+                    resetShading();
+                    resetTriangulation();
+
+                    stripingFactor = float.Parse(stripingFactorTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    sw = Stopwatch.StartNew();
+                    StripIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, stripingFactor);
+                    sw.Stop();
+                    label9.Text = sw.ElapsedMilliseconds.ToString();
+                    DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
+                    triangulationGridPictureBox.Image = triangulationGridBitmap;
+
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = true;
+                    pPointsControlsGroupBox.Enabled = true;
+                    shadingControlsGroupBox.Enabled = true;
+                    showGrid.Checked = true;
+                    label10.Text = "";
+                    standartDeviationLabel.Text = "";
+                    saveInPngButton.Enabled = false;
+                    return;
             }            
         }
 
@@ -296,17 +321,39 @@ namespace image_triangulation
                     coefOfCacheExpandLabel.Visible = false;
                     coefOfCacheExpandTextBox.Visible = false;
                     coefOfCacheExpandRecomendLabel.Visible = false;
+
+                    stripingFactorLabel.Visible = false;
+                    stripingFactorTextBox.Visible = false;
+                    stripingFactorRecomendLabel.Visible = false;
                     return;
                 case 1:
                     coefOfCacheExpandLabel.Visible = false;
                     coefOfCacheExpandTextBox.Visible = false;
                     coefOfCacheExpandRecomendLabel.Visible = false;
+
+                    stripingFactorLabel.Visible = false;
+                    stripingFactorTextBox.Visible = false;
+                    stripingFactorRecomendLabel.Visible = false;
                     return;
                 case 2:
+                    coefOfCacheExpandTextBox.Text = "5";
                     coefOfCacheExpandLabel.Visible = true;
                     coefOfCacheExpandTextBox.Visible = true;
-                    coefOfCacheExpandTextBox.Text = "5";
                     coefOfCacheExpandRecomendLabel.Visible = true;
+
+                    stripingFactorLabel.Visible = false;
+                    stripingFactorTextBox.Visible = false;
+                    stripingFactorRecomendLabel.Visible = false;
+                    return;
+                case 3:
+                    coefOfCacheExpandLabel.Visible = false;
+                    coefOfCacheExpandTextBox.Visible = false;
+                    coefOfCacheExpandRecomendLabel.Visible = false;
+
+                    stripingFactorTextBox.Text = "0.17";
+                    stripingFactorLabel.Visible = true;
+                    stripingFactorTextBox.Visible = true;
+                    stripingFactorRecomendLabel.Visible = true;
                     return;
             }
         }

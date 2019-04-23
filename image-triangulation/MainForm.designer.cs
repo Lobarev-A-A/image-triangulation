@@ -56,6 +56,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.triangulationControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.coefOfCacheExpandRecomendLabel = new System.Windows.Forms.Label();
+            this.coefOfCacheExpandTextBox = new System.Windows.Forms.TextBox();
+            this.coefOfCacheExpandLabel = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.shadingControlsGroupBox = new System.Windows.Forms.GroupBox();
@@ -69,9 +72,9 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.coefOfCacheExpandLabel = new System.Windows.Forms.Label();
-            this.coefOfCacheExpandTextBox = new System.Windows.Forms.TextBox();
-            this.coefOfCacheExpandRecomendLabel = new System.Windows.Forms.Label();
+            this.stripingFactorRecomendLabel = new System.Windows.Forms.Label();
+            this.stripingFactorTextBox = new System.Windows.Forms.TextBox();
+            this.stripingFactorLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -350,6 +353,9 @@
             // 
             // triangulationControlsGroupBox
             // 
+            this.triangulationControlsGroupBox.Controls.Add(this.stripingFactorRecomendLabel);
+            this.triangulationControlsGroupBox.Controls.Add(this.stripingFactorTextBox);
+            this.triangulationControlsGroupBox.Controls.Add(this.stripingFactorLabel);
             this.triangulationControlsGroupBox.Controls.Add(this.coefOfCacheExpandRecomendLabel);
             this.triangulationControlsGroupBox.Controls.Add(this.coefOfCacheExpandTextBox);
             this.triangulationControlsGroupBox.Controls.Add(this.coefOfCacheExpandLabel);
@@ -363,6 +369,30 @@
             this.triangulationControlsGroupBox.TabIndex = 27;
             this.triangulationControlsGroupBox.TabStop = false;
             this.triangulationControlsGroupBox.Text = "Триангуляция";
+            // 
+            // coefOfCacheExpandRecomendLabel
+            // 
+            this.coefOfCacheExpandRecomendLabel.AutoSize = true;
+            this.coefOfCacheExpandRecomendLabel.Location = new System.Drawing.Point(199, 63);
+            this.coefOfCacheExpandRecomendLabel.Name = "coefOfCacheExpandRecomendLabel";
+            this.coefOfCacheExpandRecomendLabel.Size = new System.Drawing.Size(67, 17);
+            this.coefOfCacheExpandRecomendLabel.TabIndex = 29;
+            this.coefOfCacheExpandRecomendLabel.Text = "рек. 3...8";
+            // 
+            // coefOfCacheExpandTextBox
+            // 
+            this.coefOfCacheExpandTextBox.Location = new System.Drawing.Point(127, 58);
+            this.coefOfCacheExpandTextBox.Name = "coefOfCacheExpandTextBox";
+            this.coefOfCacheExpandTextBox.Size = new System.Drawing.Size(64, 22);
+            this.coefOfCacheExpandTextBox.TabIndex = 28;
+            // 
+            // coefOfCacheExpandLabel
+            // 
+            this.coefOfCacheExpandLabel.Location = new System.Drawing.Point(6, 52);
+            this.coefOfCacheExpandLabel.Name = "coefOfCacheExpandLabel";
+            this.coefOfCacheExpandLabel.Size = new System.Drawing.Size(152, 34);
+            this.coefOfCacheExpandLabel.TabIndex = 27;
+            this.coefOfCacheExpandLabel.Text = "Коэффициент роста динамического кэша:";
             // 
             // label9
             // 
@@ -467,29 +497,29 @@
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
             // 
-            // coefOfCacheExpandLabel
+            // stripingFactorRecomendLabel
             // 
-            this.coefOfCacheExpandLabel.Location = new System.Drawing.Point(6, 52);
-            this.coefOfCacheExpandLabel.Name = "coefOfCacheExpandLabel";
-            this.coefOfCacheExpandLabel.Size = new System.Drawing.Size(152, 34);
-            this.coefOfCacheExpandLabel.TabIndex = 27;
-            this.coefOfCacheExpandLabel.Text = "Коэффициент роста динамического кэша:";
+            this.stripingFactorRecomendLabel.AutoSize = true;
+            this.stripingFactorRecomendLabel.Location = new System.Drawing.Point(169, 75);
+            this.stripingFactorRecomendLabel.Name = "stripingFactorRecomendLabel";
+            this.stripingFactorRecomendLabel.Size = new System.Drawing.Size(107, 17);
+            this.stripingFactorRecomendLabel.TabIndex = 32;
+            this.stripingFactorRecomendLabel.Text = "рек. 0.15...0.19";
             // 
-            // coefOfCacheExpandTextBox
+            // stripingFactorTextBox
             // 
-            this.coefOfCacheExpandTextBox.Location = new System.Drawing.Point(127, 58);
-            this.coefOfCacheExpandTextBox.Name = "coefOfCacheExpandTextBox";
-            this.coefOfCacheExpandTextBox.Size = new System.Drawing.Size(50, 22);
-            this.coefOfCacheExpandTextBox.TabIndex = 28;
+            this.stripingFactorTextBox.Location = new System.Drawing.Point(90, 70);
+            this.stripingFactorTextBox.Name = "stripingFactorTextBox";
+            this.stripingFactorTextBox.Size = new System.Drawing.Size(71, 22);
+            this.stripingFactorTextBox.TabIndex = 31;
             // 
-            // coefOfCacheExpandRecomendLabel
+            // stripingFactorLabel
             // 
-            this.coefOfCacheExpandRecomendLabel.AutoSize = true;
-            this.coefOfCacheExpandRecomendLabel.Location = new System.Drawing.Point(185, 63);
-            this.coefOfCacheExpandRecomendLabel.Name = "coefOfCacheExpandRecomendLabel";
-            this.coefOfCacheExpandRecomendLabel.Size = new System.Drawing.Size(83, 17);
-            this.coefOfCacheExpandRecomendLabel.TabIndex = 29;
-            this.coefOfCacheExpandRecomendLabel.Text = "рек-ся 3...8";
+            this.stripingFactorLabel.Location = new System.Drawing.Point(6, 52);
+            this.stripingFactorLabel.Name = "stripingFactorLabel";
+            this.stripingFactorLabel.Size = new System.Drawing.Size(102, 51);
+            this.stripingFactorLabel.TabIndex = 30;
+            this.stripingFactorLabel.Text = "Коэффициент разбиения на полосы:";
             // 
             // MainForm
             // 
@@ -578,6 +608,9 @@
         private System.Windows.Forms.Label coefOfCacheExpandLabel;
         private System.Windows.Forms.TextBox coefOfCacheExpandTextBox;
         private System.Windows.Forms.Label coefOfCacheExpandRecomendLabel;
+        private System.Windows.Forms.Label stripingFactorRecomendLabel;
+        private System.Windows.Forms.TextBox stripingFactorTextBox;
+        private System.Windows.Forms.Label stripingFactorLabel;
     }
 }
 
