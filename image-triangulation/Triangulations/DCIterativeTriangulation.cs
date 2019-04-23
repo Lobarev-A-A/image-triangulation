@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * Проверить дублирование стартовых точек триангуляции во входном списке точек
 // * Распространить на изображения произвольного разрешения
 // * В DelanayBuilder можно не создавать каждый раз новые bufTriangle
 // * Каша с использованием буферных треугольников при создании новых (не использовать буферные для cur и cur2)
@@ -81,6 +80,13 @@ namespace image_triangulation
         /// <param name="pivotPoints">Список опорных точек</param>
         private static void AddPoints(Dictionary<float, Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
+            // Удаляем из словаря точки, которыми инициировалась триангуляция, если они там есть
+            Pixel[] initPixels = { new Pixel(0, 0), new Pixel(0, 511), new Pixel(511, 511), new Pixel(0, 511) };
+            for (int i = 0; i < 4; ++i)
+            {
+                if (pivotPoints.ContainsKey(initPixels[i].GetHashCode())) pivotPoints.Remove(initPixels[i].GetHashCode());
+            }
+
             long numberOfAddedPoints = 4;
             float delta;
             Pixel previousPoint = new Pixel(0, 0);

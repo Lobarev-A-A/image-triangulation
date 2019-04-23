@@ -18,6 +18,14 @@ namespace image_triangulation
                                              HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap, float stripingFactor)
         {
             Striping(pivotPoints, stripingFactor);
+
+            // Удаляем из словаря точки, которыми инициировалась триангуляция, если они там есть
+            Pixel[] initPixels = { new Pixel(0, 0), new Pixel(0, 511), new Pixel(511, 511), new Pixel(0, 511) };
+            for (int i = 0; i < 4; ++i)
+            {
+                if (pivotPoints.ContainsKey(initPixels[i].GetHashCode())) pivotPoints.Remove(initPixels[i].GetHashCode());
+            }
+
             SimpleIterativeTriangulation.Run(pivotPointsList, outputTriangulation, outputTriangles, originalImageBitmap);
         }
 

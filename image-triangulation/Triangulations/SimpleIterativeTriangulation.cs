@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * Проверить дублирование стартовых точек триангуляции во входном списке точек
 // * Рефактор с учётом вывода множества треугольников
 // * Распространить на изображения произвольного разрешения
 namespace image_triangulation
@@ -80,6 +79,13 @@ namespace image_triangulation
         /// <param name="pivotPoints">Список опорных точек</param>
         private static void AddPoints(Dictionary<float, Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
         {
+            // Удаляем из словаря точки, которыми инициировалась триангуляция, если они там есть
+            Pixel[] initPixels = { new Pixel(0, 0), new Pixel(0, 511), new Pixel(511, 511), new Pixel(0, 511) };
+            for (int i = 0; i < 4; ++i)
+            {
+                if (pivotPoints.ContainsKey(initPixels[i].GetHashCode())) pivotPoints.Remove(initPixels[i].GetHashCode());
+            }
+
             foreach (Pixel curPoint in pivotPoints.Values)
             {
                 int i;
