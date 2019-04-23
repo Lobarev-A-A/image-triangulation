@@ -12,15 +12,16 @@ namespace image_triangulation
     static class StripIterativeTriangulation
     {
         static List<List<Pixel>> Stripes = new List<List<Pixel>>();
+        static List<Pixel> pivotPointsList = new List<Pixel>();
 
-        public static void Run(List<Pixel> pivotPoints, List<Section> outputTriangulation,
+        public static void Run(Dictionary<float, Pixel> pivotPoints, List<Section> outputTriangulation,
                                              HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap, float stripingFactor)
         {
             Striping(pivotPoints, stripingFactor);
-            SimpleIterativeTriangulation.Run(pivotPoints, outputTriangulation, outputTriangles, originalImageBitmap);
+            SimpleIterativeTriangulation.Run(pivotPointsList, outputTriangulation, outputTriangles, originalImageBitmap);
         }
 
-        private static void Striping(List<Pixel> pivotPoints, float stripingFactor)
+        private static void Striping(Dictionary<float, Pixel> pivotPoints, float stripingFactor)
         {
             Stripes.Clear();
             int numberOfStripes = (int)Math.Sqrt((stripingFactor * 512 * pivotPoints.Count) / 512);
@@ -29,7 +30,7 @@ namespace image_triangulation
             for (int i = 0; i < numberOfStripes; ++i) {
                 Stripes.Add(new List<Pixel>());
             }
-            foreach (Pixel p in pivotPoints)
+            foreach (Pixel p in pivotPoints.Values)
             {
                 Stripes[(int)(p.X / (512.0 / numberOfStripes))].Add(p);
             }
@@ -42,10 +43,10 @@ namespace image_triangulation
             }
 
             // Склеиваем полоски в один массив
-            pivotPoints.Clear();
+            pivotPointsList.Clear();
             for (int i = 0; i < numberOfStripes; ++i)
             {
-                pivotPoints.AddRange(Stripes[i]);
+                pivotPointsList.AddRange(Stripes[i]);
             }
         }
     }

@@ -18,10 +18,11 @@ namespace image_triangulation
         Bitmap triangulationGridBitmap;
         Bitmap rebuiltPictureBitmap;
 
-        List<Pixel> pivotPointsList = new List<Pixel>();
+        //List<Pixel> pivotPointsList = new List<Pixel>();
+        Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
         List<Section> triangulationSectionsList = new List<Section>();
         HashSet<Triangle> trianglesHashSet = new HashSet<Triangle>();
-
+        
         PictureBox pivotPointsPictureBox;
         PictureBox triangulationGridPictureBox;
 
@@ -169,10 +170,10 @@ namespace image_triangulation
 
                     pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPointsList);
+                    SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPoints);
                     sw.Stop();
                     label8.Text = sw.ElapsedMilliseconds.ToString();
-                    DrawOperations.PixelsToBitmap(pivotPointsList, pivotPointsBitmap);
+                    DrawOperations.PixelsToBitmap(pivotPoints, pivotPointsBitmap);
                     pivotPointsPictureBox.Image = pivotPointsBitmap;
 
                     // Выставляем элементы формы
@@ -201,7 +202,7 @@ namespace image_triangulation
                     resetTriangulation();
 
                     sw = Stopwatch.StartNew();
-                    SimpleIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
+                    SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
@@ -224,7 +225,7 @@ namespace image_triangulation
 
                     coefOfCacheExpand = float.Parse(coefOfCacheExpandTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    DCIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, coefOfCacheExpand);
+                    DCIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, coefOfCacheExpand);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
@@ -247,7 +248,7 @@ namespace image_triangulation
 
                     stripingFactor = float.Parse(stripingFactorTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    StripIterativeTriangulation.Run(pivotPointsList, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, stripingFactor);
+                    StripIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, stripingFactor);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
@@ -374,7 +375,7 @@ namespace image_triangulation
 
         private void resetPivotPoints()
         {
-            pivotPointsList.Clear();
+            pivotPoints.Clear();
             if (pivotPointsBitmap != null) pivotPointsBitmap.Dispose();
             pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
             pivotPointsPictureBox.Image = null;

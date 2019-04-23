@@ -37,7 +37,7 @@ namespace image_triangulation
 
         public new float GetHashCode()
         {
-            float hash = Y;
+            float hash = Y * 10 + 1;
             while (hash >= 1) hash /= 10;
             return hash + X;
         }

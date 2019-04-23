@@ -20,7 +20,7 @@ namespace image_triangulation
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
         static List<List<Triangle>> dynamicCache = new List<List<Triangle>>();
 
-        public static void Run(List<Pixel> pivotPoints, List<Section> outputTriangulation,
+        public static void Run(Dictionary<float, Pixel> pivotPoints, List<Section> outputTriangulation,
                                              HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap, float coefOfCacheExpand)
         {
             Initialization(outputTriangles, originalImageBitmap);
@@ -79,13 +79,13 @@ namespace image_triangulation
         /// Добавляет узлы в триангуляцию
         /// </summary>
         /// <param name="pivotPoints">Список опорных точек</param>
-        private static void AddPoints(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
+        private static void AddPoints(Dictionary<float, Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
             long numberOfAddedPoints = 4;
             float delta;
-            Pixel previousPoint = pivotPoints[0];
+            Pixel previousPoint = new Pixel(0, 0);
 
-            foreach (Pixel curPoint in pivotPoints)
+            foreach (Pixel curPoint in pivotPoints.Values)
             {
                 delta = 512 / dynamicCache[0].Count;
                 if (Geometry.Distance(previousPoint, curPoint) > delta)

@@ -23,7 +23,7 @@ namespace image_triangulation
         /// <param name="sourceImage">Изображение, на котором требуется выбрать опорные точки.</param>
         /// <param name="threshold">Порог чувствительности.</param>
         /// <param name="pivotPoints">Ссылка, по которой будет сформирован список опорных точек.</param>
-        public static void Run(Bitmap sourceImage, float threshold, List<Pixel> pivotPoints)
+        public static void Run(Bitmap sourceImage, float threshold, Dictionary<float, Pixel> pivotPoints)
         {
             int outerLoopEndPixel = sourceImage.Height - 4;
             int innerLoopEndPixel = sourceImage.Width - 4;
@@ -40,11 +40,11 @@ namespace image_triangulation
                     // Проверка пикселя минимальной яркости
                     bufPixel = MinBrightPixel(sourceImage, j, i);
                     minBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
-                    if ((averageBright - minBright) >= threshold) pivotPoints.Add(bufPixel);
+                    if ((averageBright - minBright) >= threshold) pivotPoints.Add(bufPixel.GetHashCode(), bufPixel);
                     // Проверка пикселя максимальной яркости
                     bufPixel = MaxBrightPixel(sourceImage, j, i);
                     maxBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
-                    if ((maxBright - averageBright) >= threshold) pivotPoints.Add(bufPixel);
+                    if ((maxBright - averageBright) >= threshold) pivotPoints.Add(bufPixel.GetHashCode(), bufPixel);
                 }
             }
         }
