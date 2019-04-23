@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 // * Написать функцию сравнения
 namespace image_triangulation
 {
-    public class Pixel
+    public class Pixel : IEquatable<Pixel>
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -25,6 +25,19 @@ namespace image_triangulation
             this.X = X;
             this.Y = Y;
             this.brightness = brightness;
+        }
+
+        public bool Equals(Pixel pixel)
+        {
+            if (pixel == null) return false;
+
+            if (pixel.X == X && pixel.Y == Y) return true;
+            else return false;
+        }
+
+        public new float GetHashCode()
+        {
+            
         }
     }
 
