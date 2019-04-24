@@ -132,9 +132,26 @@ namespace image_triangulation
             resetPivotPoints();
             resetTriangulation();
             resetShading();
-            // функция открывания файла
+
+            int shaderIndex = TExtension.Open(pivotPoints, openTFileDialog.FileName);
+            SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet);
+            VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
+            rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
 
             // Выставляем элементы формы
+            showHideImageGroupBox.Enabled = false;
+            showHidePPointsGroupBox.Enabled = false;
+            showHideGridGroupBox.Enabled = false;
+            pPointsControlsGroupBox.Enabled = false;
+            triangulationControlsGroupBox.Enabled = false;
+            shadingControlsGroupBox.Enabled = false;
+            label8.Text = "";
+            label9.Text = "";
+            label10.Text = "";
+            standartDeviationLabel.Text = "";
+            saveInPngButton.Enabled = true;
+            saveInTButton.Enabled = false;
+            originalImagePictureBox.Image = null;
         }
 
         private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)

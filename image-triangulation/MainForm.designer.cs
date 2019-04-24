@@ -489,7 +489,6 @@
             // 
             // openTButton
             // 
-            this.openTButton.Enabled = false;
             this.openTButton.Location = new System.Drawing.Point(140, 5);
             this.openTButton.Name = "openTButton";
             this.openTButton.Size = new System.Drawing.Size(130, 30);

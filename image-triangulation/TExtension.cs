@@ -39,9 +39,32 @@ namespace image_triangulation
             File.Delete(path + "~");
         }
 
-        public static void Open(Dictionary<float, Pixel> pivotPoints, string path)
+        public static int Open(Dictionary<float, Pixel> pivotPoints, string path)
         {
+            using (FileStream compressionFileReader = new FileStream(path, FileMode.Open))
+            {
+                using (FileStream tmpFileWriter = new FileStream(path + "~", FileMode.Create))
+                {
+                    using (GZipStream decompressionStream = new GZipStream(compressionFileReader, CompressionMode.Decompress))
+                    {
+                        decompressionStream.CopyTo(tmpFileWriter);
+                    }
+                }
+            }
 
+            int shaderIndex;
+            using (BinaryReader tmpFileReader = new BinaryReader(File.OpenRead(path + "~")))
+            {
+                shaderIndex = tmpFileReader.ReadByte();
+                while (tmpFileReader.BaseStream.Position != tmpFileReader.BaseStream.Length)
+                {
+                    Pixel pixel = new Pixel(tmpFileReader.ReadInt16(), tmpFileReader.ReadInt16(), tmpFileReader.ReadSingle());
+                    pivotPoints.Add(pixel.GetHashCode(), pixel);
+                }
+            }
+
+            File.Delete(path + "~");
+            return shaderIndex;
         }
     }
 }
