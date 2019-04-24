@@ -41,6 +41,7 @@ namespace image_triangulation
             openPngFileDialog.Filter = "PNG file (*.png)|*.png";
             savePngFileDialog.Filter = "PNG file (*.png)|*.png";
             saveTFileDialog.Filter = "T file (*.t)|*.t";
+            openTFileDialog.Filter = "T file (*.t)|*.t";
 
             // Инициализируем comboBox'ы
             pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
@@ -50,9 +51,6 @@ namespace image_triangulation
             triangulationsComboBox.SelectedIndex = 0;
             shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
             shadersComboBox.SelectedIndex = 0;
-
-            // Блокируем элементы формы с нереализованным функционалом
-            openTButton.Enabled = false;
 
             // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
@@ -125,6 +123,18 @@ namespace image_triangulation
             standartDeviationLabel.Text = "";
             saveInPngButton.Enabled = false;
             saveInTButton.Enabled = false;
+        }
+
+        private void OpenTButton_Click(object sender, EventArgs e)
+        {
+            if (openTFileDialog.ShowDialog() == DialogResult.Cancel) return;
+
+            resetPivotPoints();
+            resetTriangulation();
+            resetShading();
+            // функция открывания файла
+
+            // Выставляем элементы формы
         }
 
         private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
@@ -203,7 +213,7 @@ namespace image_triangulation
                     resetTriangulation();
 
                     sw = Stopwatch.StartNew();
-                    SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, originalPictureBitmap);
+                    SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
@@ -227,7 +237,7 @@ namespace image_triangulation
 
                     coefOfCacheExpand = float.Parse(coefOfCacheExpandTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    DCIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, coefOfCacheExpand);
+                    DCIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, coefOfCacheExpand);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
@@ -251,7 +261,7 @@ namespace image_triangulation
 
                     stripingFactor = float.Parse(stripingFactorTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    StripIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, originalPictureBitmap, stripingFactor);
+                    StripIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet, stripingFactor);
                     sw.Stop();
                     label9.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);

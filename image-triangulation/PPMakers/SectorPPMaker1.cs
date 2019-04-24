@@ -32,6 +32,14 @@ namespace image_triangulation
             float maxBright;
             Pixel bufPixel;
 
+            // Записываем стартовые точки триангуляции
+            Pixel[] initPixels = { new Pixel(0, 0, sourceImage.GetPixel(0, 0).GetBrightness()), new Pixel(511, 0, sourceImage.GetPixel(511, 0).GetBrightness()),
+                                   new Pixel(511, 511, sourceImage.GetPixel(511, 511).GetBrightness()), new Pixel(0, 511, sourceImage.GetPixel(0, 511).GetBrightness()) };
+            for (byte i = 0; i < 4; ++i)
+            {
+                pivotPoints.Add(initPixels[i].GetHashCode(), initPixels[i]);
+            }
+
             for (int i = 0; i <= outerLoopEndPixel; i += 4)
             {
                 for (int j = 0; j <= innerLoopEndPixel; j += 4)
@@ -40,11 +48,11 @@ namespace image_triangulation
                     // Проверка пикселя минимальной яркости
                     bufPixel = MinBrightPixel(sourceImage, j, i);
                     minBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
-                    if ((averageBright - minBright) >= threshold) pivotPoints.Add(bufPixel.GetHashCode(), bufPixel);
+                    if ((averageBright - minBright) >= threshold) pivotPoints[bufPixel.GetHashCode()] = bufPixel;
                     // Проверка пикселя максимальной яркости
                     bufPixel = MaxBrightPixel(sourceImage, j, i);
                     maxBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
-                    if ((maxBright - averageBright) >= threshold) pivotPoints.Add(bufPixel.GetHashCode(), bufPixel);
+                    if ((maxBright - averageBright) >= threshold) pivotPoints[bufPixel.GetHashCode()] = bufPixel;
                 }
             }
         }

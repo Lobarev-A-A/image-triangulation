@@ -56,6 +56,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.triangulationControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.stripingFactorRecomendLabel = new System.Windows.Forms.Label();
+            this.stripingFactorTextBox = new System.Windows.Forms.TextBox();
+            this.stripingFactorLabel = new System.Windows.Forms.Label();
             this.coefOfCacheExpandRecomendLabel = new System.Windows.Forms.Label();
             this.coefOfCacheExpandTextBox = new System.Windows.Forms.TextBox();
             this.coefOfCacheExpandLabel = new System.Windows.Forms.Label();
@@ -72,9 +75,6 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.stripingFactorRecomendLabel = new System.Windows.Forms.Label();
-            this.stripingFactorTextBox = new System.Windows.Forms.TextBox();
-            this.stripingFactorLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -370,6 +370,30 @@
             this.triangulationControlsGroupBox.TabStop = false;
             this.triangulationControlsGroupBox.Text = "Триангуляция";
             // 
+            // stripingFactorRecomendLabel
+            // 
+            this.stripingFactorRecomendLabel.AutoSize = true;
+            this.stripingFactorRecomendLabel.Location = new System.Drawing.Point(169, 75);
+            this.stripingFactorRecomendLabel.Name = "stripingFactorRecomendLabel";
+            this.stripingFactorRecomendLabel.Size = new System.Drawing.Size(107, 17);
+            this.stripingFactorRecomendLabel.TabIndex = 32;
+            this.stripingFactorRecomendLabel.Text = "рек. 0.15...0.19";
+            // 
+            // stripingFactorTextBox
+            // 
+            this.stripingFactorTextBox.Location = new System.Drawing.Point(90, 70);
+            this.stripingFactorTextBox.Name = "stripingFactorTextBox";
+            this.stripingFactorTextBox.Size = new System.Drawing.Size(71, 22);
+            this.stripingFactorTextBox.TabIndex = 31;
+            // 
+            // stripingFactorLabel
+            // 
+            this.stripingFactorLabel.Location = new System.Drawing.Point(6, 52);
+            this.stripingFactorLabel.Name = "stripingFactorLabel";
+            this.stripingFactorLabel.Size = new System.Drawing.Size(102, 51);
+            this.stripingFactorLabel.TabIndex = 30;
+            this.stripingFactorLabel.Text = "Коэффициент разбиения на полосы:";
+            // 
             // coefOfCacheExpandRecomendLabel
             // 
             this.coefOfCacheExpandRecomendLabel.AutoSize = true;
@@ -472,6 +496,7 @@
             this.openTButton.TabIndex = 29;
             this.openTButton.Text = "Открыть .t";
             this.openTButton.UseVisualStyleBackColor = true;
+            this.openTButton.Click += new System.EventHandler(this.OpenTButton_Click);
             // 
             // saveInPngButton
             // 
@@ -496,30 +521,6 @@
             // openTFileDialog
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
-            // 
-            // stripingFactorRecomendLabel
-            // 
-            this.stripingFactorRecomendLabel.AutoSize = true;
-            this.stripingFactorRecomendLabel.Location = new System.Drawing.Point(169, 75);
-            this.stripingFactorRecomendLabel.Name = "stripingFactorRecomendLabel";
-            this.stripingFactorRecomendLabel.Size = new System.Drawing.Size(107, 17);
-            this.stripingFactorRecomendLabel.TabIndex = 32;
-            this.stripingFactorRecomendLabel.Text = "рек. 0.15...0.19";
-            // 
-            // stripingFactorTextBox
-            // 
-            this.stripingFactorTextBox.Location = new System.Drawing.Point(90, 70);
-            this.stripingFactorTextBox.Name = "stripingFactorTextBox";
-            this.stripingFactorTextBox.Size = new System.Drawing.Size(71, 22);
-            this.stripingFactorTextBox.TabIndex = 31;
-            // 
-            // stripingFactorLabel
-            // 
-            this.stripingFactorLabel.Location = new System.Drawing.Point(6, 52);
-            this.stripingFactorLabel.Name = "stripingFactorLabel";
-            this.stripingFactorLabel.Size = new System.Drawing.Size(102, 51);
-            this.stripingFactorLabel.TabIndex = 30;
-            this.stripingFactorLabel.Text = "Коэффициент разбиения на полосы:";
             // 
             // MainForm
             // 

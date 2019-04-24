@@ -38,5 +38,10 @@ namespace image_triangulation
             }
             File.Delete(path + "~");
         }
+
+        public static void Open(Dictionary<float, Pixel> pivotPoints, string path)
+        {
+
+        }
     }
 }

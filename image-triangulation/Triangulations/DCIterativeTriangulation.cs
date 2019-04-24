@@ -19,25 +19,33 @@ namespace image_triangulation
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
         static List<List<Triangle>> dynamicCache = new List<List<Triangle>>();
+        static Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
 
-        public static void Run(Dictionary<float, Pixel> pivotPoints, List<Section> outputTriangulation,
-                                             HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap, float coefOfCacheExpand)
+        public static void Run(Dictionary<float, Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
-            Initialization(outputTriangles, originalImageBitmap);
+            // Клонируем словарь опорных точек
+            pivotPoints.Clear();
+            foreach (Pixel pixel in outerPivotPoints.Values)
+            {
+                pivotPoints.Add(pixel.GetHashCode(), pixel);
+            }
+
+            Initialization(outputTriangles);
             AddPoints(pivotPoints, outputTriangles, coefOfCacheExpand);
             GetOut(outputTriangulation);
         }
 
-        private static void Initialization(HashSet<Triangle> outputTriangles, Bitmap originalImageBitmap)
+        private static void Initialization(HashSet<Triangle> outputTriangles)
         {
             edges.Clear();
 
-            Triangle newTriangle0 = new Triangle(new Pixel(0, 0, originalImageBitmap.GetPixel(0, 0).GetBrightness()),
-                                                 new Pixel(511, 0, originalImageBitmap.GetPixel(511, 0).GetBrightness()),
-                                                 new Pixel(511, 511, originalImageBitmap.GetPixel(511, 511).GetBrightness()));
-            Triangle newTriangle1 = new Triangle(new Pixel(0, 0, originalImageBitmap.GetPixel(0, 0).GetBrightness()),
-                                                 new Pixel(511, 511, originalImageBitmap.GetPixel(511, 511).GetBrightness()),
-                                                 new Pixel(0, 511, originalImageBitmap.GetPixel(0, 511).GetBrightness()));
+            Triangle newTriangle0 = new Triangle(pivotPoints[(float)0.1], pivotPoints[(float)511.1], pivotPoints[(float)511.5111]);
+            Triangle newTriangle1 = new Triangle(pivotPoints[(float)0.1], pivotPoints[(float)511.5111], pivotPoints[(float)0.5111]);
+            pivotPoints.Remove((float)0.1);
+            pivotPoints.Remove((float)511.1);
+            pivotPoints.Remove((float)511.5111);
+            pivotPoints.Remove((float)0.5111);
+
             outputTriangles.Add(newTriangle0);
             outputTriangles.Add(newTriangle1);
 
@@ -81,13 +89,6 @@ namespace image_triangulation
         /// <param name="pivotPoints">Список опорных точек</param>
         private static void AddPoints(Dictionary<float, Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
-            // Удаляем из словаря точки, которыми инициировалась триангуляция, если они там есть
-            Pixel[] initPixels = { new Pixel(0, 0), new Pixel(0, 511), new Pixel(511, 511), new Pixel(0, 511) };
-            for (int i = 0; i < 4; ++i)
-            {
-                if (pivotPoints.ContainsKey(initPixels[i].GetHashCode())) pivotPoints.Remove(initPixels[i].GetHashCode());
-            }
-
             long numberOfAddedPoints = 4;
             float delta;
             Pixel previousPoint = new Pixel(0, 0);
