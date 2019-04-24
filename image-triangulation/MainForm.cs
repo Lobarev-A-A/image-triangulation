@@ -18,7 +18,6 @@ namespace image_triangulation
         Bitmap triangulationGridBitmap;
         Bitmap rebuiltPictureBitmap;
 
-        //List<Pixel> pivotPointsList = new List<Pixel>();
         Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
         List<Section> triangulationSectionsList = new List<Section>();
         HashSet<Triangle> trianglesHashSet = new HashSet<Triangle>();
@@ -54,7 +53,6 @@ namespace image_triangulation
 
             // Блокируем элементы формы с нереализованным функционалом
             openTButton.Enabled = false;
-            saveInTButton.Enabled = false;
 
             // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
@@ -67,7 +65,8 @@ namespace image_triangulation
             label9.Text = "";
             label10.Text = "";
             standartDeviationLabel.Text = "";
-            saveInPngButton.Enabled = false;            
+            saveInPngButton.Enabled = false;
+            saveInTButton.Enabled = false;
 
             // создаём PictureBox для слоя с опорными точками
             pivotPointsPictureBox = new PictureBox
@@ -125,6 +124,7 @@ namespace image_triangulation
             label10.Text = "";
             standartDeviationLabel.Text = "";
             saveInPngButton.Enabled = false;
+            saveInTButton.Enabled = false;
         }
 
         private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
@@ -187,6 +187,7 @@ namespace image_triangulation
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
+                    saveInTButton.Enabled = true;
                     return;
             }
         }
@@ -218,6 +219,7 @@ namespace image_triangulation
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
+                    saveInTButton.Enabled = true;
                     return;
                 case 2:
                     resetShading();
@@ -241,6 +243,7 @@ namespace image_triangulation
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
+                    saveInTButton.Enabled = true;
                     return;
                 case 3:
                     resetShading();
@@ -264,6 +267,7 @@ namespace image_triangulation
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
+                    saveInTButton.Enabled = true;
                     return;
             }            
         }
@@ -292,6 +296,7 @@ namespace image_triangulation
                     pPointsControlsGroupBox.Enabled = true;
                     triangulationControlsGroupBox.Enabled = true;
                     saveInPngButton.Enabled = true;
+                    saveInTButton.Enabled = true;
                     return;
             }
         }
@@ -370,7 +375,7 @@ namespace image_triangulation
         {
             if (saveTFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
-            TExtension.Save(trianglesHashSet, saveTFileDialog.FileName, shadersComboBox.SelectedIndex);
+            TExtension.Save(pivotPoints, saveTFileDialog.FileName, shadersComboBox.SelectedIndex);
         }
 
         private void resetPivotPoints()

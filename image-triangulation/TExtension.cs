@@ -13,19 +13,16 @@ namespace image_triangulation
     /// </summary>
     static class TExtension
     {
-        public static void Save(HashSet<Triangle> triangles, string path, int shaderIndex)
+        public static void Save(Dictionary<float, Pixel> pivotPoints, string path, int shaderIndex)
         {
             using (BinaryWriter tmpFileWriter = new BinaryWriter(File.Create(path + "~")))
             {
                 tmpFileWriter.Write((byte)shaderIndex);
-                foreach (Triangle triangle in triangles)
+                foreach (Pixel pixel in pivotPoints.Values)
                 {
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        tmpFileWriter.Write((short)triangle.points[i].X);
-                        tmpFileWriter.Write((short)triangle.points[i].Y);
-                        tmpFileWriter.Write(triangle.points[i].brightness);
-                    }
+                    tmpFileWriter.Write((short)pixel.X);
+                    tmpFileWriter.Write((short)pixel.Y);
+                    tmpFileWriter.Write(pixel.brightness);
                 }
             }
 
