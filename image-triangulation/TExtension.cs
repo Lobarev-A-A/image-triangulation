@@ -13,11 +13,10 @@ namespace image_triangulation
     /// </summary>
     static class TExtension
     {
-        public static void Save(Dictionary<float, Pixel> pivotPoints, string path, int shaderIndex)
+        public static void Save(Dictionary<float, Pixel> pivotPoints, string path)
         {
             using (BinaryWriter tmpFileWriter = new BinaryWriter(File.Create(path + "~")))
             {
-                tmpFileWriter.Write((byte)shaderIndex);
                 foreach (Pixel pixel in pivotPoints.Values)
                 {
                     tmpFileWriter.Write((short)pixel.X);
@@ -39,7 +38,7 @@ namespace image_triangulation
             File.Delete(path + "~");
         }
 
-        public static int Open(Dictionary<float, Pixel> pivotPoints, string path)
+        public static void Open(Dictionary<float, Pixel> pivotPoints, string path)
         {
             using (FileStream compressionFileReader = new FileStream(path, FileMode.Open))
             {
@@ -52,10 +51,8 @@ namespace image_triangulation
                 }
             }
 
-            int shaderIndex;
             using (BinaryReader tmpFileReader = new BinaryReader(File.OpenRead(path + "~")))
             {
-                shaderIndex = tmpFileReader.ReadByte();
                 while (tmpFileReader.BaseStream.Position != tmpFileReader.BaseStream.Length)
                 {
                     Pixel pixel = new Pixel(tmpFileReader.ReadInt16(), tmpFileReader.ReadInt16(), tmpFileReader.ReadSingle());
@@ -64,7 +61,6 @@ namespace image_triangulation
             }
 
             File.Delete(path + "~");
-            return shaderIndex;
         }
     }
 }

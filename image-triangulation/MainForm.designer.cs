@@ -102,7 +102,7 @@
             this.openPngButton.TabIndex = 12;
             this.openPngButton.Text = "Открыть .png";
             this.openPngButton.UseVisualStyleBackColor = true;
-            this.openPngButton.Click += new System.EventHandler(this.openPngButton_Click);
+            this.openPngButton.Click += new System.EventHandler(this.OpenPngButton_Click);
             // 
             // showHideImageGroupBox
             // 
@@ -124,7 +124,7 @@
             this.hideOriginalImage.TabIndex = 1;
             this.hideOriginalImage.TabStop = true;
             this.hideOriginalImage.UseVisualStyleBackColor = true;
-            this.hideOriginalImage.CheckedChanged += new System.EventHandler(this.hideOriginalImage_CheckedChanged);
+            this.hideOriginalImage.CheckedChanged += new System.EventHandler(this.HideOriginalImage_CheckedChanged);
             // 
             // showOriginalImage
             // 
@@ -136,7 +136,7 @@
             this.showOriginalImage.TabIndex = 0;
             this.showOriginalImage.TabStop = true;
             this.showOriginalImage.UseVisualStyleBackColor = true;
-            this.showOriginalImage.CheckedChanged += new System.EventHandler(this.showOriginalImage_CheckedChanged);
+            this.showOriginalImage.CheckedChanged += new System.EventHandler(this.ShowOriginalImage_CheckedChanged);
             // 
             // label1
             // 
@@ -165,7 +165,7 @@
             this.hidePivotPoints.TabIndex = 1;
             this.hidePivotPoints.TabStop = true;
             this.hidePivotPoints.UseVisualStyleBackColor = true;
-            this.hidePivotPoints.CheckedChanged += new System.EventHandler(this.hidePivotPoints_CheckedChanged);
+            this.hidePivotPoints.CheckedChanged += new System.EventHandler(this.HidePivotPoints_CheckedChanged);
             // 
             // showPivotPoints
             // 
@@ -177,7 +177,7 @@
             this.showPivotPoints.TabIndex = 0;
             this.showPivotPoints.TabStop = true;
             this.showPivotPoints.UseVisualStyleBackColor = true;
-            this.showPivotPoints.CheckedChanged += new System.EventHandler(this.showPivotPoints_CheckedChanged);
+            this.showPivotPoints.CheckedChanged += new System.EventHandler(this.ShowPivotPoints_CheckedChanged);
             // 
             // showHidePPointsGroupBox
             // 
@@ -199,7 +199,7 @@
             this.hideGrid.TabIndex = 1;
             this.hideGrid.TabStop = true;
             this.hideGrid.UseVisualStyleBackColor = true;
-            this.hideGrid.CheckedChanged += new System.EventHandler(this.hideGrid_CheckedChanged);
+            this.hideGrid.CheckedChanged += new System.EventHandler(this.HideGrid_CheckedChanged);
             // 
             // showGrid
             // 
@@ -211,7 +211,7 @@
             this.showGrid.TabIndex = 0;
             this.showGrid.TabStop = true;
             this.showGrid.UseVisualStyleBackColor = true;
-            this.showGrid.CheckedChanged += new System.EventHandler(this.showGrid_CheckedChanged);
+            this.showGrid.CheckedChanged += new System.EventHandler(this.ShowGrid_CheckedChanged);
             // 
             // showHideGridGroupBox
             // 
@@ -242,7 +242,7 @@
             this.runPPMakerButton.TabIndex = 19;
             this.runPPMakerButton.Text = "Выполнить";
             this.runPPMakerButton.UseVisualStyleBackColor = true;
-            this.runPPMakerButton.Click += new System.EventHandler(this.runPPMakerButton_Click);
+            this.runPPMakerButton.Click += new System.EventHandler(this.RunPPMakerButton_Click);
             // 
             // pPMakerThresholdTextBox
             // 
@@ -268,7 +268,7 @@
             this.pPMakersComboBox.Name = "pPMakersComboBox";
             this.pPMakersComboBox.Size = new System.Drawing.Size(143, 24);
             this.pPMakersComboBox.TabIndex = 22;
-            this.pPMakersComboBox.SelectedIndexChanged += new System.EventHandler(this.pPMakersComboBox_SelectedIndexChanged);
+            this.pPMakersComboBox.SelectedIndexChanged += new System.EventHandler(this.PPMakersComboBox_SelectedIndexChanged);
             // 
             // triangulationsComboBox
             // 
@@ -297,7 +297,7 @@
             this.runShaderButton.TabIndex = 25;
             this.runShaderButton.Text = "Выполнить";
             this.runShaderButton.UseVisualStyleBackColor = true;
-            this.runShaderButton.Click += new System.EventHandler(this.runShaderButton_Click);
+            this.runShaderButton.Click += new System.EventHandler(this.RunShaderButton_Click);
             // 
             // pPointsControlsGroupBox
             // 

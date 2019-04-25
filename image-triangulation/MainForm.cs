@@ -9,6 +9,7 @@ using System.Windows.Forms;
 // * Проверить нейминг методов
 // * Валидация вводимых с клавиатуры значений
 // * Обработать попытку перезаписи открытого файла
+// * Решить, что использовать для отрисовки открываемого .t-файла
 namespace image_triangulation
 {
     public partial class MainForm : Form
@@ -100,14 +101,14 @@ namespace image_triangulation
         //    pivotPointsPictureBox.Image = pivotPointsBitmap;
         //}
 
-        private void openPngButton_Click(object sender, EventArgs e)
+        private void OpenPngButton_Click(object sender, EventArgs e)
         {
             if (openPngFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
-            resetPivotPoints();
-            resetTriangulation();
-            resetShading();
-            setNewSourcePng();
+            ResetPivotPoints();
+            ResetTriangulation();
+            ResetShading();
+            SetNewSourcePng();
 
             // Выставляем элементы формы
             showHidePPointsGroupBox.Enabled = false;
@@ -124,16 +125,22 @@ namespace image_triangulation
             saveInPngButton.Enabled = false;
             saveInTButton.Enabled = false;
         }
+        private void SaveInPngButton_Click(object sender, EventArgs e)
+        {
+            if (savePngFileDialog.ShowDialog() == DialogResult.Cancel) return;
+
+            rebuiltPictureBitmap.Save(savePngFileDialog.FileName);
+        }
 
         private void OpenTButton_Click(object sender, EventArgs e)
         {
             if (openTFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
-            resetPivotPoints();
-            resetTriangulation();
-            resetShading();
+            ResetPivotPoints();
+            ResetTriangulation();
+            ResetShading();
 
-            int shaderIndex = TExtension.Open(pivotPoints, openTFileDialog.FileName);
+            TExtension.Open(pivotPoints, openTFileDialog.FileName);
             SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet);
             VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
             rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
@@ -153,47 +160,50 @@ namespace image_triangulation
             saveInTButton.Enabled = false;
             originalImagePictureBox.Image = null;
         }
+        private void SaveInTButton_Click(object sender, EventArgs e)
+        {
+            if (saveTFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
-        private void hideOriginalImage_CheckedChanged(object sender, EventArgs e)
+            TExtension.Save(pivotPoints, saveTFileDialog.FileName);
+        }
+
+        private void HideOriginalImage_CheckedChanged(object sender, EventArgs e)
         {
             originalImagePictureBox.Image = null;
         }
-
-        private void showOriginalImage_CheckedChanged(object sender, EventArgs e)
+        private void ShowOriginalImage_CheckedChanged(object sender, EventArgs e)
         {
             originalImagePictureBox.Image = originalPictureBitmap;
         }
 
-        private void hidePivotPoints_CheckedChanged(object sender, EventArgs e)
+        private void HidePivotPoints_CheckedChanged(object sender, EventArgs e)
         {
             pivotPointsPictureBox.Image = null;
         }
-
-        private void showPivotPoints_CheckedChanged(object sender, EventArgs e)
+        private void ShowPivotPoints_CheckedChanged(object sender, EventArgs e)
         {
             pivotPointsPictureBox.Image = pivotPointsBitmap;
         }
 
-        private void hideGrid_CheckedChanged(object sender, EventArgs e)
+        private void HideGrid_CheckedChanged(object sender, EventArgs e)
         {
             triangulationGridPictureBox.Image = null;
         }
-
-        private void showGrid_CheckedChanged(object sender, EventArgs e)
+        private void ShowGrid_CheckedChanged(object sender, EventArgs e)
         {
             triangulationGridPictureBox.Image = triangulationGridBitmap;
         }
 
-        private void runPPMakerButton_Click(object sender, EventArgs e)
+        private void RunPPMakerButton_Click(object sender, EventArgs e)
         {
             switch (pPMakersComboBox.SelectedIndex)
             {
                 case 0:
                     return;
                 case 1:
-                    resetShading();
-                    resetTriangulation();
-                    resetPivotPoints();
+                    ResetShading();
+                    ResetTriangulation();
+                    ResetPivotPoints();
 
                     pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
@@ -218,7 +228,6 @@ namespace image_triangulation
                     return;
             }
         }
-
         private void RunTriangulation_Click(object sender, EventArgs e)
         {            
             switch (triangulationsComboBox.SelectedIndex)
@@ -226,8 +235,8 @@ namespace image_triangulation
                 case 0:
                     return;
                 case 1:
-                    resetShading();
-                    resetTriangulation();
+                    ResetShading();
+                    ResetTriangulation();
 
                     sw = Stopwatch.StartNew();
                     SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet);
@@ -249,8 +258,8 @@ namespace image_triangulation
                     saveInTButton.Enabled = true;
                     return;
                 case 2:
-                    resetShading();
-                    resetTriangulation();
+                    ResetShading();
+                    ResetTriangulation();
 
                     coefOfCacheExpand = float.Parse(coefOfCacheExpandTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
@@ -273,8 +282,8 @@ namespace image_triangulation
                     saveInTButton.Enabled = true;
                     return;
                 case 3:
-                    resetShading();
-                    resetTriangulation();
+                    ResetShading();
+                    ResetTriangulation();
 
                     stripingFactor = float.Parse(stripingFactorTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
@@ -298,15 +307,14 @@ namespace image_triangulation
                     return;
             }            
         }
-
-        private void runShaderButton_Click(object sender, EventArgs e)
+        private void RunShaderButton_Click(object sender, EventArgs e)
         {
             switch (shadersComboBox.SelectedIndex)
             {
                 case 0:
                     return;
                 case 1:
-                    resetShading();
+                    ResetShading();
 
                     Stopwatch sw = Stopwatch.StartNew();
                     VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
@@ -328,7 +336,7 @@ namespace image_triangulation
             }
         }
 
-        private void pPMakersComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void PPMakersComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (pPMakersComboBox.SelectedIndex)
             {
@@ -345,7 +353,6 @@ namespace image_triangulation
                     return;
             }
         }
-
         private void TriangulationsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (triangulationsComboBox.SelectedIndex)
@@ -391,29 +398,14 @@ namespace image_triangulation
             }
         }
 
-        private void SaveInPngButton_Click(object sender, EventArgs e)
-        {
-            if (savePngFileDialog.ShowDialog() == DialogResult.Cancel) return;
-
-            rebuiltPictureBitmap.Save(savePngFileDialog.FileName);
-        }
-
-        private void SaveInTButton_Click(object sender, EventArgs e)
-        {
-            if (saveTFileDialog.ShowDialog() == DialogResult.Cancel) return;
-
-            TExtension.Save(pivotPoints, saveTFileDialog.FileName, shadersComboBox.SelectedIndex);
-        }
-
-        private void resetPivotPoints()
+        private void ResetPivotPoints()
         {
             pivotPoints.Clear();
             if (pivotPointsBitmap != null) pivotPointsBitmap.Dispose();
             pivotPointsBitmap = new Bitmap(pivotPointsPictureBox.Width, pivotPointsPictureBox.Height);
             pivotPointsPictureBox.Image = null;
         }
-
-        private void resetTriangulation()
+        private void ResetTriangulation()
         {
             triangulationSectionsList.Clear();
             trianglesHashSet.Clear();
@@ -421,15 +413,13 @@ namespace image_triangulation
             triangulationGridBitmap = new Bitmap(triangulationGridPictureBox.Width, triangulationGridPictureBox.Height);
             triangulationGridPictureBox.Image = null;
         }
-
-        private void resetShading()
+        private void ResetShading()
         {
             if (rebuiltPictureBitmap != null) rebuiltPictureBitmap.Dispose();
             rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
             rebuiltImagePictureBox.Image = null;
         }
-
-        private void setNewSourcePng()
+        private void SetNewSourcePng()
         {
             if (originalPictureBitmap != null) originalPictureBitmap.Dispose();
             originalPictureBitmap = new Bitmap(openPngFileDialog.FileName);
