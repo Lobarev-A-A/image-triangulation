@@ -180,5 +180,16 @@ namespace image_triangulation
             }
             return Math.Max(a, c) <= Math.Min(b, d);
         }
+
+        /// <summary>
+        /// Возвращает Pixel, находящийся посередине 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        //public static Pixel MiddlePixel(Pixel a, Pixel b)
+        //{
+
+        //}
     }
 }

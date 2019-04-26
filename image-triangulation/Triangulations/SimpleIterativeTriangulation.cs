@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * Рефактор с учётом вывода множества треугольников
 // * Распространить на изображения произвольного разрешения
-// * Убрать использование originalImageBitmap в классе
+// * Хранить точки внутри Edge, чтобы не костылить дополнительный Dictionary
 namespace image_triangulation
 {
     static class SimpleIterativeTriangulation

@@ -8,19 +8,13 @@ using System.Threading.Tasks;
 // * Написать функцию сравнения
 namespace image_triangulation
 {
-    public class Pixel : IEquatable<Pixel>
+    public struct Pixel : IEquatable<Pixel>
     {
         public int X { get; set; }
         public int Y { get; set; }
         public float brightness { get; set; }
 
-        public Pixel(int X, int Y)
-        {
-            this.X = X;
-            this.Y = Y;
-        }
-
-        public Pixel(int X, int Y, float brightness)
+        public Pixel(int X, int Y, float brightness = -1)
         {
             this.X = X;
             this.Y = Y;
@@ -29,8 +23,6 @@ namespace image_triangulation
 
         public bool Equals(Pixel pixel)
         {
-            if (pixel == null) return false;
-
             if (pixel.X == X && pixel.Y == Y) return true;
             else return false;
         }
@@ -40,6 +32,16 @@ namespace image_triangulation
             float hash = Y * 10 + 1;
             while (hash >= 1) hash /= 10;
             return hash + X;
+        }
+
+        public static bool operator == (Pixel p1, Pixel p2)
+        {
+            return p1.Equals(p2);
+        }
+
+        public static bool operator != (Pixel p1, Pixel p2)
+        {
+            return !p1.Equals(p2);
         }
     }
 
