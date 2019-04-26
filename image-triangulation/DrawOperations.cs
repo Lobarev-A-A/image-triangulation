@@ -12,9 +12,9 @@ namespace image_triangulation
     {
         static Pen pen = new Pen(Color.Red);
 
-        public static void PixelsToBitmap(Dictionary<float, Pixel> pointsList, Bitmap bitmap)
+        public static void PixelsToBitmap(HashSet<Pixel> pointsList, Bitmap bitmap)
         {
-            foreach (Pixel p in pointsList.Values)
+            foreach (Pixel p in pointsList)
             {
                 bitmap.SetPixel(p.X, p.Y, Color.Red);
             }

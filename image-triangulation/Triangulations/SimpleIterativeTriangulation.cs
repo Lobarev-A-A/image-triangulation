@@ -18,11 +18,11 @@ namespace image_triangulation
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
         static Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
 
-        public static void Run(Dictionary<float, Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
+        public static void Run(HashSet<Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
         {
             // Клонируем словарь опорных точек
             pivotPoints.Clear();
-            foreach (Pixel pixel in outerPivotPoints.Values)
+            foreach (Pixel pixel in outerPivotPoints)
             {
                 pivotPoints.Add(pixel.GetHashCode(), pixel);
             }

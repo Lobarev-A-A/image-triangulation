@@ -23,7 +23,7 @@ namespace image_triangulation
         /// <param name="sourceImage">Изображение, на котором требуется выбрать опорные точки.</param>
         /// <param name="threshold">Порог чувствительности.</param>
         /// <param name="pivotPoints">Ссылка, по которой будет сформирован список опорных точек.</param>
-        public static void Run(Bitmap sourceImage, float threshold, Dictionary<float, Pixel> pivotPoints)
+        public static void Run(Bitmap sourceImage, float threshold, HashSet<Pixel> pivotPoints)
         {
             int outerLoopEndPixel = sourceImage.Height - 4;
             int innerLoopEndPixel = sourceImage.Width - 4;
@@ -37,7 +37,7 @@ namespace image_triangulation
                                    new Pixel(511, 511, sourceImage.GetPixel(511, 511).GetBrightness()), new Pixel(0, 511, sourceImage.GetPixel(0, 511).GetBrightness()) };
             for (byte i = 0; i < 4; ++i)
             {
-                pivotPoints.Add(initPixels[i].GetHashCode(), initPixels[i]);
+                pivotPoints.Add(initPixels[i]);
             }
 
             for (int i = 0; i <= outerLoopEndPixel; i += 4)
@@ -48,11 +48,11 @@ namespace image_triangulation
                     // Проверка пикселя минимальной яркости
                     bufPixel = MinBrightPixel(sourceImage, j, i);
                     minBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
-                    if ((averageBright - minBright) >= threshold) pivotPoints[bufPixel.GetHashCode()] = bufPixel;
+                    if ((averageBright - minBright) >= threshold) pivotPoints.Add(bufPixel);
                     // Проверка пикселя максимальной яркости
                     bufPixel = MaxBrightPixel(sourceImage, j, i);
                     maxBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
-                    if ((maxBright - averageBright) >= threshold) pivotPoints[bufPixel.GetHashCode()] = bufPixel;
+                    if ((maxBright - averageBright) >= threshold) pivotPoints.Add(bufPixel);
                 }
             }
         }

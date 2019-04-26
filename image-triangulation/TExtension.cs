@@ -13,11 +13,11 @@ namespace image_triangulation
     /// </summary>
     static class TExtension
     {
-        public static void Save(Dictionary<float, Pixel> pivotPoints, string path)
+        public static void Save(HashSet<Pixel> pivotPoints, string path)
         {
             using (BinaryWriter tmpFileWriter = new BinaryWriter(File.Create(path + "~")))
             {
-                foreach (Pixel pixel in pivotPoints.Values)
+                foreach (Pixel pixel in pivotPoints)
                 {
                     tmpFileWriter.Write((short)pixel.X);
                     tmpFileWriter.Write((short)pixel.Y);
@@ -38,7 +38,7 @@ namespace image_triangulation
             File.Delete(path + "~");
         }
 
-        public static void Open(Dictionary<float, Pixel> pivotPoints, string path)
+        public static void Open(HashSet<Pixel> pivotPoints, string path)
         {
             using (FileStream compressionFileReader = new FileStream(path, FileMode.Open))
             {
@@ -56,7 +56,7 @@ namespace image_triangulation
                 while (tmpFileReader.BaseStream.Position != tmpFileReader.BaseStream.Length)
                 {
                     Pixel pixel = new Pixel(tmpFileReader.ReadInt16(), tmpFileReader.ReadInt16(), tmpFileReader.ReadSingle());
-                    pivotPoints.Add(pixel.GetHashCode(), pixel);
+                    pivotPoints.Add(pixel);
                 }
             }
 

@@ -21,11 +21,11 @@ namespace image_triangulation
         static List<List<Triangle>> dynamicCache = new List<List<Triangle>>();
         static Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
 
-        public static void Run(Dictionary<float, Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
+        public static void Run(HashSet<Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
             // Клонируем словарь опорных точек
             pivotPoints.Clear();
-            foreach (Pixel pixel in outerPivotPoints.Values)
+            foreach (Pixel pixel in outerPivotPoints)
             {
                 pivotPoints.Add(pixel.GetHashCode(), pixel);
             }

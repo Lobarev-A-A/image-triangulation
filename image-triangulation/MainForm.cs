@@ -19,7 +19,7 @@ namespace image_triangulation
         Bitmap triangulationGridBitmap;
         Bitmap rebuiltPictureBitmap;
 
-        Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
+        HashSet<Pixel> pivotPoints = new HashSet<Pixel>();
         List<Section> triangulationSectionsList = new List<Section>();
         HashSet<Triangle> trianglesHashSet = new HashSet<Triangle>();
         
