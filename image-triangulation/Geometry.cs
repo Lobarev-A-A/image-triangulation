@@ -182,14 +182,102 @@ namespace image_triangulation
         }
 
         /// <summary>
-        /// Возвращает Pixel, находящийся посередине 
+        /// Возвращает Pixel, находящийся посередине отрезка, заданного точками a и b.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <remarks>
+        /// Координаты возвращаемого Pixel считаются округлением до целого вещественных координат середины отрезка.
+        /// </remarks>
+        /// <param name="a">Конец отрезка.</param>
+        /// <param name="b">Конец отрезка.</param>
         /// <returns></returns>
-        //public static Pixel MiddlePixel(Pixel a, Pixel b)
-        //{
+        public static Pixel MiddlePixel(Pixel a, Pixel b)
+        {
+            return new Pixel((int)Math.Round((a.X + b.X) / 2.0, MidpointRounding.AwayFromZero),
+                             (int)Math.Round((a.Y + b.Y) / 2.0, MidpointRounding.AwayFromZero));
+        }
 
-        //}
+        public static List<Pixel> Bresenham(Pixel a, Pixel b)
+        {
+            if (a == b) return null;
+
+            int x = a.X;
+            int y = a.Y;
+            int deltaX = Math.Abs(b.X - a.X);
+            int deltaY = Math.Abs(b.Y - a.Y);
+            int s1 = Math.Sign(b.X - a.X);
+            int s2 = Math.Sign(b.Y - a.Y);
+            bool swap = false;
+            List<Pixel> outputList = new List<Pixel>();
+
+            if (deltaY < deltaX)
+            {
+                int tmp = deltaX;
+                deltaX = deltaY;
+                deltaY = tmp;
+                swap = true;
+            }
+
+            int eps = 2 * deltaY - deltaX;
+
+            for (int i = 0; i < deltaX; ++i)
+            {
+                outputList.Add(new Pixel(x, y));
+                while (eps >= 0)
+                {
+                    if (swap) x += s1;
+                    else y += s2;
+                    eps -= 2 * deltaX;
+                }
+
+                if (swap) y += s2;
+                else x += s1;
+
+                eps += 2 * deltaY;
+            }
+
+            return outputList;
+        }
+
+        public static List<Pixel> Bresenham(Pixel a, Pixel b, Bitmap sourceImage)
+        {
+            if (a == b) return null;
+
+            int x = a.X;
+            int y = a.Y;
+            int deltaX = Math.Abs(b.X - a.X);
+            int deltaY = Math.Abs(b.Y - a.Y);
+            int s1 = Math.Sign(b.X - a.X);
+            int s2 = Math.Sign(b.Y - a.Y);
+            bool swap = false;
+            List<Pixel> outputList = new List<Pixel>();
+
+            if (deltaY < deltaX)
+            {
+                int tmp = deltaX;
+                deltaX = deltaY;
+                deltaY = tmp;
+                swap = true;
+            }
+
+            int eps = 2 * deltaY - deltaX;
+
+            for (int i = 0; i < deltaX; ++i)
+            {
+                outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness()));
+                while (eps >= 0)
+                {
+                    if (swap) x += s1;
+                    else y += s2;
+                    eps -= 2 * deltaX;
+                }
+
+                if (swap) y += s2;
+                else x += s1;
+
+                eps += 2 * deltaY;
+            }
+
+            return outputList;
+        }
     }
 }
