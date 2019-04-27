@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+// TO DO
+// * Оптимизировать MiddlePixel, чтобы не считать всю прямую
+// * Рефактор Брезенхема
 namespace image_triangulation
 {
     static class Geometry
@@ -182,57 +185,67 @@ namespace image_triangulation
         }
 
         /// <summary>
-        /// Возвращает Pixel, находящийся посередине отрезка, заданного точками a и b.
+        /// Возвращает Pixel, принадлежащий отрезку, построенному по алгоритму Брезенхема,
+        /// и находящийся посередине этого отрезка, либо являющийся одним из пары пикселей, находящихся посередине.
         /// </summary>
-        /// <remarks>
-        /// Координаты возвращаемого Pixel считаются округлением до целого вещественных координат середины отрезка.
-        /// </remarks>
-        /// <param name="a">Конец отрезка.</param>
+        /// <param name="a">Начало отрезка.</param>
         /// <param name="b">Конец отрезка.</param>
         /// <returns></returns>
         public static Pixel MiddlePixel(Pixel a, Pixel b)
         {
-            return new Pixel((int)Math.Round((a.X + b.X) / 2.0, MidpointRounding.AwayFromZero),
-                             (int)Math.Round((a.Y + b.Y) / 2.0, MidpointRounding.AwayFromZero));
+            List<Pixel> bufList = Bresenham(a, b);
+            if (bufList == null) return new Pixel(0, 0, -1);
+            else return bufList[(int)Math.Round(bufList.Count / 2.0, MidpointRounding.AwayFromZero)];
         }
 
         public static List<Pixel> Bresenham(Pixel a, Pixel b)
         {
             if (a == b) return null;
 
-            int x = a.X;
-            int y = a.Y;
-            int deltaX = Math.Abs(b.X - a.X);
-            int deltaY = Math.Abs(b.Y - a.Y);
-            int s1 = Math.Sign(b.X - a.X);
-            int s2 = Math.Sign(b.Y - a.Y);
-            bool swap = false;
+            int sX = Math.Sign(b.X - a.X);
+            int sY = Math.Sign(b.Y - a.Y);
+            int lengthX = Math.Abs(b.X - a.X);
+            int lengthY = Math.Abs(b.Y - a.Y);
+            int length = Math.Max(lengthX, lengthY);
             List<Pixel> outputList = new List<Pixel>();
 
-            if (deltaY < deltaX)
+            if (lengthY <= lengthX)
             {
-                int tmp = deltaX;
-                deltaX = deltaY;
-                deltaY = tmp;
-                swap = true;
-            }
-
-            int eps = 2 * deltaY - deltaX;
-
-            for (int i = 0; i < deltaX; ++i)
-            {
-                outputList.Add(new Pixel(x, y));
-                while (eps >= 0)
+                int x = a.X;
+                int y = a.Y;
+                int d = -lengthX;
+                length++;
+                while (length != 0)
                 {
-                    if (swap) x += s1;
-                    else y += s2;
-                    eps -= 2 * deltaX;
+                    length--;
+                    outputList.Add(new Pixel(x, y));
+                    x += sX;
+                    d += 2 * lengthY;
+                    if (d > 0)
+                    {
+                        d -= 2 * lengthX;
+                        y += sY;
+                    }
                 }
-
-                if (swap) y += s2;
-                else x += s1;
-
-                eps += 2 * deltaY;
+            }
+            else
+            {
+                int x = a.X;
+                int y = a.Y;
+                int d = -lengthY;
+                length++;
+                while (length != 0)
+                {
+                    length--;
+                    outputList.Add(new Pixel(x, y));
+                    y += sY;
+                    d += 2 * lengthX;
+                    if (d > 0)
+                    {
+                        d -= 2 * lengthY;
+                        x += sX;
+                    }
+                }
             }
 
             return outputList;
@@ -242,39 +255,50 @@ namespace image_triangulation
         {
             if (a == b) return null;
 
-            int x = a.X;
-            int y = a.Y;
-            int deltaX = Math.Abs(b.X - a.X);
-            int deltaY = Math.Abs(b.Y - a.Y);
-            int s1 = Math.Sign(b.X - a.X);
-            int s2 = Math.Sign(b.Y - a.Y);
-            bool swap = false;
+            int sX = Math.Sign(b.X - a.X);
+            int sY = Math.Sign(b.Y - a.Y);
+            int lengthX = Math.Abs(b.X - a.X);
+            int lengthY = Math.Abs(b.Y - a.Y);
+            int length = Math.Max(lengthX, lengthY);
             List<Pixel> outputList = new List<Pixel>();
 
-            if (deltaY < deltaX)
+            if (lengthY <= lengthX)
             {
-                int tmp = deltaX;
-                deltaX = deltaY;
-                deltaY = tmp;
-                swap = true;
-            }
-
-            int eps = 2 * deltaY - deltaX;
-
-            for (int i = 0; i < deltaX; ++i)
-            {
-                outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness()));
-                while (eps >= 0)
+                int x = a.X;
+                int y = a.Y;
+                int d = -lengthX;
+                length++;
+                while (length != 0)
                 {
-                    if (swap) x += s1;
-                    else y += s2;
-                    eps -= 2 * deltaX;
+                    length--;
+                    outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness()));
+                    x += sX;
+                    d += 2 * lengthY;
+                    if (d > 0)
+                    {
+                        d -= 2 * lengthX;
+                        y += sY;
+                    }
                 }
-
-                if (swap) y += s2;
-                else x += s1;
-
-                eps += 2 * deltaY;
+            }
+            else
+            {
+                int x = a.X;
+                int y = a.Y;
+                int d = -lengthY;
+                length++;
+                while (length != 0)
+                {
+                    length--;
+                    outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness()));
+                    y += sY;
+                    d += 2 * lengthX;
+                    if (d > 0)
+                    {
+                        d -= 2 * lengthY;
+                        x += sX;
+                    }
+                }
             }
 
             return outputList;

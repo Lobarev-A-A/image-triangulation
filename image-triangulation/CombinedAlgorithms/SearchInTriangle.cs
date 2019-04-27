@@ -6,43 +6,50 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * Распространить на изображения произвольного разрешения
 // * Хранить точки внутри Edge, чтобы не костылить дополнительный Dictionary
+// * При проверке прямой не обязательно предварительно считать всю прямую
 namespace image_triangulation
 {
-    static class SimpleIterativeTriangulation
+    static class SearchInTriangle
     {
-        static Triangle curTriangle;
-        // Словарь <ссылка на ребро триангуляции, ссылка на соответствующий отрезок во внешнем представлении>
-        static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
+        static HashSet<Triangle> trianglesForSearchPoints = new HashSet<Triangle>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
-        static Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
+        static HashSet<Pixel> pivotPoints = new HashSet<Pixel>(); 
+        static HashSet<Pixel> newPoints = new HashSet<Pixel>(); // Добавлять без проверок, потом взять разницу между множествами
+        static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
+        static Triangle curTriangle;
 
-        public static void Run(HashSet<Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles)
+        public static void Run(Bitmap sourceImageBitmap, float threshold, HashSet<Pixel> outerPivotPoints,
+                               List<Section> triangulationSectionsList, HashSet<Triangle> trianglesHashSet)
         {
-            // Клонируем словарь опорных точек
-            pivotPoints.Clear();
-            foreach (Pixel pixel in outerPivotPoints) pivotPoints.Add(pixel.GetHashCode(), pixel);
-
-            Initialization(outputTriangles);
-            AddPoints(pivotPoints, outputTriangles);
-            GetOut(outputTriangulation);
+            Initialization(trianglesHashSet, sourceImageBitmap);
+            SearchAndAdd(sourceImageBitmap, threshold, triangulationSectionsList, trianglesHashSet);
+            GetOut(triangulationSectionsList, outerPivotPoints);
         }
 
-        // Создаёт первые два треугольника
-        private static void Initialization(HashSet<Triangle> outputTriangles)
+        private static void Initialization(HashSet<Triangle> outputTriangles, Bitmap sourceImageBitmap)
         {
             edges.Clear();
+            pivotPoints.Clear();
+            newPoints.Clear();
 
-            Triangle newTriangle0 = new Triangle(pivotPoints[(float)0.1], pivotPoints[(float)511.1], pivotPoints[(float)511.5111]);
-            Triangle newTriangle1 = new Triangle(pivotPoints[(float)0.1], pivotPoints[(float)511.5111], pivotPoints[(float)0.5111]);
-            pivotPoints.Remove((float)0.1);
-            pivotPoints.Remove((float)511.1);
-            pivotPoints.Remove((float)511.5111);
-            pivotPoints.Remove((float)0.5111);
+            // Добавляем в список стартовые точки
+            newPoints.Add(new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).GetBrightness()));
+            newPoints.Add(new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).GetBrightness()));
+            newPoints.Add(new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).GetBrightness()));
+            newPoints.Add(new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).GetBrightness()));
 
+            // Создаём стартовые треугольники
+            Triangle newTriangle0 = new Triangle(newPoints[0], newPoints[1], newPoints[2]);
+            Triangle newTriangle1 = new Triangle(newPoints[0], newPoints[2], newPoints[3]);
             outputTriangles.Add(newTriangle0);
             outputTriangles.Add(newTriangle1);
+            trianglesForSearchPoints.Add(newTriangle0);
+            trianglesForSearchPoints.Add(newTriangle1);
+
+            // Переписываем стартовые точки в общую таблицу
+            foreach (Pixel p in newPoints) pivotPoints.Add(p);
+            newPoints.Clear();
 
             // Заполнение нулевого треугольника
             newTriangle0.edges[0] = new Edge();
@@ -66,28 +73,60 @@ namespace image_triangulation
             newTriangle1.triangles[0] = null;
             newTriangle1.triangles[1] = null;
             newTriangle1.triangles[2] = newTriangle0;
+        }
 
-            curTriangle = newTriangle1;
+        private static void SearchAndAdd(Bitmap sourceImageBitmap, float threshold, List<Section> triangulationSectionsList, HashSet<Triangle> trianglesHashSet)
+        {
+            while (trianglesForSearchPoints.Count != 0)
+            {
+                SearchPoints(sourceImageBitmap, threshold);
+                AddPoints(pivotPoints, trianglesHashSet);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceImageBitmap"></param>
+        /// <param name="threshold"></param>
+        /// <returns>Количество найденных точек.</returns>
+        private static void SearchPoints(Bitmap sourceImageBitmap, float threshold)
+        {            
+            foreach (Triangle triangle in trianglesForSearchPoints)
+            {
+                for (int i = 0; i < 3; ++i)
+                {
+                    Pixel middlePixel = Geometry.MiddlePixel(triangle.points[(i + 1) % 3], triangle.points[(i + 2) % 3]);
+                    
+                    List<Pixel> straightForCheking = Geometry.Bresenham(triangle.points[i], middlePixel, sourceImageBitmap);
+                    if (straightForCheking != null)
+                    {
+                        foreach (Pixel pixel in straightForCheking)
+                        {
+                            if (Math.Abs(triangle.points[i].brightness - pixel.brightness) > threshold && !pivotPoints.Contains(pixel))
+                            {
+                                pivotPoints.Add(pixel);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            curTriangle = trianglesForSearchPoints.First();
+            trianglesForSearchPoints.Clear();
         }
 
         /// <summary>
         /// Добавляет узлы в триангуляцию
         /// </summary>
         /// <param name="pivotPoints">Список опорных точек</param>
-        private static void AddPoints(Dictionary<float, Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
+        private static void AddPoints(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
         {
-            // Удаляем из словаря точки, которыми инициировалась триангуляция, если они там есть
-            //Pixel[] initPixels = { new Pixel(0, 0), new Pixel(0, 511), new Pixel(511, 511), new Pixel(0, 511) };
-            //for (int i = 0; i < 4; ++i)
-            //{
-            //    if (pivotPoints.ContainsKey(initPixels[i].GetHashCode())) pivotPoints.Remove(initPixels[i].GetHashCode());
-            //}
-
-            foreach (Pixel curPoint in pivotPoints.Values)
+            foreach (Pixel curPoint in pivotPoints.Skip(addedPoints))
             {
                 int i;
                 // Цикл локализации точки (пока точка не попадёт в текущий треугольник либо на его границу)
-                int prtCheck = Geometry.PointRelativelyTriangle(curPoint, curTriangle.points[0], curTriangle.points[1], curTriangle.points[2]);                
+                int prtCheck = Geometry.PointRelativelyTriangle(curPoint, curTriangle.points[0], curTriangle.points[1], curTriangle.points[2]);
                 while (prtCheck == -1)
                 {
                     i = 0;
@@ -338,8 +377,8 @@ namespace image_triangulation
 
                 // Проверки условия Делоне и перестроение
                 DelaunayBuilder(outputTriangles);
-            }            
-        }        
+            }
+        }
 
         /// <summary>
         /// Проверяет все треугольники из множества <c>trianglesForDelaunayCheck</c> на соответствию условию Делоне и, в случае необходимости,
@@ -347,6 +386,8 @@ namespace image_triangulation
         /// </summary>
         private static void DelaunayBuilder(HashSet<Triangle> outputTriangles)
         {
+            foreach (Triangle triangle in trianglesForDelaunayCheck) trianglesForSearchPoints.Add(triangle);
+
             while (trianglesForDelaunayCheck.Count() > 0)
             {
                 Triangle checkedTriangle = trianglesForDelaunayCheck.Last();
@@ -372,6 +413,10 @@ namespace image_triangulation
                             outputTriangles.Add(newTriangle1);
                             outputTriangles.Remove(checkedTriangle);
                             outputTriangles.Remove(checkedTriangle2);
+                            trianglesForSearchPoints.Remove(checkedTriangle);
+                            trianglesForSearchPoints.Add(newTriangle0);
+                            trianglesForSearchPoints.Add(newTriangle1);
+
                             int k;
 
                             // Записываем нулевой треугольник
@@ -433,13 +478,10 @@ namespace image_triangulation
             }
         }
 
-        /// <summary>
-        /// Записывает все значения словаря <c>edges</c> в <c>outputTriangulation</c>
-        /// </summary>
-        /// <param name="outputTriangulation">Список, в который производится копирование значений словаря <c>edges</c></param>
-        private static void GetOut(List<Section> outputTriangulation)
+        private static void GetOut(List<Section> triangulationSectionsList, HashSet<Pixel> outerPivotPoints)
         {
-            foreach (Section s in edges.Values) outputTriangulation.Add(s);
+            triangulationSectionsList = edges.Values.ToList();
+            foreach (Pixel pixel in pivotPoints) outerPivotPoints.Add(pixel);
         }
     }
 }

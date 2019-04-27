@@ -14,10 +14,10 @@ namespace image_triangulation
 {
     public partial class MainForm : Form
     {
-        Bitmap originalPictureBitmap;
+        Bitmap sourceImageBitmap;
         Bitmap pivotPointsBitmap;
         Bitmap triangulationGridBitmap;
-        Bitmap rebuiltPictureBitmap;
+        Bitmap rebuiltImageBitmap;
 
         HashSet<Pixel> pivotPoints = new HashSet<Pixel>();
         List<Section> triangulationSectionsList = new List<Section>();
@@ -45,7 +45,7 @@ namespace image_triangulation
             openTFileDialog.Filter = "T file (*.t)|*.t";
 
             // Инициализируем comboBox'ы
-            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1" });
+            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1", "Комбинированный алгоритм" });
             pPMakersComboBox.SelectedIndex = 0;
             triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation",
                                                                  "DCIterativeTriangulation", "StripIterativeTriangulation" });
@@ -129,7 +129,7 @@ namespace image_triangulation
         {
             if (savePngFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
-            rebuiltPictureBitmap.Save(savePngFileDialog.FileName);
+            rebuiltImageBitmap.Save(savePngFileDialog.FileName);
         }
 
         private void OpenTButton_Click(object sender, EventArgs e)
@@ -142,8 +142,8 @@ namespace image_triangulation
 
             TExtension.Open(pivotPoints, openTFileDialog.FileName);
             SimpleIterativeTriangulation.Run(pivotPoints, triangulationSectionsList, trianglesHashSet);
-            VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
-            rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
+            VerticesAverageBrightnessShader.Run(rebuiltImageBitmap, trianglesHashSet);
+            rebuiltImagePictureBox.Image = rebuiltImageBitmap;
 
             // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
@@ -173,7 +173,7 @@ namespace image_triangulation
         }
         private void ShowOriginalImage_CheckedChanged(object sender, EventArgs e)
         {
-            originalImagePictureBox.Image = originalPictureBitmap;
+            originalImagePictureBox.Image = sourceImageBitmap;
         }
 
         private void HidePivotPoints_CheckedChanged(object sender, EventArgs e)
@@ -207,7 +207,7 @@ namespace image_triangulation
 
                     pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    SectorPPMaker1.Run(originalPictureBitmap, pPMakerThreshold, pivotPoints);
+                    SectorPPMaker1.Run(sourceImageBitmap, pPMakerThreshold, pivotPoints);
                     sw.Stop();
                     label8.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.PixelsToBitmap(pivotPoints, pivotPointsBitmap);
@@ -220,6 +220,36 @@ namespace image_triangulation
                     triangulationControlsGroupBox.Enabled = true;
                     shadingControlsGroupBox.Enabled = false;
                     showPivotPoints.Checked = true;
+                    label9.Text = "";
+                    label10.Text = "";
+                    standartDeviationLabel.Text = "";
+                    saveInPngButton.Enabled = false;
+                    saveInTButton.Enabled = true;
+                    return;
+                case 2:
+                    ResetShading();
+                    ResetTriangulation();
+                    ResetPivotPoints();
+
+                    pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    sw = Stopwatch.StartNew();
+                    SearchInTriangle.Run(sourceImageBitmap, pPMakerThreshold, pivotPoints, triangulationSectionsList, trianglesHashSet);
+                    sw.Stop();
+                    label8.Text = sw.ElapsedMilliseconds.ToString();
+
+                    DrawOperations.PixelsToBitmap(pivotPoints, pivotPointsBitmap);
+                    pivotPointsPictureBox.Image = pivotPointsBitmap;
+                    DrawOperations.SectionsToBitmap(triangulationSectionsList, triangulationGridBitmap);
+                    triangulationGridPictureBox.Image = triangulationGridBitmap;
+
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = false;
+                    shadingControlsGroupBox.Enabled = true;
+                    showPivotPoints.Checked = true;
+                    showGrid.Checked = true;
                     label9.Text = "";
                     label10.Text = "";
                     standartDeviationLabel.Text = "";
@@ -317,12 +347,12 @@ namespace image_triangulation
                     ResetShading();
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    VerticesAverageBrightnessShader.Run(rebuiltPictureBitmap, trianglesHashSet);
+                    VerticesAverageBrightnessShader.Run(rebuiltImageBitmap, trianglesHashSet);
                     sw.Stop();
                     label10.Text = sw.ElapsedMilliseconds.ToString();                    
-                    rebuiltImagePictureBox.Image = rebuiltPictureBitmap;
+                    rebuiltImagePictureBox.Image = rebuiltImageBitmap;
 
-                    standartDeviationLabel.Text = StandartDeviation.Run(originalPictureBitmap, rebuiltPictureBitmap).ToString();
+                    standartDeviationLabel.Text = StandartDeviation.Run(sourceImageBitmap, rebuiltImageBitmap).ToString();
 
                     // Выставляем элементы формы
                     showHideImageGroupBox.Enabled = true;
@@ -346,6 +376,12 @@ namespace image_triangulation
                     thresholdLimitsLabel.Visible = false;
                     return;
                 case 1:
+                    label7.Visible = true;
+                    pPMakerThresholdTextBox.Visible = true;
+                    pPMakerThresholdTextBox.Text = "0.1";
+                    thresholdLimitsLabel.Visible = true;
+                    return;
+                case 2:
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
                     pPMakerThresholdTextBox.Text = "0.1";
@@ -415,15 +451,15 @@ namespace image_triangulation
         }
         private void ResetShading()
         {
-            if (rebuiltPictureBitmap != null) rebuiltPictureBitmap.Dispose();
-            rebuiltPictureBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
+            if (rebuiltImageBitmap != null) rebuiltImageBitmap.Dispose();
+            rebuiltImageBitmap = new Bitmap(rebuiltImagePictureBox.Width, rebuiltImagePictureBox.Height);
             rebuiltImagePictureBox.Image = null;
         }
         private void SetNewSourcePng()
         {
-            if (originalPictureBitmap != null) originalPictureBitmap.Dispose();
-            originalPictureBitmap = new Bitmap(openPngFileDialog.FileName);
-            originalImagePictureBox.Image = originalPictureBitmap;
+            if (sourceImageBitmap != null) sourceImageBitmap.Dispose();
+            sourceImageBitmap = new Bitmap(openPngFileDialog.FileName);
+            originalImagePictureBox.Image = sourceImageBitmap;
         }
     }
 }
