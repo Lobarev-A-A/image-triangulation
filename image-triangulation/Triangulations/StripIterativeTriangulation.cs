@@ -14,7 +14,7 @@ namespace image_triangulation
         static Triangle curTriangle;
         static List<List<Pixel>> stripes = new List<List<Pixel>>();
         static List<Pixel> pivotPointsList = new List<Pixel>();
-        static Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
+        static HashSet<Pixel> pivotPoints = new HashSet<Pixel>();
         // Словарь <ссылка на ребро триангуляции, ссылка на соответствующий отрезок во внешнем представлении>
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
@@ -25,7 +25,7 @@ namespace image_triangulation
             pivotPoints.Clear();
             foreach (Pixel pixel in outerPivotPoints)
             {
-                pivotPoints.Add(pixel.GetHashCode(), pixel);
+                pivotPoints.Add(pixel);
             }
 
             Striping(pivotPoints, stripingFactor);
@@ -34,27 +34,38 @@ namespace image_triangulation
             GetOut(outputTriangulation);
         }
 
-        private static void Striping(Dictionary<float, Pixel> pivotPoints, float stripingFactor)
+        private static void Striping(HashSet<Pixel> pivotPoints, float stripingFactor)
         {
             stripes.Clear();
             int numberOfStripes = (int)Math.Sqrt((stripingFactor * 512 * pivotPoints.Count) / 512);
 
             // Записываем стартовые точки триангуляции
             pivotPointsList.Clear();
-            pivotPointsList.Add(pivotPoints[(float)0.1]);
-            pivotPointsList.Add(pivotPoints[(float)511.1]);
-            pivotPointsList.Add(pivotPoints[(float)511.5111]);
-            pivotPointsList.Add(pivotPoints[(float)0.5111]);
-            pivotPoints.Remove((float)0.1);
-            pivotPoints.Remove((float)511.1);
-            pivotPoints.Remove((float)511.5111);
-            pivotPoints.Remove((float)0.5111);
+
+            // Добавляем стартовые точки
+            Pixel[] startPoints = { new Pixel(0, 0), new Pixel(511, 0), new Pixel(511, 511), new Pixel(0, 511) };
+            for (int i = 0; i < 4; ++i)
+            {
+                foreach (Pixel p in pivotPoints)
+                {
+                    if (p == startPoints[i])
+                    {
+                        startPoints[i].brightness = p.brightness;
+                        break;
+                    }
+                }
+            }
+            pivotPoints.Remove(startPoints[0]);
+            pivotPoints.Remove(startPoints[1]);
+            pivotPoints.Remove(startPoints[2]);
+            pivotPoints.Remove(startPoints[3]);
+            pivotPointsList.AddRange(startPoints);
 
             // Разбиваем исходный список на полосы
             for (int i = 0; i < numberOfStripes; ++i) {
                 stripes.Add(new List<Pixel>());
             }
-            foreach (Pixel p in pivotPoints.Values)
+            foreach (Pixel p in pivotPoints)
             {
                 stripes[(int)(p.X / (512.0 / numberOfStripes))].Add(p);
             }

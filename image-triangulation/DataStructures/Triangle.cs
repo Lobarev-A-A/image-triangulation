@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * Нормально откомментировать
+// * Переопределение Equals и GetHashCode сильно замедляет алгоритмы
 namespace image_triangulation
 {
-    class Triangle
+    class Triangle : IEquatable<object>
     {
         // Вершины должны быть записаны в порядке по часовой стрелке
         public Pixel[] points = new Pixel[3];
@@ -62,6 +62,20 @@ namespace image_triangulation
                 triangle.edges = edges;
                 triangle.triangles = triangles;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Triangle triangle = obj as Triangle;
+            if (triangle.points.Contains(points[0]) && triangle.points.Contains(points[1]) && triangle.points.Contains(points[2])) return true;
+            else return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return points[0].GetHashCode() ^ points[1].GetHashCode() ^ points[2].GetHashCode();
         }
     }
 }

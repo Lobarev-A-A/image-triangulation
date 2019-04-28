@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 // TO DO
-// * Написать функцию сравнения
+// * 
 namespace image_triangulation
 {
-    public struct Pixel : IEquatable<Pixel>
+    public struct Pixel : IEquatable<object>
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -21,18 +21,26 @@ namespace image_triangulation
             this.brightness = brightness;
         }
 
-        public bool Equals(Pixel pixel)
+        public override bool Equals(object obj)
         {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Pixel pixel = (Pixel)obj;
             if (pixel.X == X && pixel.Y == Y) return true;
             else return false;
         }
 
-        public new float GetHashCode()
+        public override int GetHashCode()
         {
-            float hash = Y * 10 + 1;
-            while (hash >= 1) hash /= 10;
-            return hash + X;
+            return X.GetHashCode() ^ Y.GetHashCode();
         }
+
+        //public new float GetHashCode()
+        //{
+        //    float hash = Y * 10 + 1;
+        //    while (hash >= 1) hash /= 10;
+        //    return hash + X;
+        //}
 
         public static bool operator == (Pixel p1, Pixel p2)
         {

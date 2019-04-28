@@ -14,6 +14,7 @@ namespace image_triangulation
     {
         static HashSet<Triangle> trianglesForSearchPoints = new HashSet<Triangle>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
+        //static HashSet<Triangle> trianglesHashSetBeforeAddPoints = new HashSet<Triangle>();
         static HashSet<Pixel> pivotPoints = new HashSet<Pixel>(); 
         static HashSet<Pixel> newPoints = new HashSet<Pixel>();
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
@@ -80,7 +81,12 @@ namespace image_triangulation
             while (trianglesForSearchPoints.Count != 0)
             {
                 SearchPoints(sourceImageBitmap, threshold);
-                AddPoints(trianglesHashSet);
+
+                // Сохраняем состояние коллекции треугольников до добавления новых точек
+                //trianglesHashSetBeforeAddPoints.Clear();
+                //foreach (Triangle t in trianglesHashSet) trianglesHashSetBeforeAddPoints.Add(t);
+
+                AddPoints(trianglesHashSet);                
             }
         }
 
@@ -129,7 +135,7 @@ namespace image_triangulation
             var pointsToAdd = newPoints.Except(pivotPoints);
 
             foreach (Pixel curPoint in pointsToAdd)
-            {
+            {                
                 int i;
                 // Цикл локализации точки (пока точка не попадёт в текущий треугольник либо на его границу)
                 int prtCheck = Geometry.PointRelativelyTriangle(curPoint, curTriangle.points[0], curTriangle.points[1], curTriangle.points[2]);
@@ -381,9 +387,11 @@ namespace image_triangulation
                     }
                 }
 
-                // Проверки условия Делоне и перестроение
+                pivotPoints.Add(curPoint);
                 DelaunayBuilder(outputTriangles);
             }
+
+            newPoints.Clear();
         }
 
         /// <summary>

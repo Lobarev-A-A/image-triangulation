@@ -19,7 +19,7 @@ namespace image_triangulation
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
         static List<List<Triangle>> dynamicCache = new List<List<Triangle>>();
-        static Dictionary<float, Pixel> pivotPoints = new Dictionary<float, Pixel>();
+        static HashSet<Pixel> pivotPoints = new HashSet<Pixel>();
 
         public static void Run(HashSet<Pixel> outerPivotPoints, List<Section> outputTriangulation, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
@@ -27,7 +27,7 @@ namespace image_triangulation
             pivotPoints.Clear();
             foreach (Pixel pixel in outerPivotPoints)
             {
-                pivotPoints.Add(pixel.GetHashCode(), pixel);
+                pivotPoints.Add(pixel);
             }
 
             Initialization(outputTriangles);
@@ -39,13 +39,26 @@ namespace image_triangulation
         {
             edges.Clear();
 
-            Triangle newTriangle0 = new Triangle(pivotPoints[(float)0.1], pivotPoints[(float)511.1], pivotPoints[(float)511.5111]);
-            Triangle newTriangle1 = new Triangle(pivotPoints[(float)0.1], pivotPoints[(float)511.5111], pivotPoints[(float)0.5111]);
-            pivotPoints.Remove((float)0.1);
-            pivotPoints.Remove((float)511.1);
-            pivotPoints.Remove((float)511.5111);
-            pivotPoints.Remove((float)0.5111);
+            // Добавляем стартовые точки
+            Pixel[] startPoints = { new Pixel(0, 0), new Pixel(511, 0), new Pixel(511, 511), new Pixel(0, 511) };
+            for (int i = 0; i < 4; ++i)
+            {
+                foreach (Pixel p in pivotPoints)
+                {
+                    if (p == startPoints[i])
+                    {
+                        startPoints[i].brightness = p.brightness;
+                        break;
+                    }
+                }
+            }
+            pivotPoints.Remove(startPoints[0]);
+            pivotPoints.Remove(startPoints[1]);
+            pivotPoints.Remove(startPoints[2]);
+            pivotPoints.Remove(startPoints[3]);
 
+            Triangle newTriangle0 = new Triangle(startPoints[0], startPoints[1], startPoints[2]);
+            Triangle newTriangle1 = new Triangle(startPoints[0], startPoints[2], startPoints[3]);
             outputTriangles.Add(newTriangle0);
             outputTriangles.Add(newTriangle1);
 
@@ -87,13 +100,13 @@ namespace image_triangulation
         /// Добавляет узлы в триангуляцию
         /// </summary>
         /// <param name="pivotPoints">Список опорных точек</param>
-        private static void AddPoints(Dictionary<float, Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
+        private static void AddPoints(HashSet<Pixel> pivotPoints, HashSet<Triangle> outputTriangles, float coefOfCacheExpand)
         {
             long numberOfAddedPoints = 4;
             float delta;
             Pixel previousPoint = new Pixel(0, 0);
 
-            foreach (Pixel curPoint in pivotPoints.Values)
+            foreach (Pixel curPoint in pivotPoints)
             {
                 delta = 512 / dynamicCache[0].Count;
                 if (Geometry.Distance(previousPoint, curPoint) > delta)
