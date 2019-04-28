@@ -15,7 +15,7 @@ namespace image_triangulation
         static HashSet<Triangle> trianglesForSearchPoints = new HashSet<Triangle>();
         static HashSet<Triangle> trianglesForDelaunayCheck = new HashSet<Triangle>();
         static HashSet<Pixel> pivotPoints = new HashSet<Pixel>(); 
-        static HashSet<Pixel> newPoints = new HashSet<Pixel>(); // Добавлять без проверок, потом взять разницу между множествами
+        static HashSet<Pixel> newPoints = new HashSet<Pixel>();
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
         static Triangle curTriangle;
 
@@ -23,33 +23,33 @@ namespace image_triangulation
                                List<Section> triangulationSectionsList, HashSet<Triangle> trianglesHashSet)
         {
             Initialization(trianglesHashSet, sourceImageBitmap);
-            SearchAndAdd(sourceImageBitmap, threshold, triangulationSectionsList, trianglesHashSet);
+            SearchAndAdd(sourceImageBitmap, threshold, trianglesHashSet);
             GetOut(triangulationSectionsList, outerPivotPoints);
         }
 
         private static void Initialization(HashSet<Triangle> outputTriangles, Bitmap sourceImageBitmap)
         {
-            edges.Clear();
             pivotPoints.Clear();
             newPoints.Clear();
+            edges.Clear();
 
-            // Добавляем в список стартовые точки
-            newPoints.Add(new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).GetBrightness()));
-            newPoints.Add(new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).GetBrightness()));
-            newPoints.Add(new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).GetBrightness()));
-            newPoints.Add(new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).GetBrightness()));
-
+            // Добавляем стартовые точки
+            Pixel[] startPoints = { new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).GetBrightness()),
+                                    new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).GetBrightness()),
+                                    new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).GetBrightness()),
+                                    new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).GetBrightness()) };
+            pivotPoints.Add(startPoints[0]);
+            pivotPoints.Add(startPoints[1]);
+            pivotPoints.Add(startPoints[2]);
+            pivotPoints.Add(startPoints[3]);
+            
             // Создаём стартовые треугольники
-            Triangle newTriangle0 = new Triangle(newPoints[0], newPoints[1], newPoints[2]);
-            Triangle newTriangle1 = new Triangle(newPoints[0], newPoints[2], newPoints[3]);
+            Triangle newTriangle0 = new Triangle(startPoints[0], startPoints[1], startPoints[2]);
+            Triangle newTriangle1 = new Triangle(startPoints[0], startPoints[2], startPoints[3]);
             outputTriangles.Add(newTriangle0);
             outputTriangles.Add(newTriangle1);
             trianglesForSearchPoints.Add(newTriangle0);
             trianglesForSearchPoints.Add(newTriangle1);
-
-            // Переписываем стартовые точки в общую таблицу
-            foreach (Pixel p in newPoints) pivotPoints.Add(p);
-            newPoints.Clear();
 
             // Заполнение нулевого треугольника
             newTriangle0.edges[0] = new Edge();
@@ -75,12 +75,12 @@ namespace image_triangulation
             newTriangle1.triangles[2] = newTriangle0;
         }
 
-        private static void SearchAndAdd(Bitmap sourceImageBitmap, float threshold, List<Section> triangulationSectionsList, HashSet<Triangle> trianglesHashSet)
+        private static void SearchAndAdd(Bitmap sourceImageBitmap, float threshold, HashSet<Triangle> trianglesHashSet)
         {
             while (trianglesForSearchPoints.Count != 0)
             {
                 SearchPoints(sourceImageBitmap, threshold);
-                AddPoints(pivotPoints, trianglesHashSet);
+                AddPoints(trianglesHashSet);
             }
         }
 
@@ -98,18 +98,22 @@ namespace image_triangulation
                 {
                     Pixel middlePixel = Geometry.MiddlePixel(triangle.points[(i + 1) % 3], triangle.points[(i + 2) % 3]);
                     
-                    List<Pixel> straightForCheking = Geometry.Bresenham(triangle.points[i], middlePixel, sourceImageBitmap);
-                    if (straightForCheking != null)
+                    if (middlePixel.X != -1)
                     {
-                        foreach (Pixel pixel in straightForCheking)
+                        List<Pixel> straightForCheking = Geometry.Bresenham(triangle.points[i], middlePixel, sourceImageBitmap);
+                        if (straightForCheking != null)
                         {
-                            if (Math.Abs(triangle.points[i].brightness - pixel.brightness) > threshold && !pivotPoints.Contains(pixel))
+                            foreach (Pixel pixel in straightForCheking)
                             {
-                                pivotPoints.Add(pixel);
-                                break;
+                                if (Math.Abs(triangle.points[i].brightness - pixel.brightness) > threshold)
+                                {
+                                    newPoints.Add(pixel);
+                                    break;
+                                }
                             }
                         }
                     }
+
                 }
             }
             curTriangle = trianglesForSearchPoints.First();
@@ -120,9 +124,11 @@ namespace image_triangulation
         /// Добавляет узлы в триангуляцию
         /// </summary>
         /// <param name="pivotPoints">Список опорных точек</param>
-        private static void AddPoints(List<Pixel> pivotPoints, HashSet<Triangle> outputTriangles)
+        private static void AddPoints(HashSet<Triangle> outputTriangles)
         {
-            foreach (Pixel curPoint in pivotPoints.Skip(addedPoints))
+            var pointsToAdd = newPoints.Except(pivotPoints);
+
+            foreach (Pixel curPoint in pointsToAdd)
             {
                 int i;
                 // Цикл локализации точки (пока точка не попадёт в текущий треугольник либо на его границу)
@@ -406,14 +412,15 @@ namespace image_triangulation
                         if (!Geometry.DelaunayCheck(checkedTriangle.triangles[i].points[j], checkedTriangle.points[(i + 2) % 3], checkedTriangle.points[i], checkedTriangle.points[(i + 1) % 3]))
                         {
                             checkedTriangle2 = checkedTriangle.triangles[i];
-                            if (trianglesForDelaunayCheck.Contains(checkedTriangle2)) trianglesForDelaunayCheck.Remove(checkedTriangle2);
+                            trianglesForDelaunayCheck.Remove(checkedTriangle2);
                             Triangle newTriangle0 = new Triangle(checkedTriangle.points[i], checkedTriangle2.points[j], checkedTriangle.points[(i + 2) % 3]);
                             Triangle newTriangle1 = new Triangle(checkedTriangle.points[i], checkedTriangle.points[(i + 1) % 3], checkedTriangle2.points[j]);
-                            outputTriangles.Add(newTriangle0);
-                            outputTriangles.Add(newTriangle1);
                             outputTriangles.Remove(checkedTriangle);
                             outputTriangles.Remove(checkedTriangle2);
+                            outputTriangles.Add(newTriangle0);
+                            outputTriangles.Add(newTriangle1);
                             trianglesForSearchPoints.Remove(checkedTriangle);
+                            trianglesForSearchPoints.Remove(checkedTriangle2);
                             trianglesForSearchPoints.Add(newTriangle0);
                             trianglesForSearchPoints.Add(newTriangle1);
 
@@ -480,7 +487,7 @@ namespace image_triangulation
 
         private static void GetOut(List<Section> triangulationSectionsList, HashSet<Pixel> outerPivotPoints)
         {
-            triangulationSectionsList = edges.Values.ToList();
+            foreach (Section section in edges.Values) triangulationSectionsList.Add(section);
             foreach (Pixel pixel in pivotPoints) outerPivotPoints.Add(pixel);
         }
     }

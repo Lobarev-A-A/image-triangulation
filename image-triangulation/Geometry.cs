@@ -194,8 +194,8 @@ namespace image_triangulation
         public static Pixel MiddlePixel(Pixel a, Pixel b)
         {
             List<Pixel> bufList = Bresenham(a, b);
-            if (bufList == null) return new Pixel(0, 0, -1);
-            else return bufList[(int)Math.Round(bufList.Count / 2.0, MidpointRounding.AwayFromZero)];
+            if (bufList == null) return new Pixel(-1, -1);
+            else return (bufList.Count % 2 == 0) ? bufList[bufList.Count / 2] : bufList[(bufList.Count - 1) / 2];
         }
 
         public static List<Pixel> Bresenham(Pixel a, Pixel b)
