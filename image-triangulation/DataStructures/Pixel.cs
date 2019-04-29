@@ -32,7 +32,7 @@ namespace image_triangulation
 
         public override int GetHashCode()
         {
-            return X.GetHashCode() ^ Y.GetHashCode();
+            return 347 * X.GetHashCode() + Y.GetHashCode();
         }
 
         //public new float GetHashCode()
