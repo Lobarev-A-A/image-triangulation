@@ -63,6 +63,8 @@ namespace image_triangulation
             label8.Text = "";
             label9.Text = "";
             label10.Text = "";
+            label13.Text = "";
+            label14.Text = "";
             standartDeviationLabel.Text = "";
             saveInPngButton.Enabled = false;
             saveInTButton.Enabled = false;
@@ -121,6 +123,8 @@ namespace image_triangulation
             label8.Text = "";
             label9.Text = "";
             label10.Text = "";
+            label13.Text = "";
+            label14.Text = "";
             standartDeviationLabel.Text = "";
             saveInPngButton.Enabled = false;
             saveInTButton.Enabled = false;
@@ -155,6 +159,8 @@ namespace image_triangulation
             label8.Text = "";
             label9.Text = "";
             label10.Text = "";
+            label13.Text = pivotPoints.Count.ToString();
+            label14.Text = trianglesHashSet.Count.ToString();
             standartDeviationLabel.Text = "";
             saveInPngButton.Enabled = true;
             saveInTButton.Enabled = false;
@@ -222,6 +228,8 @@ namespace image_triangulation
                     showPivotPoints.Checked = true;
                     label9.Text = "";
                     label10.Text = "";
+                    label13.Text = pivotPoints.Count.ToString();
+                    label14.Text = "";
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
@@ -246,12 +254,14 @@ namespace image_triangulation
                     showHideImageGroupBox.Enabled = true;
                     showHidePPointsGroupBox.Enabled = true;
                     showHideGridGroupBox.Enabled = true;
-                    triangulationControlsGroupBox.Enabled = false;
+                    triangulationControlsGroupBox.Enabled = true;
                     shadingControlsGroupBox.Enabled = true;
                     showPivotPoints.Checked = true;
                     showGrid.Checked = true;
                     label9.Text = "";
                     label10.Text = "";
+                    label13.Text = pivotPoints.Count.ToString();
+                    label14.Text = trianglesHashSet.Count.ToString();
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
@@ -283,6 +293,7 @@ namespace image_triangulation
                     shadingControlsGroupBox.Enabled = true;
                     showGrid.Checked = true;
                     label10.Text = "";
+                    label14.Text = trianglesHashSet.Count.ToString();
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
@@ -307,6 +318,7 @@ namespace image_triangulation
                     shadingControlsGroupBox.Enabled = true;
                     showGrid.Checked = true;
                     label10.Text = "";
+                    label14.Text = trianglesHashSet.Count.ToString();
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
@@ -331,6 +343,7 @@ namespace image_triangulation
                     shadingControlsGroupBox.Enabled = true;
                     showGrid.Checked = true;
                     label10.Text = "";
+                    label14.Text = trianglesHashSet.Count.ToString();
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
