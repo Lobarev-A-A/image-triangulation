@@ -10,6 +10,7 @@ using System.Windows.Forms;
 // * Валидация вводимых с клавиатуры значений
 // * Обработать попытку перезаписи открытого файла
 // * Решить, что использовать для отрисовки открываемого .t-файла
+// * Дебаг интерфейса
 namespace image_triangulation
 {
     public partial class MainForm : Form
@@ -42,16 +43,7 @@ namespace image_triangulation
             openPngFileDialog.Filter = "PNG file (*.png)|*.png";
             savePngFileDialog.Filter = "PNG file (*.png)|*.png";
             saveTFileDialog.Filter = "T file (*.t)|*.t";
-            openTFileDialog.Filter = "T file (*.t)|*.t";
-
-            // Инициализируем comboBox'ы
-            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1", "Комбинированный алгоритм" });
-            pPMakersComboBox.SelectedIndex = 0;
-            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation",
-                                                                 "DCIterativeTriangulation", "StripIterativeTriangulation" });
-            triangulationsComboBox.SelectedIndex = 0;
-            shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
-            shadersComboBox.SelectedIndex = 0;
+            openTFileDialog.Filter = "T file (*.t)|*.t";            
 
             // Выставляем элементы формы
             showHideImageGroupBox.Enabled = false;
@@ -78,7 +70,8 @@ namespace image_triangulation
                 BackColor = Color.Transparent,
                 Enabled = false
             };
-            originalImagePictureBox.Controls.Add(pivotPointsPictureBox);           
+            originalImagePictureBox.Controls.Add(pivotPointsPictureBox);
+            pivotPointsPictureBox.MouseClick += PivotPointsPictureBox_MouseClick1;
 
             // создаём PictureBox для слоя с триангуляционной сеткой
             triangulationGridPictureBox = new PictureBox
@@ -90,18 +83,16 @@ namespace image_triangulation
                 Enabled = false
             };
             pivotPointsPictureBox.Controls.Add(triangulationGridPictureBox);
-                        
-            // (нужно для выбора точек вручную) подписываем PivotPointsPictureBox на MouseClick
-            //pivotPointsPictureBox.MouseClick += PivotPointsPictureBox_MouseClick1;
-        }
 
-        // Код для выбора точек вручную
-        //private void PivotPointsPictureBox_MouseClick1(object sender, MouseEventArgs e)
-        //{
-        //    pivotPointsList.Add(new Pixel(e.Location.X, e.Location.Y));
-        //    pivotPointsBitmap.SetPixel(pivotPointsList.Last().X, pivotPointsList.Last().Y, Color.Red);
-        //    pivotPointsPictureBox.Image = pivotPointsBitmap;
-        //}
+            // Инициализируем comboBox'ы
+            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1", "Комбинированный алгоритм", "Вручную" });
+            pPMakersComboBox.SelectedIndex = 0;
+            triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation",
+                                                                 "DCIterativeTriangulation", "StripIterativeTriangulation" });
+            triangulationsComboBox.SelectedIndex = 0;
+            shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
+            shadersComboBox.SelectedIndex = 0;
+        }        
 
         private void OpenPngButton_Click(object sender, EventArgs e)
         {
@@ -384,21 +375,57 @@ namespace image_triangulation
             switch (pPMakersComboBox.SelectedIndex)
             {
                 case 0:
+                    ResetPivotPoints();
+                    label13.Text = "";
+                    pivotPointsPictureBox.Enabled = false;
                     label7.Visible = false;
                     pPMakerThresholdTextBox.Visible = false;
                     thresholdLimitsLabel.Visible = false;
+                    runPPMakerButton.Enabled = false;
+                    triangulationControlsGroupBox.Enabled = false;
                     return;
                 case 1:
+                    ResetPivotPoints();
+                    label13.Text = "";
+                    pivotPointsPictureBox.Enabled = false;
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
                     pPMakerThresholdTextBox.Text = "0.1";
                     thresholdLimitsLabel.Visible = true;
+                    runPPMakerButton.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = false;
                     return;
                 case 2:
+                    ResetPivotPoints();
+                    label13.Text = "";
+                    pivotPointsPictureBox.Enabled = false;
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
                     pPMakerThresholdTextBox.Text = "0.1";
                     thresholdLimitsLabel.Visible = true;
+                    runPPMakerButton.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = false;
+                    return;
+                case 3:
+                    runPPMakerButton.Enabled = false;
+                    ResetPivotPoints();
+                    // Записываем стартовые точки триангуляции
+                    Pixel[] initPixels = { new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).GetBrightness()),
+                                           new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).GetBrightness()),
+                                           new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).GetBrightness()),
+                                           new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).GetBrightness()) };
+                    for (byte i = 0; i < 4; ++i)
+                    {
+                        pivotPoints.Add(initPixels[i]);
+                        pivotPointsBitmap.SetPixel(initPixels[i].X, initPixels[i].Y, Color.Red);
+                    }
+                    label13.Text = pivotPoints.Count.ToString();
+                    pivotPointsPictureBox.Image = pivotPointsBitmap;
+                    pivotPointsPictureBox.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = true;
+                    label7.Visible = false;
+                    pPMakerThresholdTextBox.Visible = false;
+                    thresholdLimitsLabel.Visible = false;
                     return;
             }
         }
@@ -445,6 +472,15 @@ namespace image_triangulation
                     stripingFactorRecomendLabel.Visible = true;
                     return;
             }
+        }
+
+        private void PivotPointsPictureBox_MouseClick1(object sender, MouseEventArgs e)
+        {
+            Pixel pixel = new Pixel(e.Location.X, e.Location.Y, sourceImageBitmap.GetPixel(e.Location.X, e.Location.Y).GetBrightness());
+            pivotPoints.Add(pixel);
+            pivotPointsBitmap.SetPixel(pixel.X, pixel.Y, Color.Red);
+            label13.Text = pivotPoints.Count.ToString();
+            pivotPointsPictureBox.Image = pivotPointsBitmap;
         }
 
         private void ResetPivotPoints()

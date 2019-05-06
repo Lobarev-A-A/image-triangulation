@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 // TO DO
-// * Переопределение Equals и GetHashCode сильно замедляет алгоритмы
+// * 
 namespace image_triangulation
 {
     class Triangle// : IEquatable<object>
