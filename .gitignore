@@ -1,18 +1,9 @@
 *.sln
-
 *.config
-
 *.resx
-
 *.csproj
 
-
-
 Properties
-
 bin
-
 obj
-
 .vs
-Unused_files
