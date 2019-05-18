@@ -271,7 +271,7 @@ namespace image_triangulation
                 while (length != 0)
                 {
                     length--;
-                    outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness()));
+                    outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).R));
                     x += sX;
                     d += 2 * lengthY;
                     if (d > 0)
@@ -290,7 +290,7 @@ namespace image_triangulation
                 while (length != 0)
                 {
                     length--;
-                    outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness()));
+                    outputList.Add(new Pixel(x, y, sourceImage.GetPixel(x, y).R));
                     y += sY;
                     d += 2 * lengthX;
                     if (d > 0)

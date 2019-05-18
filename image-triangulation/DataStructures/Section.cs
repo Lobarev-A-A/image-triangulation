@@ -6,9 +6,9 @@ namespace image_triangulation
 {
     class Section : IComparable<Section>
     {
-        public Pixel a { get; }
-        public Pixel b { get; }
-        public double length { get; }
+        public Pixel a;
+        public Pixel b;
+        public double length;
 
         public Section(Pixel a, Pixel b)
         {

@@ -27,7 +27,7 @@ namespace image_triangulation
             {
                 for (int j = 0; j < firstImage.Width; ++j)
                 {
-                    bufDiff += Math.Pow((double)firstImage.GetPixel(j, i).GetBrightness() - (double)secondImage.GetPixel(j, i).GetBrightness(), 2);
+                    bufDiff += (firstImage.GetPixel(j, i).R - secondImage.GetPixel(j, i).R) * (firstImage.GetPixel(j, i).R - secondImage.GetPixel(j, i).R);
                 }
             }
 

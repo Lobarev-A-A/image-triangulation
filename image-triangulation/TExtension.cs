@@ -55,7 +55,7 @@ namespace image_triangulation
             {
                 while (tmpFileReader.BaseStream.Position != tmpFileReader.BaseStream.Length)
                 {
-                    Pixel pixel = new Pixel(tmpFileReader.ReadInt16(), tmpFileReader.ReadInt16(), tmpFileReader.ReadSingle());
+                    Pixel pixel = new Pixel(tmpFileReader.ReadInt16(), tmpFileReader.ReadInt16(), tmpFileReader.ReadByte());
                     pivotPoints.Add(pixel);
                 }
             }

@@ -16,13 +16,13 @@ namespace image_triangulation
             SolidBrush brush;
             Pen pen;
             Color color;
-            float averageBrightness;
+            int averageBrightness;
             Graphics rebuiltImageCanvas = Graphics.FromImage(rebuiltImageBitmap);
 
             foreach (Triangle triangle in triangles)
             {
                 averageBrightness = (triangle.points[0].brightness + triangle.points[1].brightness + triangle.points[2].brightness) / 3;
-                color = ColorConversion.ColorFromHSL(0, 0, averageBrightness);
+                color = Color.FromArgb(averageBrightness, averageBrightness, averageBrightness);
                 brush = new SolidBrush(color);
                 pen = new Pen(color);                
                 rebuiltImageCanvas.DrawPolygon(pen, triangle.Points());

@@ -19,7 +19,7 @@ namespace image_triangulation
         static Dictionary<Edge, Section> edges = new Dictionary<Edge, Section>();
         static Triangle curTriangle;
 
-        public static void Run(Bitmap sourceImageBitmap, float threshold, HashSet<Pixel> outerPivotPoints,
+        public static void Run(Bitmap sourceImageBitmap, byte threshold, HashSet<Pixel> outerPivotPoints,
                                List<Section> triangulationSectionsList, HashSet<Triangle> trianglesHashSet)
         {
             Initialization(trianglesHashSet, sourceImageBitmap);
@@ -34,10 +34,10 @@ namespace image_triangulation
             edges.Clear();
 
             // Добавляем стартовые точки
-            Pixel[] startPoints = { new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).GetBrightness()),
-                                    new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).GetBrightness()),
-                                    new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).GetBrightness()),
-                                    new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).GetBrightness()) };
+            Pixel[] startPoints = { new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).R),
+                                    new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).R),
+                                    new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).R),
+                                    new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).R) };
             pivotPoints.Add(startPoints[0]);
             pivotPoints.Add(startPoints[1]);
             pivotPoints.Add(startPoints[2]);
@@ -73,7 +73,7 @@ namespace image_triangulation
             newTriangle1.triangles[2] = newTriangle0;
         }
 
-        private static void SearchAndAdd(Bitmap sourceImageBitmap, float threshold, HashSet<Triangle> trianglesHashSet)
+        private static void SearchAndAdd(Bitmap sourceImageBitmap, byte threshold, HashSet<Triangle> trianglesHashSet)
         {
             trianglesHashSetBeforeAddPoints.Clear();
             var trianglesForSearchPoints = trianglesHashSet.Except(trianglesHashSetBeforeAddPoints);

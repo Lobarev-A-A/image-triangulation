@@ -51,11 +51,15 @@
             this.shadersComboBox = new System.Windows.Forms.ComboBox();
             this.runShaderButton = new System.Windows.Forms.Button();
             this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.thresholdLimitsLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.triangulationControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.stripingFactorRecomendLabel = new System.Windows.Forms.Label();
             this.stripingFactorTextBox = new System.Windows.Forms.TextBox();
             this.stripingFactorLabel = new System.Windows.Forms.Label();
@@ -75,10 +79,6 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -321,14 +321,32 @@
             this.pPointsControlsGroupBox.TabStop = false;
             this.pPointsControlsGroupBox.Text = "Опорные точки";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(58, 105);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(54, 17);
+            this.label13.TabIndex = 28;
+            this.label13.Text = "label13";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 105);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(52, 17);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "Точек:";
+            // 
             // thresholdLimitsLabel
             // 
             this.thresholdLimitsLabel.AutoSize = true;
             this.thresholdLimitsLabel.Location = new System.Drawing.Point(154, 54);
             this.thresholdLimitsLabel.Name = "thresholdLimitsLabel";
-            this.thresholdLimitsLabel.Size = new System.Drawing.Size(70, 17);
+            this.thresholdLimitsLabel.Size = new System.Drawing.Size(62, 17);
             this.thresholdLimitsLabel.TabIndex = 26;
-            this.thresholdLimitsLabel.Text = "(0.0...1.0)";
+            this.thresholdLimitsLabel.Text = "(0...255)";
             // 
             // label8
             // 
@@ -377,6 +395,24 @@
             this.triangulationControlsGroupBox.TabIndex = 27;
             this.triangulationControlsGroupBox.TabStop = false;
             this.triangulationControlsGroupBox.Text = "Триангуляция";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(116, 105);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(54, 17);
+            this.label14.TabIndex = 29;
+            this.label14.Text = "label14";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 105);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(110, 17);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "Треугольников:";
             // 
             // stripingFactorRecomendLabel
             // 
@@ -528,42 +564,6 @@
             // openTFileDialog
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 105);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(52, 17);
-            this.label11.TabIndex = 27;
-            this.label11.Text = "Точек:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 105);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(110, 17);
-            this.label12.TabIndex = 28;
-            this.label12.Text = "Треугольников:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(58, 105);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(54, 17);
-            this.label13.TabIndex = 28;
-            this.label13.Text = "label13";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(116, 105);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(54, 17);
-            this.label14.TabIndex = 29;
-            this.label14.Text = "label14";
             // 
             // MainForm
             // 

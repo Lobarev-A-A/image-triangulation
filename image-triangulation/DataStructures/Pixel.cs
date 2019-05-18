@@ -10,11 +10,11 @@ namespace image_triangulation
 {
     public struct Pixel : IEquatable<object>
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public float brightness { get; set; }
+        public int X;
+        public int Y;
+        public byte brightness;
 
-        public Pixel(int X, int Y, float brightness = -1)
+        public Pixel(int X, int Y, byte brightness = 0)
         {
             this.X = X;
             this.Y = Y;

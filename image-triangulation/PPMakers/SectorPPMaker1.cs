@@ -23,18 +23,18 @@ namespace image_triangulation
         /// <param name="sourceImage">Изображение, на котором требуется выбрать опорные точки.</param>
         /// <param name="threshold">Порог чувствительности.</param>
         /// <param name="pivotPoints">Ссылка, по которой будет сформирован список опорных точек.</param>
-        public static void Run(Bitmap sourceImage, float threshold, HashSet<Pixel> pivotPoints)
+        public static void Run(Bitmap sourceImage, byte threshold, HashSet<Pixel> pivotPoints)
         {
             int outerLoopEndPixel = sourceImage.Height - 4;
             int innerLoopEndPixel = sourceImage.Width - 4;
             float averageBright;
-            float minBright;
-            float maxBright;
+            byte minBright;
+            byte maxBright;
             Pixel bufPixel;
 
             // Записываем стартовые точки триангуляции
-            Pixel[] initPixels = { new Pixel(0, 0, sourceImage.GetPixel(0, 0).GetBrightness()), new Pixel(511, 0, sourceImage.GetPixel(511, 0).GetBrightness()),
-                                   new Pixel(511, 511, sourceImage.GetPixel(511, 511).GetBrightness()), new Pixel(0, 511, sourceImage.GetPixel(0, 511).GetBrightness()) };
+            Pixel[] initPixels = { new Pixel(0, 0, sourceImage.GetPixel(0, 0).R), new Pixel(511, 0, sourceImage.GetPixel(511, 0).R),
+                                   new Pixel(511, 511, sourceImage.GetPixel(511, 511).R), new Pixel(0, 511, sourceImage.GetPixel(0, 511).R) };
             for (byte i = 0; i < 4; ++i)
             {
                 pivotPoints.Add(initPixels[i]);
@@ -47,11 +47,11 @@ namespace image_triangulation
                     averageBright = AverageBright(sourceImage, j, i);
                     // Проверка пикселя минимальной яркости
                     bufPixel = MinBrightPixel(sourceImage, j, i);
-                    minBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
+                    minBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).R;
                     if ((averageBright - minBright) >= threshold) pivotPoints.Add(bufPixel);
                     // Проверка пикселя максимальной яркости
                     bufPixel = MaxBrightPixel(sourceImage, j, i);
-                    maxBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).GetBrightness();
+                    maxBright = sourceImage.GetPixel(bufPixel.X, bufPixel.Y).R;
                     if ((maxBright - averageBright) >= threshold) pivotPoints.Add(bufPixel);
                 }
             }
@@ -71,7 +71,7 @@ namespace image_triangulation
             {
                 for (int j = 0; j < 4; ++j)
                 {
-                    buf += sourceImage.GetPixel(x + i, y + j).GetBrightness();
+                    buf += sourceImage.GetPixel(x + i, y + j).R;
                 }
             }
 
@@ -87,16 +87,16 @@ namespace image_triangulation
         /// <returns>Pixel с координатами самого яркого пикселя в секторе.</returns>
         private static Pixel MaxBrightPixel(Bitmap sourceImage, int x, int y)
         {
-            Pixel outPixel = new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness());
+            Pixel outPixel = new Pixel(x, y, sourceImage.GetPixel(x, y).R);
             for (int i = 0; i < 4; ++i)
             {
                 for (int j = 0; j < 4; ++j)
                 {
-                    if (sourceImage.GetPixel(x + i, y + j).GetBrightness() > outPixel.brightness)
+                    if (sourceImage.GetPixel(x + i, y + j).R > outPixel.brightness)
                     {
                         outPixel.X = x + i;
                         outPixel.Y = y + j;
-                        outPixel.brightness = sourceImage.GetPixel(x + i, y + j).GetBrightness();
+                        outPixel.brightness = sourceImage.GetPixel(x + i, y + j).R;
                     }
                 }
             }
@@ -112,16 +112,16 @@ namespace image_triangulation
         /// <returns>Pixel с координатами самого тёмного пикселя в секторе.</returns>
         private static Pixel MinBrightPixel(Bitmap sourceImage, int x, int y)
         {
-            Pixel outPixel = new Pixel(x, y, sourceImage.GetPixel(x, y).GetBrightness());
+            Pixel outPixel = new Pixel(x, y, sourceImage.GetPixel(x, y).R);
             for (int i = 0; i < 4; ++i)
             {
                 for (int j = 0; j < 4; ++j)
                 {
-                    if (sourceImage.GetPixel(x + i, y + j).GetBrightness() < outPixel.brightness)
+                    if (sourceImage.GetPixel(x + i, y + j).R < outPixel.brightness)
                     {
                         outPixel.X = x + i;
                         outPixel.Y = y + j;
-                        outPixel.brightness = sourceImage.GetPixel(x + i, y + j).GetBrightness();
+                        outPixel.brightness = sourceImage.GetPixel(x + i, y + j).R;
                     }
                 }
             }

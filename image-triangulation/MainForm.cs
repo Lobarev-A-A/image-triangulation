@@ -27,7 +27,7 @@ namespace image_triangulation
         PictureBox pivotPointsPictureBox;
         PictureBox triangulationGridPictureBox;
 
-        float pPMakerThreshold;
+        byte pPMakerThreshold;
         float coefOfCacheExpand;
         float stripingFactor;
 
@@ -202,7 +202,7 @@ namespace image_triangulation
                     ResetTriangulation();
                     ResetPivotPoints();
 
-                    pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    pPMakerThreshold = byte.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
                     SectorPPMaker1.Run(sourceImageBitmap, pPMakerThreshold, pivotPoints);
                     sw.Stop();
@@ -230,7 +230,7 @@ namespace image_triangulation
                     ResetTriangulation();
                     ResetPivotPoints();
 
-                    pPMakerThreshold = float.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    pPMakerThreshold = byte.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
                     SearchInTriangle.Run(sourceImageBitmap, pPMakerThreshold, pivotPoints, triangulationSectionsList, trianglesHashSet);
                     sw.Stop();
@@ -390,7 +390,7 @@ namespace image_triangulation
                     pivotPointsPictureBox.Enabled = false;
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
-                    pPMakerThresholdTextBox.Text = "0.1";
+                    pPMakerThresholdTextBox.Text = "25";
                     thresholdLimitsLabel.Visible = true;
                     runPPMakerButton.Enabled = true;
                     triangulationControlsGroupBox.Enabled = false;
@@ -401,7 +401,7 @@ namespace image_triangulation
                     pivotPointsPictureBox.Enabled = false;
                     label7.Visible = true;
                     pPMakerThresholdTextBox.Visible = true;
-                    pPMakerThresholdTextBox.Text = "0.1";
+                    pPMakerThresholdTextBox.Text = "25";
                     thresholdLimitsLabel.Visible = true;
                     runPPMakerButton.Enabled = true;
                     triangulationControlsGroupBox.Enabled = false;
@@ -410,10 +410,10 @@ namespace image_triangulation
                     runPPMakerButton.Enabled = false;
                     ResetPivotPoints();
                     // Записываем стартовые точки триангуляции
-                    Pixel[] initPixels = { new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).GetBrightness()),
-                                           new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).GetBrightness()),
-                                           new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).GetBrightness()),
-                                           new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).GetBrightness()) };
+                    Pixel[] initPixels = { new Pixel(0, 0, sourceImageBitmap.GetPixel(0, 0).R),
+                                           new Pixel(sourceImageBitmap.Width - 1, 0, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, 0).R),
+                                           new Pixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(sourceImageBitmap.Width - 1, sourceImageBitmap.Height - 1).R),
+                                           new Pixel(0, sourceImageBitmap.Height - 1, sourceImageBitmap.GetPixel(0, sourceImageBitmap.Height - 1).R) };
                     for (byte i = 0; i < 4; ++i)
                     {
                         pivotPoints.Add(initPixels[i]);
@@ -476,7 +476,7 @@ namespace image_triangulation
 
         private void PivotPointsPictureBox_MouseClick1(object sender, MouseEventArgs e)
         {
-            Pixel pixel = new Pixel(e.Location.X, e.Location.Y, sourceImageBitmap.GetPixel(e.Location.X, e.Location.Y).GetBrightness());
+            Pixel pixel = new Pixel(e.Location.X, e.Location.Y, sourceImageBitmap.GetPixel(e.Location.X, e.Location.Y).R);
             pivotPoints.Add(pixel);
             pivotPointsBitmap.SetPixel(pixel.X, pixel.Y, Color.Red);
             label13.Text = pivotPoints.Count.ToString();
