@@ -90,7 +90,7 @@ namespace image_triangulation
             triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation",
                                                                  "DCIterativeTriangulation", "StripIterativeTriangulation" });
             triangulationsComboBox.SelectedIndex = 0;
-            shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader" });
+            shadersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "VerticesAverageBrightnessShader", "TriangleGradientShader" });
             shadersComboBox.SelectedIndex = 0;
         }        
 
@@ -350,10 +350,30 @@ namespace image_triangulation
                 case 1:
                     ResetShading();
 
-                    Stopwatch sw = Stopwatch.StartNew();
+                    sw = Stopwatch.StartNew();
                     VerticesAverageBrightnessShader.Run(rebuiltImageBitmap, trianglesHashSet);
                     sw.Stop();
                     label10.Text = sw.ElapsedMilliseconds.ToString();                    
+                    rebuiltImagePictureBox.Image = rebuiltImageBitmap;
+
+                    standartDeviationLabel.Text = StandartDeviation.Run(sourceImageBitmap, rebuiltImageBitmap).ToString();
+
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = true;
+                    pPointsControlsGroupBox.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = true;
+                    saveInPngButton.Enabled = true;
+                    saveInTButton.Enabled = true;
+                    return;
+                case 2:
+                    ResetShading();
+
+                    sw = Stopwatch.StartNew();
+                    TriangleGradientShader.Run(rebuiltImageBitmap, trianglesHashSet);
+                    sw.Stop();
+                    label10.Text = sw.ElapsedMilliseconds.ToString();
                     rebuiltImagePictureBox.Image = rebuiltImageBitmap;
 
                     standartDeviationLabel.Text = StandartDeviation.Run(sourceImageBitmap, rebuiltImageBitmap).ToString();

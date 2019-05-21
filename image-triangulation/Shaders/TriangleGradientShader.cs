@@ -6,14 +6,8 @@ namespace image_triangulation
 {
     static class TriangleGradientShader
     {
-        private static void Run(Bitmap rebuiltImageBitmap, HashSet<Triangle> triangles)
+        public static void Run(Bitmap rebuiltImageBitmap, HashSet<Triangle> triangles)
         {
-            //SolidBrush brush;
-            //Pen pen;
-            //Color color;
-            //Graphics rebuiltImageCanvas = Graphics.FromImage(rebuiltImageBitmap);
-            double[] barycentricVec = new double[3];
-
             foreach (Triangle triangle in triangles)
             {
                 // Находим описывающий прямоугольник
@@ -27,23 +21,31 @@ namespace image_triangulation
                 {
                     for (int j = minX; j <= maxX; ++j)
                     {
-                        BarycentricCoords(j, i, triangle.points[0], triangle.points[1], triangle.points[2], barycentricVec);
+                        double[] barycentricVec = BarycentricCoords(j, i, triangle.points[0], triangle.points[1], triangle.points[2]);
 
+                        if ((barycentricVec[0] >= 0) && (barycentricVec[0] <= 1) &&
+                            (barycentricVec[1] >= 0) && (barycentricVec[1] <= 1) &&
+                            (barycentricVec[2] >= 0) && (barycentricVec[2] <= 1))
+                        {
+                            // Вычисление цвета пикселя
+                            int brightness = (int)(barycentricVec[0] * triangle.points[0].brightness +
+                                                   barycentricVec[1] * triangle.points[1].brightness +
+                                                   barycentricVec[2] * triangle.points[2].brightness);
+                            Color color = Color.FromArgb(brightness, brightness, brightness);
+                            rebuiltImageBitmap.SetPixel(j, i, color);
+                        }
                     }
-                }
-
-                //averageBrightness = (triangle.points[0].brightness + triangle.points[1].brightness + triangle.points[2].brightness) / 3;
-                //color = Color.FromArgb(averageBrightness, averageBrightness, averageBrightness);
-                //brush = new SolidBrush(color);
-                //pen = new Pen(color);                
+                }  
             }
         }
 
-        private static void BarycentricCoords(int x, int y, Pixel p1, Pixel p2, Pixel p3, double[] barycentricVec)
+        private static double[] BarycentricCoords(int x, int y, Pixel p1, Pixel p2, Pixel p3)
         {
-            barycentricVec[0] = ((p2.Y - p3.Y) * (x - p3.X) + (p3.X - p2.X) * (y - p3.Y)) / ((p2.Y - p3.Y) * (p1.X - p3.X) + (p3.X - p2.X) * (p1.Y - p3.Y));
-            barycentricVec[1] = ((p3.Y - p1.Y) * (x - p3.X) + (p1.X - p3.X) * (y - p3.Y)) / ((p2.Y - p3.Y) * (p1.X - p3.X) + (p3.X - p2.X) * (p1.Y - p3.Y));
+            double[] barycentricVec = new double[3];
+            barycentricVec[0] = ((p2.Y - p3.Y) * (x - p3.X) + (p3.X - p2.X) * (y - p3.Y)) / (double)((p2.Y - p3.Y) * (p1.X - p3.X) + (p3.X - p2.X) * (p1.Y - p3.Y));
+            barycentricVec[1] = ((p3.Y - p1.Y) * (x - p3.X) + (p1.X - p3.X) * (y - p3.Y)) / (double)((p2.Y - p3.Y) * (p1.X - p3.X) + (p3.X - p2.X) * (p1.Y - p3.Y));
             barycentricVec[2] = 1 - barycentricVec[0] - barycentricVec[1];
+            return barycentricVec;
         }
     }
 }
