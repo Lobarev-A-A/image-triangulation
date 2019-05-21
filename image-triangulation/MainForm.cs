@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 
+
 // TO DO
 // * Пройтись по использованию памяти (using (разобраться с неуправляемыми ресурсами))
 // * Проверить нейминг методов
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 // * Обработать попытку перезаписи открытого файла
 // * Решить, что использовать для отрисовки открываемого .t-файла
 // * Дебаг интерфейса
+// * Вынести дефолтные значения настроек наверх в константы
 namespace image_triangulation
 {
     public partial class MainForm : Form
@@ -28,6 +30,7 @@ namespace image_triangulation
         PictureBox triangulationGridPictureBox;
 
         byte pPMakerThreshold;
+        int sectorSize;
         float coefOfCacheExpand;
         float stripingFactor;
 
@@ -203,8 +206,9 @@ namespace image_triangulation
                     ResetPivotPoints();
 
                     pPMakerThreshold = byte.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    sectorSize = int.Parse(sectorSizeTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    SectorPPMaker1.Run(sourceImageBitmap, pPMakerThreshold, pivotPoints);
+                    SectorPPMaker.Run(sourceImageBitmap, pivotPoints, pPMakerThreshold, sectorSize);
                     sw.Stop();
                     label8.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.PixelsToBitmap(pivotPoints, pivotPointsBitmap);
@@ -399,6 +403,9 @@ namespace image_triangulation
                     label13.Text = "";
                     pivotPointsPictureBox.Enabled = false;
                     label7.Visible = false;
+                    label15.Visible = false;
+                    label16.Visible = false;
+                    sectorSizeTextBox.Visible = false;
                     pPMakerThresholdTextBox.Visible = false;
                     thresholdLimitsLabel.Visible = false;
                     runPPMakerButton.Enabled = false;
@@ -409,6 +416,10 @@ namespace image_triangulation
                     label13.Text = "";
                     pivotPointsPictureBox.Enabled = false;
                     label7.Visible = true;
+                    label15.Visible = true;
+                    label16.Visible = true;
+                    sectorSizeTextBox.Visible = true;
+                    sectorSizeTextBox.Text = "4";
                     pPMakerThresholdTextBox.Visible = true;
                     pPMakerThresholdTextBox.Text = "25";
                     thresholdLimitsLabel.Visible = true;
@@ -420,6 +431,9 @@ namespace image_triangulation
                     label13.Text = "";
                     pivotPointsPictureBox.Enabled = false;
                     label7.Visible = true;
+                    label15.Visible = false;
+                    label16.Visible = false;
+                    sectorSizeTextBox.Visible = false;
                     pPMakerThresholdTextBox.Visible = true;
                     pPMakerThresholdTextBox.Text = "25";
                     thresholdLimitsLabel.Visible = true;
@@ -444,6 +458,9 @@ namespace image_triangulation
                     pivotPointsPictureBox.Enabled = true;
                     triangulationControlsGroupBox.Enabled = true;
                     label7.Visible = false;
+                    label15.Visible = false;
+                    label16.Visible = false;
+                    sectorSizeTextBox.Visible = false;
                     pPMakerThresholdTextBox.Visible = false;
                     thresholdLimitsLabel.Visible = false;
                     return;

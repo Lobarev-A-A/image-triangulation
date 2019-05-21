@@ -79,6 +79,9 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.sectorSizeTextBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -305,6 +308,9 @@
             // 
             // pPointsControlsGroupBox
             // 
+            this.pPointsControlsGroupBox.Controls.Add(this.label16);
+            this.pPointsControlsGroupBox.Controls.Add(this.label15);
+            this.pPointsControlsGroupBox.Controls.Add(this.sectorSizeTextBox);
             this.pPointsControlsGroupBox.Controls.Add(this.label13);
             this.pPointsControlsGroupBox.Controls.Add(this.label11);
             this.pPointsControlsGroupBox.Controls.Add(this.thresholdLimitsLabel);
@@ -565,6 +571,30 @@
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
             // 
+            // sectorSizeTextBox
+            // 
+            this.sectorSizeTextBox.Location = new System.Drawing.Point(101, 77);
+            this.sectorSizeTextBox.Name = "sectorSizeTextBox";
+            this.sectorSizeTextBox.Size = new System.Drawing.Size(48, 22);
+            this.sectorSizeTextBox.TabIndex = 30;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(6, 73);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(95, 31);
+            this.label15.TabIndex = 33;
+            this.label15.Text = "Размерность сектора:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(154, 82);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(62, 17);
+            this.label16.TabIndex = 34;
+            this.label16.Text = "(1...100)";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -659,6 +689,9 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox sectorSizeTextBox;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
     }
 }
 
