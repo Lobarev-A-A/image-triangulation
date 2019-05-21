@@ -87,31 +87,26 @@ namespace image_triangulation
 
         private static List<Pixel> Striping(HashSet<Pixel> pivotPoints)
         {
-            const float STRIPING_FACTOR = 0.5F;
+            const int IMAGE_WIDTH = 512;
+            const int IMAGE_HEIGHT = 512;
 
             List<List<Pixel>> stripes = new List<List<Pixel>>();
-            int numberOfStripes = (int)Math.Sqrt((STRIPING_FACTOR * 512 * pivotPoints.Count) / 512);
 
             // Разбиваем исходный список на полосы
-            for (int i = 0; i < numberOfStripes; ++i)
+            for (int i = 0; i < IMAGE_WIDTH; ++i)
             {
                 stripes.Add(new List<Pixel>());
             }
             foreach (Pixel p in pivotPoints)
             {
-                stripes[(int)(p.X / (512.0 / numberOfStripes))].Add(p);
+                stripes[p.X].Add(p);
             }
 
-            // Сортируем пиксели в полосках
-            for (int i = 0; i < numberOfStripes; ++i)
+            // Сортируем пиксели в полосках и склеиваем в один массив
+            List<Pixel> sortedPointsList = new List<Pixel>();
+            for (int i = 0; i < IMAGE_WIDTH; ++i)
             {
                 stripes[i].Sort(new YComparer());
-            }
-
-            // Склеиваем полоски в один массив            
-            List<Pixel> sortedPointsList = new List<Pixel>();
-            for (int i = 0; i < numberOfStripes; ++i)
-            {
                 sortedPointsList.AddRange(stripes[i]);
             }
 
