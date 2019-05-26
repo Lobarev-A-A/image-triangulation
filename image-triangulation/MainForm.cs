@@ -13,6 +13,7 @@ using System.Windows.Forms;
 // * Решить, что использовать для отрисовки открываемого .t-файла
 // * Дебаг интерфейса
 // * Вынести дефолтные значения настроек наверх в константы
+// * Убрать пункт "Выберите алгоритм"
 namespace image_triangulation
 {
     public partial class MainForm : Form
@@ -88,7 +89,7 @@ namespace image_triangulation
             pivotPointsPictureBox.Controls.Add(triangulationGridPictureBox);
 
             // Инициализируем comboBox'ы
-            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1", "Комбинированный алгоритм", "Вручную" });
+            pPMakersComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SectorPPMaker1", "Комбинированный алгоритм", "Вручную", "Случайно" });
             pPMakersComboBox.SelectedIndex = 0;
             triangulationsComboBox.Items.AddRange(new string[] { "Выберите алгоритм", "SimpleIterativeTriangulation",
                                                                  "DCIterativeTriangulation", "StripIterativeTriangulation" });
@@ -261,6 +262,34 @@ namespace image_triangulation
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
                     return;
+                case 4:
+                    ResetShading();
+                    ResetTriangulation();
+                    ResetPivotPoints();
+
+                    int numberOfPivotPoints = int.Parse(textBoxNumberOfPivotPoints.Text, System.Globalization.CultureInfo.InvariantCulture);
+                    sw = Stopwatch.StartNew();
+                    RandomPPMaker.Run(sourceImageBitmap, pivotPoints, numberOfPivotPoints);
+                    sw.Stop();
+                    label8.Text = sw.ElapsedMilliseconds.ToString();
+                    DrawOperations.PixelsToBitmap(pivotPoints, pivotPointsBitmap);
+                    pivotPointsPictureBox.Image = pivotPointsBitmap;
+
+                    // Выставляем элементы формы
+                    showHideImageGroupBox.Enabled = true;
+                    showHidePPointsGroupBox.Enabled = true;
+                    showHideGridGroupBox.Enabled = false;
+                    triangulationControlsGroupBox.Enabled = true;
+                    shadingControlsGroupBox.Enabled = false;
+                    showPivotPoints.Checked = true;
+                    label9.Text = "";
+                    label10.Text = "";
+                    label13.Text = pivotPoints.Count.ToString();
+                    label14.Text = "";
+                    standartDeviationLabel.Text = "";
+                    saveInPngButton.Enabled = false;
+                    saveInTButton.Enabled = true;
+                    return;
             }
         }
         private void RunTriangulation_Click(object sender, EventArgs e)
@@ -410,6 +439,9 @@ namespace image_triangulation
                     thresholdLimitsLabel.Visible = false;
                     runPPMakerButton.Enabled = false;
                     triangulationControlsGroupBox.Enabled = false;
+                    // RandomPPMaker
+                    labelNumberOfPivotPoints.Visible = false;
+                    textBoxNumberOfPivotPoints.Visible = false;
                     return;
                 case 1:
                     ResetPivotPoints();
@@ -425,6 +457,9 @@ namespace image_triangulation
                     thresholdLimitsLabel.Visible = true;
                     runPPMakerButton.Enabled = true;
                     triangulationControlsGroupBox.Enabled = false;
+                    // RandomPPMaker
+                    labelNumberOfPivotPoints.Visible = false;
+                    textBoxNumberOfPivotPoints.Visible = false;
                     return;
                 case 2:
                     ResetPivotPoints();
@@ -439,6 +474,9 @@ namespace image_triangulation
                     thresholdLimitsLabel.Visible = true;
                     runPPMakerButton.Enabled = true;
                     triangulationControlsGroupBox.Enabled = false;
+                    // RandomPPMaker
+                    labelNumberOfPivotPoints.Visible = false;
+                    textBoxNumberOfPivotPoints.Visible = false;
                     return;
                 case 3:
                     runPPMakerButton.Enabled = false;
@@ -463,6 +501,25 @@ namespace image_triangulation
                     sectorSizeTextBox.Visible = false;
                     pPMakerThresholdTextBox.Visible = false;
                     thresholdLimitsLabel.Visible = false;
+                    // RandomPPMaker
+                    labelNumberOfPivotPoints.Visible = false;
+                    textBoxNumberOfPivotPoints.Visible = false;
+                    return;
+                case 4:
+                    ResetPivotPoints();
+                    label13.Text = "";
+                    pivotPointsPictureBox.Enabled = false;
+                    label7.Visible = false;
+                    label15.Visible = false;
+                    label16.Visible = false;
+                    sectorSizeTextBox.Visible = false;
+                    pPMakerThresholdTextBox.Visible = false;
+                    thresholdLimitsLabel.Visible = false;
+                    runPPMakerButton.Enabled = true;
+                    triangulationControlsGroupBox.Enabled = false;
+                    // RandomPPMaker
+                    labelNumberOfPivotPoints.Visible = true;
+                    textBoxNumberOfPivotPoints.Visible = true;
                     return;
             }
         }

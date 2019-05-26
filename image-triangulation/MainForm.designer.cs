@@ -51,6 +51,9 @@
             this.shadersComboBox = new System.Windows.Forms.ComboBox();
             this.runShaderButton = new System.Windows.Forms.Button();
             this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.sectorSizeTextBox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.thresholdLimitsLabel = new System.Windows.Forms.Label();
@@ -79,9 +82,8 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.sectorSizeTextBox = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.labelNumberOfPivotPoints = new System.Windows.Forms.Label();
+            this.textBoxNumberOfPivotPoints = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -308,6 +310,8 @@
             // 
             // pPointsControlsGroupBox
             // 
+            this.pPointsControlsGroupBox.Controls.Add(this.textBoxNumberOfPivotPoints);
+            this.pPointsControlsGroupBox.Controls.Add(this.labelNumberOfPivotPoints);
             this.pPointsControlsGroupBox.Controls.Add(this.label16);
             this.pPointsControlsGroupBox.Controls.Add(this.label15);
             this.pPointsControlsGroupBox.Controls.Add(this.sectorSizeTextBox);
@@ -326,6 +330,30 @@
             this.pPointsControlsGroupBox.TabIndex = 26;
             this.pPointsControlsGroupBox.TabStop = false;
             this.pPointsControlsGroupBox.Text = "Опорные точки";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(154, 82);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(62, 17);
+            this.label16.TabIndex = 34;
+            this.label16.Text = "(1...100)";
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(6, 73);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(95, 31);
+            this.label15.TabIndex = 33;
+            this.label15.Text = "Размерность сектора:";
+            // 
+            // sectorSizeTextBox
+            // 
+            this.sectorSizeTextBox.Location = new System.Drawing.Point(101, 77);
+            this.sectorSizeTextBox.Name = "sectorSizeTextBox";
+            this.sectorSizeTextBox.Size = new System.Drawing.Size(48, 22);
+            this.sectorSizeTextBox.TabIndex = 30;
             // 
             // label13
             // 
@@ -571,29 +599,21 @@
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
             // 
-            // sectorSizeTextBox
+            // labelNumberOfPivotPoints
             // 
-            this.sectorSizeTextBox.Location = new System.Drawing.Point(101, 77);
-            this.sectorSizeTextBox.Name = "sectorSizeTextBox";
-            this.sectorSizeTextBox.Size = new System.Drawing.Size(48, 22);
-            this.sectorSizeTextBox.TabIndex = 30;
+            this.labelNumberOfPivotPoints.AutoSize = true;
+            this.labelNumberOfPivotPoints.Location = new System.Drawing.Point(6, 54);
+            this.labelNumberOfPivotPoints.Name = "labelNumberOfPivotPoints";
+            this.labelNumberOfPivotPoints.Size = new System.Drawing.Size(52, 17);
+            this.labelNumberOfPivotPoints.TabIndex = 35;
+            this.labelNumberOfPivotPoints.Text = "Точек:";
             // 
-            // label15
+            // textBoxNumberOfPivotPoints
             // 
-            this.label15.Location = new System.Drawing.Point(6, 73);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(95, 31);
-            this.label15.TabIndex = 33;
-            this.label15.Text = "Размерность сектора:";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(154, 82);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(62, 17);
-            this.label16.TabIndex = 34;
-            this.label16.Text = "(1...100)";
+            this.textBoxNumberOfPivotPoints.Location = new System.Drawing.Point(63, 49);
+            this.textBoxNumberOfPivotPoints.Name = "textBoxNumberOfPivotPoints";
+            this.textBoxNumberOfPivotPoints.Size = new System.Drawing.Size(86, 22);
+            this.textBoxNumberOfPivotPoints.TabIndex = 36;
             // 
             // MainForm
             // 
@@ -692,6 +712,8 @@
         private System.Windows.Forms.TextBox sectorSizeTextBox;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBoxNumberOfPivotPoints;
+        private System.Windows.Forms.Label labelNumberOfPivotPoints;
     }
 }
 
