@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-// TO DO
 namespace image_triangulation
 {
     static class DrawOperations

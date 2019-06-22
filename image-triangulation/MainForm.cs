@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.IO;
 
-
-// TO DO
-// * Пройтись по использованию памяти (using (разобраться с неуправляемыми ресурсами))
-// * Проверить нейминг методов
-// * Валидация вводимых с клавиатуры значений
-// * Обработать попытку перезаписи открытого файла
-// * Решить, что использовать для отрисовки открываемого .t-файла
-// * Дебаг интерфейса
-// * Вынести дефолтные значения настроек наверх в константы
-// * Убрать пункт "Выберите алгоритм"
 namespace image_triangulation
 {
     public partial class MainForm : Form
     {
+        const string DEFAULT_STRIPIG_FACTOR = "0.25";
+        const string DEFAULT_CACHE_EXPAND_FACTOR = "0.001";
+
         Bitmap sourceImageBitmap;
         Bitmap pivotPointsBitmap;
         Bitmap triangulationGridBitmap;
@@ -229,6 +223,16 @@ namespace image_triangulation
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
+
+                    // Код для вывода в файлы
+                    using (StreamWriter thresholdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\threshold.txt", true, System.Text.Encoding.Default))
+                    {
+                        thresholdFile.WriteLine(pPMakerThreshold);
+                    }
+                    using (StreamWriter pointsdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\points.txt", true, System.Text.Encoding.Default))
+                    {
+                        pointsdFile.WriteLine(pivotPoints.Count);
+                    }
                     return;
                 case 2:
                     ResetShading();
@@ -261,6 +265,16 @@ namespace image_triangulation
                     standartDeviationLabel.Text = "";
                     saveInPngButton.Enabled = false;
                     saveInTButton.Enabled = true;
+
+                    // Код для вывода в файлы
+                    using (StreamWriter thresholdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\threshold.txt", true, System.Text.Encoding.Default))
+                    {
+                        thresholdFile.WriteLine(pPMakerThreshold);
+                    }
+                    using (StreamWriter pointsdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\points.txt", true, System.Text.Encoding.Default))
+                    {
+                        pointsdFile.WriteLine(pivotPoints.Count);
+                    }
                     return;
                 case 4:
                     ResetShading();
@@ -419,6 +433,12 @@ namespace image_triangulation
                     triangulationControlsGroupBox.Enabled = true;
                     saveInPngButton.Enabled = true;
                     saveInTButton.Enabled = true;
+
+                    // Код для записи в файл
+                    using (StreamWriter SKOFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\SKO.txt", true, System.Text.Encoding.Default))
+                    {
+                        SKOFile.WriteLine(standartDeviationLabel.Text);
+                    }
                     return;
             }
         }
@@ -546,7 +566,7 @@ namespace image_triangulation
                     stripingFactorRecomendLabel.Visible = false;
                     return;
                 case 2:
-                    coefOfCacheExpandTextBox.Text = "5";
+                    coefOfCacheExpandTextBox.Text = DEFAULT_CACHE_EXPAND_FACTOR;
                     coefOfCacheExpandLabel.Visible = true;
                     coefOfCacheExpandTextBox.Visible = true;
                     coefOfCacheExpandRecomendLabel.Visible = true;
@@ -560,7 +580,7 @@ namespace image_triangulation
                     coefOfCacheExpandTextBox.Visible = false;
                     coefOfCacheExpandRecomendLabel.Visible = false;
 
-                    stripingFactorTextBox.Text = "0.17";
+                    stripingFactorTextBox.Text = DEFAULT_STRIPIG_FACTOR;
                     stripingFactorLabel.Visible = true;
                     stripingFactorTextBox.Visible = true;
                     stripingFactorRecomendLabel.Visible = true;

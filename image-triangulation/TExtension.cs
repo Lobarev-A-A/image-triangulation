@@ -3,9 +3,6 @@ using System.Linq;
 using System.IO;
 using System.IO.Compression;
 
-
-// TODO
-// * Передавать размер изображения для Striping
 namespace image_triangulation
 {
     /// <summary>

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-// TODO
-// * Пропуск точек между треугольниками
 namespace image_triangulation
 {
     static class TriangleGradientShader

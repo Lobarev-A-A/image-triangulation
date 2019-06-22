@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Drawing;
 
-// TODO
-// * 
 namespace image_triangulation
 {
     static class SectorPPMaker

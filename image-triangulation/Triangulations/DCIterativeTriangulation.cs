@@ -5,11 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-// TO DO
-// * Распространить на изображения произвольного разрешения
-// * В DelanayBuilder можно не создавать каждый раз новые bufTriangle
-// * Каша с использованием буферных треугольников при создании новых (не использовать буферные для cur и cur2)
-// * Убрать использование originalImageBitmap в классе
 namespace image_triangulation
 {
     static class DCIterativeTriangulation

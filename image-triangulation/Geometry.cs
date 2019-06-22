@@ -5,9 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-// TO DO
-// * Оптимизировать MiddlePixel, чтобы не считать всю прямую
-// * Рефактор Брезенхема
 namespace image_triangulation
 {
     static class Geometry

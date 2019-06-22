@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-// TO DO
-// * Если возможно, не создавать кисть с новым цветом, а менять его в одной.
 namespace image_triangulation
 {
     static class VerticesAverageBrightnessShader

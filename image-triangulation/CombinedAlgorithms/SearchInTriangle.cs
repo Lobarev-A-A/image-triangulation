@@ -5,9 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-// TO DO
-// * Хранить точки внутри Edge, чтобы не костылить дополнительный Dictionary
-// * При проверке прямой не обязательно предварительно считать всю прямую
 namespace image_triangulation
 {
     static class SearchInTriangle

@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-// TO DO
-// * Распространить на изображения произвольного разрешения
 namespace image_triangulation
 {
     static class StripIterativeTriangulation

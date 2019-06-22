@@ -51,10 +51,11 @@
             this.shadersComboBox = new System.Windows.Forms.ComboBox();
             this.runShaderButton = new System.Windows.Forms.Button();
             this.pPointsControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.textBoxNumberOfPivotPoints = new System.Windows.Forms.TextBox();
+            this.labelNumberOfPivotPoints = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.sectorSizeTextBox = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.thresholdLimitsLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -72,7 +73,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.shadingControlsGroupBox = new System.Windows.Forms.GroupBox();
-            this.standartDeviationLabel = new System.Windows.Forms.Label();
+            this.standartDeviationLabel = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -82,8 +83,7 @@
             this.openTFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.savePngFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveTFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.labelNumberOfPivotPoints = new System.Windows.Forms.Label();
-            this.textBoxNumberOfPivotPoints = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.originalImagePictureBox)).BeginInit();
             this.showHideImageGroupBox.SuspendLayout();
             this.showHidePPointsGroupBox.SuspendLayout();
@@ -310,12 +310,12 @@
             // 
             // pPointsControlsGroupBox
             // 
+            this.pPointsControlsGroupBox.Controls.Add(this.label13);
             this.pPointsControlsGroupBox.Controls.Add(this.textBoxNumberOfPivotPoints);
             this.pPointsControlsGroupBox.Controls.Add(this.labelNumberOfPivotPoints);
             this.pPointsControlsGroupBox.Controls.Add(this.label16);
             this.pPointsControlsGroupBox.Controls.Add(this.label15);
             this.pPointsControlsGroupBox.Controls.Add(this.sectorSizeTextBox);
-            this.pPointsControlsGroupBox.Controls.Add(this.label13);
             this.pPointsControlsGroupBox.Controls.Add(this.label11);
             this.pPointsControlsGroupBox.Controls.Add(this.thresholdLimitsLabel);
             this.pPointsControlsGroupBox.Controls.Add(this.label8);
@@ -330,6 +330,22 @@
             this.pPointsControlsGroupBox.TabIndex = 26;
             this.pPointsControlsGroupBox.TabStop = false;
             this.pPointsControlsGroupBox.Text = "Опорные точки";
+            // 
+            // textBoxNumberOfPivotPoints
+            // 
+            this.textBoxNumberOfPivotPoints.Location = new System.Drawing.Point(63, 49);
+            this.textBoxNumberOfPivotPoints.Name = "textBoxNumberOfPivotPoints";
+            this.textBoxNumberOfPivotPoints.Size = new System.Drawing.Size(86, 22);
+            this.textBoxNumberOfPivotPoints.TabIndex = 36;
+            // 
+            // labelNumberOfPivotPoints
+            // 
+            this.labelNumberOfPivotPoints.AutoSize = true;
+            this.labelNumberOfPivotPoints.Location = new System.Drawing.Point(6, 54);
+            this.labelNumberOfPivotPoints.Name = "labelNumberOfPivotPoints";
+            this.labelNumberOfPivotPoints.Size = new System.Drawing.Size(52, 17);
+            this.labelNumberOfPivotPoints.TabIndex = 35;
+            this.labelNumberOfPivotPoints.Text = "Точек:";
             // 
             // label16
             // 
@@ -354,15 +370,6 @@
             this.sectorSizeTextBox.Name = "sectorSizeTextBox";
             this.sectorSizeTextBox.Size = new System.Drawing.Size(48, 22);
             this.sectorSizeTextBox.TabIndex = 30;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(58, 105);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(54, 17);
-            this.label13.TabIndex = 28;
-            this.label13.Text = "label13";
             // 
             // label11
             // 
@@ -531,12 +538,10 @@
             // 
             // standartDeviationLabel
             // 
-            this.standartDeviationLabel.AutoSize = true;
-            this.standartDeviationLabel.Location = new System.Drawing.Point(47, 105);
+            this.standartDeviationLabel.Location = new System.Drawing.Point(47, 100);
             this.standartDeviationLabel.Name = "standartDeviationLabel";
-            this.standartDeviationLabel.Size = new System.Drawing.Size(54, 17);
-            this.standartDeviationLabel.TabIndex = 26;
-            this.standartDeviationLabel.Text = "label11";
+            this.standartDeviationLabel.Size = new System.Drawing.Size(71, 22);
+            this.standartDeviationLabel.TabIndex = 33;
             // 
             // label10
             // 
@@ -599,21 +604,12 @@
             // 
             this.openTFileDialog.FileName = "openFileDialog1";
             // 
-            // labelNumberOfPivotPoints
+            // label13
             // 
-            this.labelNumberOfPivotPoints.AutoSize = true;
-            this.labelNumberOfPivotPoints.Location = new System.Drawing.Point(6, 54);
-            this.labelNumberOfPivotPoints.Name = "labelNumberOfPivotPoints";
-            this.labelNumberOfPivotPoints.Size = new System.Drawing.Size(52, 17);
-            this.labelNumberOfPivotPoints.TabIndex = 35;
-            this.labelNumberOfPivotPoints.Text = "Точек:";
-            // 
-            // textBoxNumberOfPivotPoints
-            // 
-            this.textBoxNumberOfPivotPoints.Location = new System.Drawing.Point(63, 49);
-            this.textBoxNumberOfPivotPoints.Name = "textBoxNumberOfPivotPoints";
-            this.textBoxNumberOfPivotPoints.Size = new System.Drawing.Size(86, 22);
-            this.textBoxNumberOfPivotPoints.TabIndex = 36;
+            this.label13.Location = new System.Drawing.Point(58, 100);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(71, 22);
+            this.label13.TabIndex = 34;
             // 
             // MainForm
             // 
@@ -694,7 +690,6 @@
         private System.Windows.Forms.OpenFileDialog openTFileDialog;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label standartDeviationLabel;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label thresholdLimitsLabel;
         private System.Windows.Forms.SaveFileDialog savePngFileDialog;
@@ -707,13 +702,14 @@
         private System.Windows.Forms.Label stripingFactorLabel;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox sectorSizeTextBox;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBoxNumberOfPivotPoints;
         private System.Windows.Forms.Label labelNumberOfPivotPoints;
+        private System.Windows.Forms.TextBox standartDeviationLabel;
+        private System.Windows.Forms.TextBox label13;
     }
 }
 

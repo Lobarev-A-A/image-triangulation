@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 
-// TO DO
 namespace image_triangulation
 {
     class Section : IComparable<Section>

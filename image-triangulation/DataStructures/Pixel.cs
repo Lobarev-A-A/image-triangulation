@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// TO DO
-// * 
 namespace image_triangulation
 {
     public struct Pixel : IEquatable<object>
