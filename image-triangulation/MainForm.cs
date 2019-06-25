@@ -9,8 +9,13 @@ namespace image_triangulation
 {
     public partial class MainForm : Form
     {
+        #region Default_values
         const string DEFAULT_STRIPIG_FACTOR = "0.25";
         const string DEFAULT_CACHE_EXPAND_FACTOR = "0.001";
+        const string DEFAULT_SECTOR_SIZE = "2";
+        const string DEFAULT_THRESHOLD = "20";
+        const string DEFAULT_NUBER_OF_RANDOM_PP = "100000";
+        #endregion
 
         Bitmap sourceImageBitmap;
         Bitmap pivotPointsBitmap;
@@ -471,9 +476,9 @@ namespace image_triangulation
                     label15.Visible = true;
                     label16.Visible = true;
                     sectorSizeTextBox.Visible = true;
-                    sectorSizeTextBox.Text = "4";
+                    sectorSizeTextBox.Text = DEFAULT_SECTOR_SIZE;
                     pPMakerThresholdTextBox.Visible = true;
-                    pPMakerThresholdTextBox.Text = "25";
+                    pPMakerThresholdTextBox.Text = DEFAULT_THRESHOLD;
                     thresholdLimitsLabel.Visible = true;
                     runPPMakerButton.Enabled = true;
                     triangulationControlsGroupBox.Enabled = false;
@@ -490,7 +495,7 @@ namespace image_triangulation
                     label16.Visible = false;
                     sectorSizeTextBox.Visible = false;
                     pPMakerThresholdTextBox.Visible = true;
-                    pPMakerThresholdTextBox.Text = "25";
+                    pPMakerThresholdTextBox.Text = DEFAULT_THRESHOLD;
                     thresholdLimitsLabel.Visible = true;
                     runPPMakerButton.Enabled = true;
                     triangulationControlsGroupBox.Enabled = false;
