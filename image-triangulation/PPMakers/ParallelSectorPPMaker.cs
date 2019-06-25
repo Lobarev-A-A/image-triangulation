@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 
@@ -10,12 +9,14 @@ namespace image_triangulation
 {
     class ParallelSectorPPMaker
     {
+        #region Fields
         private Bitmap sourceImage;
         private HashSet<Pixel> pivotPoints;
         private byte threshold;
         private int sectorSize;
         private int width;
         private int height;
+        #endregion
 
         public ParallelSectorPPMaker(Bitmap sourceImage, HashSet<Pixel> pivotPoints, byte threshold, int sectorSize)
         {
@@ -30,26 +31,26 @@ namespace image_triangulation
         public void Run()
         {
             // Блокируем в памяти Bitmap исходного изображения
-            Rectangle rect = new Rectangle(0, 0, sourceImage.Width, sourceImage.Height);
+            Rectangle rect = new Rectangle(0, 0, width, height);
             System.Drawing.Imaging.BitmapData bmpData = sourceImage.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly,
                                                                              sourceImage.PixelFormat);
-            // Получаем адрес первой строки
-            IntPtr ptr = bmpData.Scan0;
             // Сохраняем байты в массив
             int numberOfBytes = Math.Abs(bmpData.Stride) * bmpData.Height;
             byte[] brightnessValues = new byte[numberOfBytes];
-            System.Runtime.InteropServices.Marshal.Copy(ptr, brightnessValues, 0, numberOfBytes);
+            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, brightnessValues, 0, numberOfBytes);
+            // Разблокируем Bitmap
+            sourceImage.UnlockBits(bmpData);
 
             // Записываем стартовые точки триангуляции
             Pixel[] initPixels = { new Pixel(0, 0, brightnessValues[GetIndex(0, 0)]),
                                    new Pixel(width - 1, 0, brightnessValues[GetIndex(width - 1, 0)]),
                                    new Pixel(width - 1, height - 1, brightnessValues[GetIndex(width - 1, height - 1)]),
                                    new Pixel(0, height - 1, brightnessValues[GetIndex(0, height - 1)]) };
-            foreach (Pixel p in initPixels) pivotPoints.Add(p);
+            pivotPoints.UnionWith(initPixels);
 
             // Параллельный поиск ОТ
             object locker = new object();
-            Parallel.For<LocalData>(
+            Parallel.For(
                 0,
                 height,
                 () => new LocalData(threshold, sectorSize, width, height),
@@ -88,13 +89,7 @@ namespace image_triangulation
 
                     return local;
                 },
-                (local) => 
-                {
-                    lock (locker)
-                    {
-                        pivotPoints.Concat(local.localPivotPoints);
-                    }
-                }
+                (local) => { lock (locker) pivotPoints.UnionWith(local.localPivotPoints); }
             );
         }
 
@@ -103,7 +98,7 @@ namespace image_triangulation
             return y * width + x;
         }
 
-        struct LocalData
+        class LocalData
         {
             public HashSet<Pixel> localPivotPoints;
             public byte threshold;
