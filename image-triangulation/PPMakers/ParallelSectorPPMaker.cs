@@ -16,6 +16,7 @@ namespace image_triangulation
         private int sectorSize;
         private int width;
         private int height;
+        private byte bytesPerPixel;
         #endregion
 
         public ParallelSectorPPMaker(Bitmap sourceImage, HashSet<Pixel> pivotPoints, byte threshold, int sectorSize)
@@ -26,6 +27,22 @@ namespace image_triangulation
             this.sectorSize = sectorSize;
             this.width = sourceImage.Width;
             this.height = sourceImage.Height;
+            switch (sourceImage.PixelFormat)
+            {
+                case System.Drawing.Imaging.PixelFormat.Format8bppIndexed:
+                    bytesPerPixel = 1;
+                    break;
+                case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
+                    bytesPerPixel = 3;
+                    break;
+                case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
+                    bytesPerPixel = 4;
+                    break;
+                default:
+                    /* Pixel format error */
+                    bytesPerPixel = 0;
+                    break;
+            }
         }
 
         public void Run()
@@ -49,11 +66,13 @@ namespace image_triangulation
             pivotPoints.UnionWith(initPixels);
 
             // Параллельный поиск ОТ
+            List<int> indexesOfLines = new List<int>();
+            for (int i = 0; i < height; i += sectorSize) indexesOfLines.Add(i);
+
             object locker = new object();
-            Parallel.For(
-                0,
-                height,
-                () => new LocalData(threshold, sectorSize, width, height),
+            Parallel.ForEach(
+                indexesOfLines,
+                () => new ParallelLocalData(threshold, sectorSize, width, height, bytesPerPixel),
                 (i, state, local) => 
                 {
                     List<Pixel> sector = new List<Pixel>();
@@ -66,10 +85,10 @@ namespace image_triangulation
                         {
                             for (int ji = 0, jo = j; ji < local.sectorSize && jo < local.width; ++ji, ++jo)
                             {
-                                sector.Add(new Pixel(jo, io, brightnessValues[GetIndex(jo, io)]));
+                                sector.Add(new Pixel(jo, io, brightnessValues[GetIndex(jo, io, local.width, local.bytesPerPixel)]));
                             }
                         }
-
+                        
                         // Подсчитываем среднюю яркость по сектору, находим самый яркий и самый тусклый пиксели
                         float averageBrightness = sector[0].brightness;
                         Pixel lightPixel = sector[0];
@@ -95,24 +114,31 @@ namespace image_triangulation
 
         int GetIndex(int x, int y)
         {
-            return y * width + x;
+            return (y * width + x) * bytesPerPixel;
         }
 
-        class LocalData
+        int GetIndex(int x, int y, int width, byte bpp)
+        {
+            return (y * width + x) * bpp;
+        }
+
+        class ParallelLocalData
         {
             public HashSet<Pixel> localPivotPoints;
             public byte threshold;
             public int sectorSize;
             public int width;
             public int height;
+            public byte bytesPerPixel;
 
-            public LocalData(byte threshold, int sectorSize, int width, int height)
+            public ParallelLocalData(byte threshold, int sectorSize, int width, int height, byte bytesPerPixel)
             {
                 localPivotPoints = new HashSet<Pixel>();
                 this.threshold = threshold;
                 this.sectorSize = sectorSize;
                 this.width = width;
                 this.height = height;
+                this.bytesPerPixel = bytesPerPixel;
             }
         }
     }
