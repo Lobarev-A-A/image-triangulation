@@ -208,7 +208,12 @@ namespace image_triangulation
                     pPMakerThreshold = byte.Parse(pPMakerThresholdTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sectorSize = int.Parse(sectorSizeTextBox.Text, System.Globalization.CultureInfo.InvariantCulture);
                     sw = Stopwatch.StartNew();
-                    SectorPPMaker.Run(sourceImageBitmap, pivotPoints, pPMakerThreshold, sectorSize);
+
+                    ParallelSectorPPMaker ppm = new ParallelSectorPPMaker(sourceImageBitmap, pivotPoints, pPMakerThreshold, sectorSize);
+                    ppm.Run();
+
+                    //SectorPPMaker.Run(sourceImageBitmap, pivotPoints, pPMakerThreshold, sectorSize);
+
                     sw.Stop();
                     label8.Text = sw.ElapsedMilliseconds.ToString();
                     DrawOperations.PixelsToBitmap(pivotPoints, pivotPointsBitmap);
@@ -230,14 +235,14 @@ namespace image_triangulation
                     saveInTButton.Enabled = true;
 
                     // Код для вывода в файлы
-                    using (StreamWriter thresholdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\threshold.txt", true, System.Text.Encoding.Default))
-                    {
-                        thresholdFile.WriteLine(pPMakerThreshold);
-                    }
-                    using (StreamWriter pointsdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\points.txt", true, System.Text.Encoding.Default))
-                    {
-                        pointsdFile.WriteLine(pivotPoints.Count);
-                    }
+                    //using (StreamWriter thresholdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\threshold.txt", true, System.Text.Encoding.Default))
+                    //{
+                    //    thresholdFile.WriteLine(pPMakerThreshold);
+                    //}
+                    //using (StreamWriter pointsdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\points.txt", true, System.Text.Encoding.Default))
+                    //{
+                    //    pointsdFile.WriteLine(pivotPoints.Count);
+                    //}
                     return;
                 case 2:
                     ResetShading();
@@ -272,14 +277,14 @@ namespace image_triangulation
                     saveInTButton.Enabled = true;
 
                     // Код для вывода в файлы
-                    using (StreamWriter thresholdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\threshold.txt", true, System.Text.Encoding.Default))
-                    {
-                        thresholdFile.WriteLine(pPMakerThreshold);
-                    }
-                    using (StreamWriter pointsdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\points.txt", true, System.Text.Encoding.Default))
-                    {
-                        pointsdFile.WriteLine(pivotPoints.Count);
-                    }
+                    //using (StreamWriter thresholdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\threshold.txt", true, System.Text.Encoding.Default))
+                    //{
+                    //    thresholdFile.WriteLine(pPMakerThreshold);
+                    //}
+                    //using (StreamWriter pointsdFile = new StreamWriter(@"D:\VSProjects\image-triangulation\image-triangulation\points.txt", true, System.Text.Encoding.Default))
+                    //{
+                    //    pointsdFile.WriteLine(pivotPoints.Count);
+                    //}
                     return;
                 case 4:
                     ResetShading();
@@ -423,7 +428,10 @@ namespace image_triangulation
                     ResetShading();
 
                     sw = Stopwatch.StartNew();
-                    TriangleGradientShader.Run(rebuiltImageBitmap, trianglesHashSet);
+
+                    TriangleGradientShader shader = new TriangleGradientShader(rebuiltImageBitmap, trianglesHashSet);
+                    shader.Run();
+
                     sw.Stop();
                     label10.Text = sw.ElapsedMilliseconds.ToString();
                     rebuiltImagePictureBox.Image = rebuiltImageBitmap;
