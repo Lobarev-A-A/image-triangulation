@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace image_triangulation
 {
-    class Section : IComparable<Section>
+    public class Section : IComparable<Section>
     {
         public Pixel a;
         public Pixel b;

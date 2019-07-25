@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace image_triangulation
 {
-    static class Geometry
+    public static class Geometry
     {
         // Косое произведение векторов
         // po начало координат, p1 – координата первого вектора, p2 – координата второго вектора
