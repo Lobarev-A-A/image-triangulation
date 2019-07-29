@@ -30,5 +30,27 @@ namespace ImageTriangulation.Tests
             Assert.AreEqual(expected, actual, $"Expected {expected}, but returned {actual}." +
                                               $" Test Data: p0[{p0.X},{p0.Y}], p1[{p1.X},{p1.Y}], p2[{p2.X},{p2.Y}], p3[{p3.X},{p3.Y}].");
         }
+
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
+                    "Geometry/PointsRelativelyTriangleTestData.xml",
+                    "Set",
+                    DataAccessMethod.Sequential)]
+        [TestMethod]
+        public void PointsRelativelyTriangle_Check_FromXML()
+        {
+            // arrange
+            Pixel p = new Pixel(Convert.ToInt32(TestContext.DataRow["px"]), Convert.ToInt32(TestContext.DataRow["py"]));
+            Pixel t0 = new Pixel(Convert.ToInt32(TestContext.DataRow["x0"]), Convert.ToInt32(TestContext.DataRow["y0"]));
+            Pixel t1 = new Pixel(Convert.ToInt32(TestContext.DataRow["x1"]), Convert.ToInt32(TestContext.DataRow["y1"]));
+            Pixel t2 = new Pixel(Convert.ToInt32(TestContext.DataRow["x2"]), Convert.ToInt32(TestContext.DataRow["y2"]));
+            int expected = Convert.ToInt32(TestContext.DataRow["result"]);
+
+            // act
+            int actual = Geometry.PointRelativelyTriangle(p, t0, t1, t2);
+
+            // assert
+            Assert.AreEqual(expected, actual, $"Expected {expected}, but returned {actual}." +
+                                              $" Test Data: p[{p.X},{p.Y}], t0[{t0.X},{t0.Y}], t1[{t1.X},{t1.Y}], t2[{t2.X},{t2.Y}].");
+        }
     }
 }
