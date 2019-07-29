@@ -32,11 +32,11 @@ namespace ImageTriangulation.Tests
         }
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
-                    "Geometry/PointsRelativelyTriangleTestData.xml",
+                    "Geometry/PointRelativelyTriangleTestData.xml",
                     "Set",
                     DataAccessMethod.Sequential)]
         [TestMethod]
-        public void PointsRelativelyTriangle_Check_FromXML()
+        public void PointRelativelyTriangle_Check_FromXML()
         {
             // arrange
             Pixel p = new Pixel(Convert.ToInt32(TestContext.DataRow["px"]), Convert.ToInt32(TestContext.DataRow["py"]));
@@ -51,6 +51,28 @@ namespace ImageTriangulation.Tests
             // assert
             Assert.AreEqual(expected, actual, $"Expected {expected}, but returned {actual}." +
                                               $" Test Data: p[{p.X},{p.Y}], t0[{t0.X},{t0.Y}], t1[{t1.X},{t1.Y}], t2[{t2.X},{t2.Y}].");
+        }
+
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
+                    "Geometry/PointsRelativelyStraightTestData.xml",
+                    "Set",
+                    DataAccessMethod.Sequential)]
+        [TestMethod]
+        public void PointsRelativelyStraight_Check_FromXML()
+        {
+            // arrange
+            Pixel p1 = new Pixel(Convert.ToInt32(TestContext.DataRow["p1x"]), Convert.ToInt32(TestContext.DataRow["p1y"]));
+            Pixel p2 = new Pixel(Convert.ToInt32(TestContext.DataRow["p2x"]), Convert.ToInt32(TestContext.DataRow["p2y"]));
+            Section s = new Section(new Pixel(Convert.ToInt32(TestContext.DataRow["s1x"]), Convert.ToInt32(TestContext.DataRow["s1y"])),
+                                    new Pixel(Convert.ToInt32(TestContext.DataRow["s2x"]), Convert.ToInt32(TestContext.DataRow["s2y"])));
+            int expected = Convert.ToInt32(TestContext.DataRow["result"]);
+
+            // act
+            int actual = Geometry.PointsRelativelyStraight(p1, p2, s);
+
+            // assert
+            Assert.AreEqual(expected, actual, $"Expected {expected}, but returned {actual}." +
+                                              $" Test Data: p1[{p1.X},{p1.Y}], p2[{p2.X},{p2.Y}], s[{s.a.X},{s.a.Y}], [{s.b.X},{s.b.Y}].");
         }
     }
 }

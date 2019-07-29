@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DotSets>
+  <!--Straight_1_Vertical-->
+  <Set p1x="44" p1y="39" p2x="48" p2y="36" s1x="45" s1y="42" s2x="45" s2y="33" result="-1"/>
+  <Set p1x="99" p1y="61" p2x="0" p2y="0" s1x="45" s1y="42" s2x="45" s2y="33" result="-1"/>
+  <Set p1x="46" p1y="42" p2x="44" p2y="33" s1x="45" s1y="42" s2x="45" s2y="33" result="-1"/>
+  <Set p1x="46" p1y="48" p2x="46" p2y="47" s1x="45" s1y="42" s2x="45" s2y="33" result="1"/>
+  <Set p1x="46" p1y="47" p2x="57" p2y="100" s1x="45" s1y="42" s2x="45" s2y="33" result="1"/>
+  <Set p1x="2" p1y="39" p2x="3" p2y="39" s1x="45" s1y="42" s2x="45" s2y="33" result="1"/>
+  <Set p1x="45" p1y="53" p2x="45" p2y="52" s1x="45" s1y="42" s2x="45" s2y="33" result="0"/>
+  <Set p1x="45" p1y="35" p2x="86" p2y="56" s1x="45" s1y="42" s2x="45" s2y="33" result="0"/>
+  <Set p1x="45" p1y="33" p2x="44" p2y="34" s1x="45" s1y="42" s2x="45" s2y="33" result="0"/>
+  <!--Straight_2_Horizontal-->
+  <Set p1x="57" p1y="28" p2x="55" p2y="25" s1x="54" s1y="26" s2x="57" s2y="26" result="-1"/>
+  <Set p1x="63" p1y="25" p2x="43" p2y="19" s1x="54" s1y="26" s2x="57" s2y="26" result="1"/>
+  <Set p1x="60" p1y="26" p2x="45" p2y="26" s1x="54" s1y="26" s2x="57" s2y="26" result="0"/>
+  <!--Straight_3_45deg-->
+  <Set p1x="57" p1y="36" p2x="58" p2y="35" s1x="44" s1y="22" s2x="72" s2y="50" result="-1"/>
+  <Set p1x="56" p1y="33" p2x="57" p2y="34" s1x="44" s1y="22" s2x="72" s2y="50" result="1"/>
+  <Set p1x="59" p1y="37" p2x="70" p2y="23" s1x="44" s1y="22" s2x="72" s2y="50" result="0"/>
+  <!--Straight_4-->
+  <Set p1x="10" p1y="6" p2x="15" p2y="10" s1x="8" s1y="4" s2x="16" s2y="11" result="-1"/>
+  <Set p1x="7" p1y="4" p2x="10" p2y="6" s1x="8" s1y="4" s2x="16" s2y="11" result="1"/>
+  <Set p1x="24" p1y="18" p2x="25" p2y="19" s1x="8" s1y="4" s2x="16" s2y="11" result="0"/>
+</DotSets>
